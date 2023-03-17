@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  list-style-type: none;
+  outline: none;
+  border: none;
+  text-decoration: none;
+}
+
+.title {
+  color: blue;
+}
+
+.body {
+  background-color: blue;
+}
+/*# sourceMappingURL=index.css.map */

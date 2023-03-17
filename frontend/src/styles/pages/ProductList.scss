@@ -1,0 +1,126 @@
+@import '../settings';
+
+.productList_page{
+    height: 93vh;
+    .productList_title{
+        height: 7vh;
+        border-bottom: 1px solid $primary-color;
+        h1{
+            padding-left: 2.09em;
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+    }
+    .productList_container{
+        display: flex;
+        height: 86vh;
+    .productList_container_bloc{
+        width: 50%;
+        border-right: 1px solid $primary-color;
+    }
+    .productList_products{
+        margin: auto 0;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        height: 100%;
+        .product_bloc{
+            display: flex;
+            flex-direction: column;
+            padding-left: 4.25em;
+            font-size: $size6;
+            text-transform: uppercase;
+            height: 8%;
+            width: fit-content;
+            justify-content: center;
+            :hover{
+                transform: 1s ease;
+                .product{
+                    font-weight: bold;
+                }
+            }
+            .product{
+                text-decoration: none;
+                color: $primary-color;
+                font-weight: 100;
+            }
+            img{
+                height: 50px;
+                width: 50px;
+                transform: 1s ease;
+                transition: transform 1 ease-out;
+            }
+        }
+    }
+    .productList_img{
+        width: 50%;
+        max-height: 100vh;
+        .productList_img_content{
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .img_content_bloc{
+            width: 550px;
+            height: 550px;
+            overflow: hidden;
+            background-color: #e4e4e4;
+            img{
+                width: 600px;
+                height: 600px;
+                width: 100%;
+                object-fit: contain;
+            }
+        }
+        
+    }
+    }
+    
+}
+@media (max-width: $breakpoint-tablet) {
+    .productList_page{
+        .productList_title{
+            h1{
+                padding-left: 0;
+                justify-content: center;
+            }
+        }
+        .productList_container{
+            flex-direction: column;
+        .productList_container_bloc{
+            width: 100%;
+        }
+        .productList_products{
+            padding: 0 1.5em;
+            .product_bloc{
+                padding-left: 0em;
+                :hover{
+                    .product{
+                    }
+                }
+                .product{
+                }
+                img{
+                }
+            }
+        }
+        .productList_img{
+            .productList_img_content{
+            }
+            .img_content_bloc{
+                img{
+                }
+            }
+            
+        }
+        }
+        
+    }
+
+
+
+}

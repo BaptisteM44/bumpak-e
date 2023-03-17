@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,200,300,400');
+
+@font-face{
+  font-family:"helvetica-neue-bold-italic";
+  font-style: italic;
+  font-weight: normal;
+  src: local('Futura PT Book'), url('../assets/Helvetica\ Neue\ Bold\ Italic.ttf') format('woff');
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style-type: none;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+    -webkit-font-smoothing: subpixel-antialiased;
+    font-family: 'Roboto', sans-serif;
+}
+html {font-size: 100%;} /*16px*/
+
+body {
+  background: white;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  line-height: 1.75;
+  color: #000000;
+  background-color: #FFF;
+}
+
+
+p {margin-bottom: 1rem;}
+
+h1, h2, h3, h4, h5 {
+  margin: 3rem 0 1.38rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  line-height: 1.3;
+}
+h1 {
+  margin-top: 0;
+  font-size: 3.052rem;
+}
+
+h2 {font-size: 2.441rem;}
+
+h3 {font-size: 1.953rem;}
+
+h4 {font-size: 1.563rem;}
+
+h5 {font-size: 1.25rem;}
+
+small, .text_small {font-size: 0.8rem;}
+
+$primary-color:#000;
+$secondary-color:#FFF;
+$third-color:#efcda3;
+$fourth-color: #f2f2f2;
+$fifth-color: #b75d32;
+
+$font1: 100;
+$font2: 200;
+$font3: 300;
+$font4: 400;
+$font5: 600;
+
+$size1:0.512rem;
+$size2:0.64rem;
+$size3:0.8rem;
+$size4:1rem;
+$size5:1.25rem;
+$size6:1.563rem;
+$size7:1.953rem;
+$size8:2.441rem;
+$size9:3.052rem;
+$size10:3.815rem;
+$size11:4.768rem;
+$size12:5.96rem;
+$size13:6.9rem;
+
+$breakpoint-phone: 600px;
+$breakpoint-tablet: 768px;
+$breakpoint-computer: 1024px;
+$breakpoint-large-computer: 1200px;
+$breakpoint-big: 1600px;
