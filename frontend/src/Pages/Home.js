@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Header from '../components/Header';
-import Click from '../utils/Click'
 
 import framebag from '../assets/images/framebag.jpg'
 import bikepackingImage from '../assets/images/framebag.jpg';
@@ -25,9 +24,6 @@ function Home() {
   const handleImageChange = (imageUrl) => {
     setCurrentImage(imageUrl);
   };
-
-  const { handleClick } =
-  Click();
 
   useEffect(() => {
     let intervalId;
@@ -53,10 +49,10 @@ function Home() {
           <div className="page_home_content">
             <div  className="home_bloc">
                 <div className="home_left">
-                    <Link onClick={handleClick} onMouseEnter={() => handleImageChange(bikepackingImage)} className="link" to="/Bikepacking">Bikepacking</Link>    
+                    <Link onMouseEnter={() => handleImageChange(bikepackingImage)} className="link" to="/Bikepacking">Bikepacking</Link>    
                 </div> 
                 <div className="home_left">
-                    <Link onClick={handleClick}onMouseEnter={() => handleImageChange(goodiesImage)} className="link" to="/Goodies">Goodies</Link>  
+                    <Link onMouseEnter={() => handleImageChange(goodiesImage)} className="link" to="/Goodies">Goodies</Link>  
                 </div>
             </div>
             <div className="home_bloc_right">

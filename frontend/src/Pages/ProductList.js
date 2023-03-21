@@ -45,7 +45,7 @@ function ProductList() {
     const yOffset = (mousePosition.y / 700) * maxOffset - maxOffset / 2;
     return `translate(${xOffset}px, ${yOffset}px)`; // return transform style with the calculated offsets
   }
-  const { isHovering, handleMouseEnter, handleMouseLeave, handleClick } =
+  const { handleMouseEnter, handleMouseLeave } =
   Click();
 
 
@@ -72,7 +72,6 @@ function ProductList() {
                       setCurrentProductIndex(0);
                       handleMouseLeave();
                     }}
-                    onClick={handleClick}
                   >
                     <Link to={`/${category}/${product._id}`}>
                       <p className="product">{product.name}</p>

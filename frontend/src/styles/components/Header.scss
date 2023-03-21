@@ -23,7 +23,10 @@
     .link{
         font-size: $size6;
         color: $primary-color;
-        
+        .linkPrice{
+          font-size: $size5;
+          align-items: center;
+        }
     }
     .nav_list{
         width: 60vw;
@@ -43,9 +46,10 @@
         display: flex;
         justify-content: space-between;
         .nav_img_text{
-          font-size: $size5;
-          padding-left: 0.5em;
+          font-size: $size6;
+          padding-left: 0.3em;
           font-family:"helvetica-neue-bold-italic";
+          display: none;
       }
     }
     .link{

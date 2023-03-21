@@ -85,37 +85,29 @@
     .productList_page{
         .productList_title{
             h1{
-                padding-left: 0;
-                justify-content: center;
+                padding-left: 1.2em;
+                font-size: $size6;
             }
         }
         .productList_container{
             flex-direction: column;
         .productList_container_bloc{
             width: 100%;
+            height: 100%;
+            border-right: 0px;
         }
         .productList_products{
-            padding: 0 1.5em;
+            padding: 0 1.8em;
             .product_bloc{
                 padding-left: 0em;
-                :hover{
-                    .product{
-                    }
-                }
                 .product{
-                }
-                img{
+                    font-size: $size4;
+                    margin-bottom: 0;
                 }
             }
         }
         .productList_img{
-            .productList_img_content{
-            }
-            .img_content_bloc{
-                img{
-                }
-            }
-            
+            display: none;
         }
         }
         

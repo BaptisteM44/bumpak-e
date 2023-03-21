@@ -5,7 +5,7 @@ import dotenv from "dotenv"
 dotenv.config();
 const connectDatabase = async () => {
   try {
-    const connection = await mongoose.connect(process.env.MONGODB_URL || "mongodb+srv://Baptiste:OH7qM6ILbipnuyYM@cluster0.gsgvfoj.mongodb.net/Bumpak-ecommerce?retryWrites=true&w=majority", {
+    const connection = await mongoose.connect(process.env.MONGODB_URL , {
       useUnifiedTopology: true,
       useNewUrlParser: true,
     });
