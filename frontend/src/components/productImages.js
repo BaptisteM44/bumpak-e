@@ -5,6 +5,7 @@ import phonebag from '../assets/images/phonebag.png'
 import stemcell from '../assets/images/stemcell.png'
 import rolltopbag from '../assets/images/rolltopbag.png'
 import flatpouch from '../assets/images/flatpouch.png'
+import bump from '../assets/images/bumpak.webp'
 
 
 
@@ -17,6 +18,7 @@ const productImages = {
     stemcell,
     rolltopbag,
     flatpouch,
+    bump
   };
 
   export default productImages;

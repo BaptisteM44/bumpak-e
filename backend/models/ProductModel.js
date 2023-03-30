@@ -21,6 +21,11 @@ const productSchema = new mongoose.Schema({
     type: String,
     require: true
   },
+  subcategory:{
+    type: String,
+    require: true
+  },
+
 })
 
 const Product = mongoose.model('Product', productSchema);

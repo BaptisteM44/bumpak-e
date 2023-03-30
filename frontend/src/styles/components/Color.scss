@@ -2,9 +2,9 @@
 
 #container {
     position: relative;
-    top: 62px;
+    top: 0px;
     left: 0px;
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
     padding-bottom: 2em;
     display: flex;
@@ -48,6 +48,9 @@
   width: 87%;
   height: auto;
   object-fit: contain;
+}
+.colors-tiroir{
+  display: none;
 }
 .colors-content{
   display: flex;
@@ -175,6 +178,9 @@
 //   height: auto;
 //   z-index: 1;
 // }
+.colors-tiroir{
+  display: initial;
+}
 .colors-content{
 .colors {
   max-width: 230px;
@@ -212,14 +218,8 @@
 
 // styles pour le select
 .config_select{
-  position: relative;
-  display: flex;
   border-radius: 50px;
   width: 215px;
-  align-items: center;
-  border: 1px solid #DDDDDD;
-  margin-bottom: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 label{
   min-width: 60px;
   padding: 10px 14px;

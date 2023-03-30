@@ -6,7 +6,6 @@ function Product() {
   const [selectedColor, setSelectedColor] = useState(null);
   const classes = ["product-shape1", "product-shape2", "product-shape3", "product-shape4"];
   const colors = ["#e1e851", "#8cd147", "#4a9ccf", "#661f45",'#1e2024','#ffc107','#dc3545','#17a2b8','#9b59b6','#f1c40f',];
-  const [isOpen, setIsOpen] = useState(false);
 
   const handleColorSelect = (e) => {
   setSelectedClass(e.target.value);
@@ -50,8 +49,7 @@ function Product() {
           </svg>
         </div>
     </div>
-    <button onClick={() => setIsOpen(!isOpen)}>Ouvrir le tiroir</button>
-    {isOpen && (
+
     <div className="colors-content">
       <div className="colors">
           <div className="color" style={{ backgroundColor: "#e1e851" }} data-hex="#e1e851" onClick={() => handleColorClick("#e1e851")}></div>
@@ -74,7 +72,6 @@ function Product() {
         <button id="change-colors-button" onClick={handleRandomColors}>Aléatoire</button>
       </div>
     </div>
-    )}
   </>
   );
   }
