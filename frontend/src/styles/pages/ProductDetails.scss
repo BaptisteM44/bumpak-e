@@ -16,7 +16,7 @@
         height: 86vh;
         display: flex;
         .productDetails_img{
-            width: 60%;
+            width: 70%;
             height: 100%;
             border-right: 1px solid $primary-color;
             display: flex;
@@ -26,11 +26,11 @@
         .productDetails_config{
             display: flex;
             flex-direction: column;
-            width: 40%;
+            width: 30%;
             justify-content: space-between;
             .productDetails_config_firstpart{
                 position: relative;
-                padding-left: 4em;
+                padding-left: 1em;
                 display: flex;
                 flex-direction: column;
                 height: 100%;
@@ -58,52 +58,68 @@
                 width: 100%;
                 padding: 0 0 2em 2em;
             }
-            // .productDetails_config_descriptions{
-            //     border-top: 1px solid $primary-color;
-            //     display: flex;
-            //     .description1{
-            //         border-right: 1px solid $primary-color;
-            //     }
-            //     .description{
-            //         width: 50%;
-            //         justify-content: center;
-            //         align-items: center;
-            //         display: flex;
-            //         min-height: 180px;
-            //         padding: 2em 2em 0 2em;
-            //     }
-            // }
 
             .productDetails {
                 position: relative;
-                
+                overflow: hidden;
                 .productDetails_drawer {
                   display: flex;
                   flex-direction: column;
                   justify-content: space-between;
-                  padding: 20px;
-                  border-radius: 5px;
+                  padding: 0 1em;
                   cursor: pointer;
                   margin: auto;
-                  overflow-y: auto;
-                  height: 0;
+                  overflow: hidden;
+                  height: 4em;
                   transition: height 0.3s ease;
-                  
+                  border-bottom: 1px solid $primary-color;
+                  &:hover {
+                    .productDetails_icon{
+                      svg {
+                      animation: rotate 0.2s linear;
+                      } 
+                    }
+                  }
                   &.active {
                     height: 200px;
                     border-bottom-left-radius: 0;
                     border-bottom-right-radius: 0;
                   }
                   
-                  .productDetails_title {
+                  .productDetails_title_tiroir {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
                     transition: background-color 0.3s ease;
+                    .productDetails_title .productDetails_icon::before {
+                      content: '';
+                      display: block;
+                      width: 10px;
+                      height: 2px;
+                      background-color: #000;
+                      position: absolute;
+                      top: 50%;
+                      left: 50%;
+                      transform: translate(-50%, -50%);
+                    }
+                    
+                    .productDetails_title .productDetails_icon svg {
+                      margin-left: 10px;
+                      width: 10px;
+                      height: 10px;
+                      transition: transform 0.3s ease;
+                    }
+                    
+                    .productDetails_title.active .productDetails_icon svg {
+                      display: none;
+                    }
+                    
+                    .productDetails_title.active .productDetails_icon::before {
+                      width: 20px;
+                    }
                     
                     h2 {
-                      font-size: 18px;
-                      font-weight: bold;
+                      font-weight: 300;
                       margin: 0;
                     }
                     
@@ -124,13 +140,23 @@
                     }
                     
                     &.active .productDetails_icon svg {
-                      transform: rotate(180deg);
+                      transform: rotate(0deg);
+                    }
+                  }
+                  
+                  
+                  
+                  @keyframes rotate {
+                    from {
+                      transform: rotate(0);
+                    }
+                    to {
+                      transform: rotate(90deg);
                     }
                   }
                   
                   .productDetails_content {
-                    padding: 20px;
-                    border-radius: 5px;
+                    padding: 1em 0;
                     border-top-left-radius: 0;
                     border-top-right-radius: 0;
                     transform: translateY(-10px);
@@ -142,12 +168,6 @@
                       transition-delay: 0.15s;
                     }
                   }
-                  
-                //   &:not(.active) {
-                //     .productDetails_title:hover {
-                //       background-color: #ddd;
-                //     }
-                //   }
                 }
               }
               

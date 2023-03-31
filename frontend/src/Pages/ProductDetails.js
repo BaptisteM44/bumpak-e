@@ -119,51 +119,43 @@ function ProductDetails() {
                   data-item-name={product.name}
                   data-item-price={product.price}
                   data-item-description={product.description}
-                  data-item-custom1-value={frameSize}
-                  data-item-custom1-name="Frame Size"
-                  data-item-custom1-options="Small|Medium|Large"
+                  // data-item-custom1-value={frameSize}
+                  // data-item-custom1-name="Frame Size"
+                  // data-item-custom1-options="Small|Medium|Large"
                   
                 >
                   Add to Cart
                 </button>  
               </div>
             </div>
-            {/* <div className="productDetails_config_descriptions">
-              <div className="description description1">
-                <p>Description: {product.description}</p>   
-              </div>
-              <div className="description description2">
-                <p>Description: {product.description}</p>   
-              </div>
-            </div> */}
              <div className="productDetails">
-      <div className={`productDetails_drawer ${showDescription ? 'active' : ''}`} onClick={toggleDescription}>
-        <div className="productDetails_title">
-          <h2>{product.title}Description</h2>
-          <div className="productDetails_icon">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5 0V10M0 5H10" stroke="#000" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
-          </div>
-        </div>
-        <div className="productDetails_content">
-          <p>{product.description}</p>
-        </div>
-      </div>
-      <div className={`productDetails_drawer ${showDimensions ? 'active' : ''}`} onClick={toggleDimensions}>
-        <div className="productDetails_title">
-          <h2>{product.title}Dimensions</h2>
-          <div className="productDetails_icon">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5 0V10M0 5H10" stroke="#000" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
-          </div>
-        </div>
-        <div className="productDetails_content">
-          <p>{product.dimensions}</p>
-        </div>
-      </div>
-    </div>
+              <div className={`productDetails_drawer ${showDescription ? 'active' : ''}`} onClick={toggleDescription}>
+                <div className="productDetails_title_tiroir">
+                  <h2>{product.title}Description</h2>
+                  <div className="productDetails_icon">
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M5 0V10M0 5H10" stroke="#000" strokeWidth="1.5" strokeLinecap="round"/>
+                    </svg>
+                  </div>
+                </div>
+                <div className="productDetails_content">
+                  <p>{product.description}</p>
+                </div>
+              </div>
+              <div className={`productDetails_drawer ${showDimensions ? 'active' : ''}`} onClick={toggleDimensions}>
+                <div className="productDetails_title_tiroir">
+                  <h2>{product.title}Dimensions</h2>
+                  <div className="productDetails_icon">
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M5 0V10M0 5H10" stroke="#000" strokeWidth="1.5" strokeLinecap="round"/>
+                    </svg>
+                  </div>
+                </div>
+                <div className="productDetails_content">
+                  <p>{product.dimensions}</p>
+                </div>
+              </div>
+            </div>
             
           </div>
         </div>
