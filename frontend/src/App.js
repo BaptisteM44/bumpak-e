@@ -22,7 +22,7 @@ function App() {
       <Route path="/" element={<RouteWithTransition component={Home} />} />
       <Route path="/:category" element={<RouteWithTransition component={ProductList} />} />
       <Route path="/Contact" element={<RouteWithTransition component={Contact} />} />
-      <Route path="/:category/:productName" element={<RouteWithTransition component={ProductDetails} />} />
+      <Route path="/:category/:slug" element={<RouteWithTransition component={ProductDetails} />} />
     </Routes>
   );
 }

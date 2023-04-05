@@ -13,10 +13,10 @@ function Header() {
     return (
         <header>
             <nav className="nav">
-                    <div className="nav_img">
+                    <Link className="nav_img link" to="/">
                         <img className="nav_img_content" src={Bumpak} alt="Logo Bumpak" />
-                        <Link className="nav_img_text link" to="/">Bumpak</Link>    
-                    </div>
+                        <p className="nav_img_text ">Bumpak</p>
+                    </Link>
                     <div className="nav_burger" onClick={toggleMenu}>
                         <h2>Menu</h2>
                     </div>

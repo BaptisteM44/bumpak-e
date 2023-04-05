@@ -18,19 +18,25 @@
     .productList_container_bloc{
         width: 50%;
         border-right: 1px solid $primary-color;
-    }
-    .productList_products{
-        margin: auto 0;
         display: flex;
         flex-direction: column;
-        text-align: center;
         justify-content: center;
-        height: 100%;
+        padding-left: 4.2em;
+        .productList_subcategory{
+            h2{
+                font-size: $size5;
+                padding-left: 2em;
+                font-weight: 300;
+                text-transform: uppercase;
+                margin: 0.8rem 0 0.38rem;
+            }
+        }
+    }
+    .productList_products{
         .product_bloc{
             display: flex;
             flex-direction: column;
             padding-left: 4.25em;
-            font-size: $size6;
             text-transform: uppercase;
             height: 8%;
             width: fit-content;
@@ -45,6 +51,8 @@
                 text-decoration: none;
                 color: $primary-color;
                 font-weight: 100;
+                font-size: $size4;
+                margin-bottom: 0rem;
             }
             img{
                 height: 50px;
@@ -68,7 +76,6 @@
             width: 550px;
             height: 550px;
             overflow: hidden;
-            background-color: #e4e4e4;
             img{
                 width: 600px;
                 height: 600px;
@@ -85,7 +92,7 @@
     .productList_page{
         .productList_title{
             h1{
-                padding-left: 1.2em;
+                padding-left: 0.8em;
                 font-size: $size6;
             }
         }
@@ -95,13 +102,20 @@
             width: 100%;
             height: 100%;
             border-right: 0px;
+            padding-left: 1.3em;
+            .productList_subcategory{
+                h2{
+                    font-size: $size3;
+                    padding-left: 0em;
+                }
+            }
         }
         .productList_products{
-            padding: 0 1.8em;
+            padding: 0em;
             .product_bloc{
-                padding-left: 0em;
+                padding-left: 1.5em;
                 .product{
-                    font-size: $size4;
+                    font-size: $size2;
                     margin-bottom: 0;
                 }
             }
