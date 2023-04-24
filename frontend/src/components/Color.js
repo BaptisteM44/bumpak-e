@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import '../styles/components/Color.scss'
 
-function Product() {
+function Color() {
   const [selectedClass, setSelectedClass] = useState("product-shape1");
   const [selectedColor, setSelectedColor] = useState(null);
   const classes = ["product-shape1", "product-shape2", "product-shape3", "product-shape4"];
@@ -13,27 +13,70 @@ function Product() {
   };
 
   const handleColorClick = (hex) => {
-  setSelectedColor(hex);
-  const overlay = document.querySelectorAll("." + selectedClass);
-  overlay.forEach((element) => {
-  element.style.fill = hex;
-  });
+    setSelectedColor(hex);
+    setSelectedClass(prevSelectedClass => {
+      const svgElement = document.getElementById("product-svg");
+      const overlay = svgElement.querySelectorAll("." + prevSelectedClass);
+      overlay.forEach((element) => {
+        element.style.fill = hex;
+      });
+      console.log(`Selected color: ${hex}, Selected class: ${selectedClass}, SVG elements:`, overlay);
+      
+      return prevSelectedClass;
+    });
   };
-  function handleRandomColors() {
-      const classToColorMap = {};
-      for (const className of classes) {
-        classToColorMap[className] = colors[Math.floor(Math.random() * colors.length)];
+  const updateSvgElements = () => {
+    if (selectedColor !== null) {
+      const svgElement = document.getElementById("product-svg");
+      if (svgElement) {
+        const overlay = svgElement.querySelectorAll("." + selectedClass);
+        overlay.forEach((element) => {
+          element.style.fill = selectedColor;
+        });
+        console.log(`Selected color: ${selectedColor}, Selected class: ${selectedClass}, SVG elements:`, overlay);
       }
-      setSelectedColor("");
-      for (const className in classToColorMap) {
-        const elements = document.querySelectorAll("." + className); // use className instead of selectedClass
-        const color = classToColorMap[className];
-        for (const element of elements) {
-          element.style.fill = color;
-        }
-      }
-      setSelectedClass(classes[1]); // set selectedClass to the first item in classes
     }
+  };
+
+  useEffect(() => {
+    updateSvgElements();
+  }, [selectedColor, selectedClass]);
+
+  useEffect(() => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.target.id === "product-svg") {
+          updateSvgElements();
+        }
+      });
+    });
+
+    const svgElement = document.getElementById("product-svg");
+    if (svgElement) {
+      observer.observe(svgElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [selectedColor, selectedClass]);
+  function handleRandomColors() {
+    const classToColorMap = {};
+    for (const className of classes) {
+      classToColorMap[className] = colors[Math.floor(Math.random() * colors.length)];
+    }
+    console.log("Random colors generated:", classToColorMap);
+    setSelectedColor("");
+    for (const className in classToColorMap) {
+      const elements = document.querySelectorAll("." + className);
+      const color = classToColorMap[className];
+      for (const element of elements) {
+        element.style.fill = color;
+      }
+    }
+    setSelectedClass(classes[1]);
+  }
+  
   return (
   <>
     <div className="config_select">
@@ -52,21 +95,15 @@ function Product() {
 
     <div className="colors-content">
       <div className="colors">
-          <div className="color" style={{ backgroundColor: "#e1e851" }} data-hex="#e1e851" onClick={() => handleColorClick("#e1e851")}></div>
-          <div className="color" style={{ backgroundColor: "#8cd147" }} data-hex="#8cd147" onClick={() => handleColorClick("#8cd147")}></div>
-          <div className="color" style={{ backgroundColor: "#4a9ccf" }} data-hex="#4a9ccf" onClick={() => handleColorClick("#4a9ccf")}></div>
-          <div className="color" style={{ backgroundColor: "#661f45" }} data-hex="#661f45" onClick={() => handleColorClick("#661f45")}></div>
-          <div className="color" style={{ backgroundColor: "#1e2024" }} data-hex="#1e2024" onClick={() => handleColorClick("#1e2024")}></div>
-          <div className="color" style={{ backgroundColor: "#ffc107" }} data-hex="#ffc107" onClick={() => handleColorClick("#ffc107")}></div>
-          <div className="color" style={{ backgroundColor: "#dc3545" }} data-hex="#dc3545" onClick={() => handleColorClick("#dc3545")}></div>
-          <div className="color" style={{ backgroundColor: "#17a2b8" }} data-hex="#17a2b8" onClick={() => handleColorClick("#17a2b8")}></div>
-          <div className="color" style={{ backgroundColor: "#f8f9fa" }} data-hex="#f8f9fa" onClick={() => handleColorClick("#f8f9fa")}></div>
-          <div className="color" style={{ backgroundColor: "#343a40" }} data-hex="#343a40" onClick={() => handleColorClick("#343a40")}></div>
-          <div className="color" style={{ backgroundColor: "#9b59b6" }} data-hex="#9b59b6" onClick={() => handleColorClick("#9b59b6")}></div>
-          <div className="color" style={{ backgroundColor: "#34495e" }} data-hex="#34495e" onClick={() => handleColorClick("#34495e")}></div>
-          <div className="color" style={{ backgroundColor: "#f1c40f" }} data-hex="#f1c40f" onClick={() => handleColorClick("#f1c40f")}></div>
-          <div className="color" style={{ backgroundColor: "#1abc9c" }} data-hex="#1abc9c" onClick={() => handleColorClick("#1abc9c")}></div>
-          <div className="color" style={{ backgroundColor: "#e67e22" }} data-hex="#e67e22" onClick={() => handleColorClick("#e67e22")}></div>
+      {colors.map((color) => (
+      <div
+        key={color}
+        className="color"
+        style={{ backgroundColor: color }}
+        data-hex={color}
+        onClick={() => handleColorClick(color)}
+      />
+    ))}
       </div>
       <div className="color_btn">
         <button id="change-colors-button" onClick={handleRandomColors}>Aléatoire</button>
@@ -76,4 +113,5 @@ function Product() {
   );
   }
 
-export default Product;
+export default Color;
+
