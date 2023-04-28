@@ -10,6 +10,8 @@ import standart from '../assets/images/standart.png'
 import rolltophandlebarbag from '../assets/images/rolltophandlebarbag.png'
 import harnessbarbag from '../assets/images/harnessbarbag.png'
 import barbag from '../assets/images/barbag.png'
+import minitriangle from '../assets/images/minitriangle.png'
+
 
 const productImages = {
     saddlebaglarge,
@@ -23,7 +25,8 @@ const productImages = {
     standart,
     rolltophandlebarbag,
     harnessbarbag,
-    barbag
+    barbag,
+    minitriangle
   };
 
   export default productImages;

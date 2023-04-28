@@ -70,6 +70,7 @@ function ProductDetails() {
           <div className="productDetails_config_firstpart">
             <div className="productDetails_config_name">
               <h2>{product.name}</h2>
+              <p>{product.description}</p>
             </div>
             <div className="productDetails_config_price">
               <p>{product.price}€</p>
@@ -99,15 +100,24 @@ function ProductDetails() {
                    </div>
                  </div>
                  <div className="productDetails_content">
-                   {/* <p>{product.description}</p> */}
                    <p>
-                      {product.description.split(' - ').map((option, index) => (
+                      {product.features.split('\n').map((option, index) => (
                         <React.Fragment key={index}>
-                          {product.description}
+                          {option}
                           <br />
                         </React.Fragment>
                       ))}
                     </p>
+                    {product.features2 && (
+                      <p>
+                        {product.features2.split('\n').map((option, index) => (
+                          <React.Fragment key={index}>
+                            {option}
+                            <br />
+                          </React.Fragment>
+                        ))}
+                      </p>
+                    )}
                  </div>
                </div>
                <div className={`productDetails_drawer ${showDimensions ? 'active' : ''}`} onClick={toggleDimensions}>
@@ -120,8 +130,22 @@ function ProductDetails() {
                    </div>
                  </div>
                  <div className="productDetails_content">
-                   <p>{product.dimensions}</p>
-                   <p>{product.poids}</p>
+                  <p>
+                    {product.dimensions.split('\n').map((option, index) => (
+                      <React.Fragment key={index}>
+                        {option}
+                        <br />
+                      </React.Fragment>
+                    ))}
+                  </p>
+                  <p>
+                    {product.poids.split('\n').map((option, index) => (
+                      <React.Fragment key={index}>
+                        {option}
+                        <br />
+                      </React.Fragment>
+                    ))}
+                  </p>
                  </div>
                </div>
              </div>
