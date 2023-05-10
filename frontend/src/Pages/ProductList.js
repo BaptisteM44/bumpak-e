@@ -294,8 +294,8 @@ function ProductList() {
 
   const getTransformStyle = () => {
     const maxOffset = 50;
-    const xOffset = (mousePosition.x / 700) * maxOffset - maxOffset / 2;
-    const yOffset = (mousePosition.y / 700) * maxOffset - maxOffset / 2;
+    const xOffset = (mousePosition.x / 1000) * maxOffset - maxOffset / 2;
+    const yOffset = (mousePosition.y / 600) * maxOffset - maxOffset / 2;
     return `translate(${xOffset}px, ${yOffset}px)`;
   }
 

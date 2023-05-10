@@ -5,7 +5,8 @@ import Header from '../components/Header';
 
 import framebag from '../assets/images/framebag.jpg'
 import bikepackingImage from '../assets/images/framebag.jpg';
-import goodiesImage from '../assets/images/bumpak.webp';
+import homepageimg from '../assets/images/homepage.jpeg';
+
 function Home() {
 
     const category = 'goodies'; // la catégorie que vous souhaitez récupérer
@@ -31,10 +32,10 @@ function Home() {
 
     if (isMobile) {
       intervalId = setInterval(() => {
-        if (currentImage === bikepackingImage) {
-          handleImageChange(goodiesImage);
-        } else {
+        if (currentImage === homepageimg) {
           handleImageChange(bikepackingImage);
+        } else {
+          handleImageChange(homepageimg);
         }
       }, 4000);
     }
@@ -49,10 +50,10 @@ function Home() {
           <div className="page_home_content">
             <div  className="home_bloc">
                 <div className="home_left">
-                    <Link onMouseEnter={() => handleImageChange(bikepackingImage)} className="link" to="/Bikepacking">Bikepacking</Link>    
+                    <Link onMouseEnter={() => handleImageChange(homepageimg)} className="link" to="/Bikepacking">Bikepacking</Link>    
                 </div> 
                 <div className="home_left">
-                    <Link onMouseEnter={() => handleImageChange(goodiesImage)} className="link" to="/Goodies">Goodies</Link>  
+                    <Link onMouseEnter={() => handleImageChange(bikepackingImage)} className="link" to="/Goodies">Goodies</Link>  
                 </div>
             </div>
             <div className="home_bloc_right">

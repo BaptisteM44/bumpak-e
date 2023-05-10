@@ -15,19 +15,20 @@
     .productDetails_container{
         height: 86vh;
         display: flex;
+        overflow-y: scroll;
         .productDetails_img{
             width: 70%;
             height: 100%;
             border-right: 1px solid $primary-color;
             display: flex;
             flex-direction: column;
-            overflow-y: scroll;
         }
         .productDetails_config{
             display: flex;
             flex-direction: column;
             width: 30%;
-            justify-content: space-between;
+            position: sticky;
+            top: 0;
             .productDetails_config_firstpart{
                 position: relative;
                 padding-left: 2em;
@@ -86,7 +87,7 @@
                     }
                   }
                   &.active {
-                    height: 200px;
+                    height: 220px;
                     border-bottom-left-radius: 0;
                     border-bottom-right-radius: 0;
                   }

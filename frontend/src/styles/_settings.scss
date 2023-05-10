@@ -54,6 +54,23 @@ h5 {font-size: 1.25rem;}
 
 small, .text_small {font-size: 0.8rem;}
 
+::-webkit-scrollbar-track
+{
+	border: 1px solid black;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+	background-color: #000000;	
+}
+
 $primary-color:#000;
 $secondary-color:#FFF;
 $third-color:#efcda3;
