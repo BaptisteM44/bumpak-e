@@ -81,7 +81,7 @@ function Color(props) {
   return (
   <>
     <div className="config_select">
-      <label htmlFor="">Part</label>
+      <label htmlFor="">Color part</label>
       <select id="color-select" value={selectedClass} onChange={handleColorSelect}>
   {props.product.part1 && (
     <option value="product-shape1">{props.product.part1}</option>

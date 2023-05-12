@@ -338,7 +338,7 @@ function ProductDetails() {
                   </div>
                   {options.length > 0 && (
                     <div className="config_select">
-                      <label htmlFor="">Size</label>
+                      <label htmlFor="">Options</label>
                       <select value={selectedOption} onChange={handleOptionChange}>
                         {options.map((option, index) => (
                           <option key={index} value={option.name}>
