@@ -1,13 +1,13 @@
-
-  {
-    "version": 2,
-    "functions": {
-      "api/**/*.js": {
-        "runtime": "@vercel/node"
-      }
-    },
-    "routes": [
-      { "src": "/api/(.*)", "dest": "/api/$1.js" }
-    ]
+{
+    "version":2,
+    "name":"bumpak",
+    "builds": [
+      { "src": "app.js",
+        "use": "@vercel/node" }
+    ],
+        "routes": [
+          { "src": "/(.*)", 
+            "dest": "/app.js" 
+          }
+        ]
   }
-  
