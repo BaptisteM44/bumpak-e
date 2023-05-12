@@ -6,7 +6,7 @@ function Color(props) {
   const [selectedClass, setSelectedClass] = useState("product-shape1");
   const [selectedColor, setSelectedColor] = useState(null);
   const classes = ["product-shape1", "product-shape2", "product-shape3", "product-shape4", "product-shape5", "product-shape6", "product-shape7" ];
-  const colors = ["#d0f352", "#2a2b2d", "#fe251d", "#96498d",'#028790','#3f3d40','#0564c1','#921224','#fab642','#453e29', '#c0005d', '#ff0076', '#835e3d', '#c6c6c6', '#eaeaea', '#092642', '#162a27', '#5e2828', '#15174b', '#'];
+  const colors = ["#d0f352", "#2a2b2d", "#fe251d", "#96498d",'#028790','#3f3d40','#0564c1','#921224','#fab642','#453e29', '#c0005d', '#ff0076', '#835e3d', '#c6c6c6', '#eaeaea', '#092642', '#162a27', '#5e2828', '#15174b'];
   const [product, setProduct] = useState(null);
   const handleColorSelect = (e) => {
   setSelectedClass(e.target.value);
@@ -126,10 +126,9 @@ function Color(props) {
         onClick={() => handleColorClick(color)}
       />
     ))}
-      </div>
-      <div className="color_btn">
         <button id="change-colors-button" onClick={handleRandomColors}>Random</button>
       </div>
+      
     </div>
   </>
   );

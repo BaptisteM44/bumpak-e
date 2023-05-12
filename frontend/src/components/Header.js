@@ -26,7 +26,6 @@ function Header() {
                         <Link className="link" to="/Goodies">Goodies</Link>
                         <Link className="link" to="/contact">Contact</Link>
                         <Link className="link snipcart-checkout" >Cart</Link>
-                        <span className="snipcart-total-price linkPrice"></span>
                     </li>
                     <div>
                         

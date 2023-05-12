@@ -354,27 +354,22 @@ function ProductDetails() {
                     </div>
                   )}
                   <Color productOption="option1" product={product} onChange={handleOptionChange} selectedOption={selectedOption} />
-                  
-    
-    
                   <div className="config_bag">
-                  <button
-  className="snipcart-add-item"
-  id="frameSize"
-  data-item-id={product._id}
-  data-item-image={productImages[product.image]}
-  data-item-name={product.name}
-  data-item-price={parseInt(product.price)}
+                    <button
+                      className="snipcart-add-item"
+                      id="frameSize"
+                      data-item-id={product._id}
+                      data-item-image={productImages[product.image]}
+                      data-item-name={product.name}
+                      data-item-price={parseInt(product.price)}
 
-  data-item-description={product.description}
-  data-item-custom1-name="Option"
-  data-item-custom1-options={optionString}
-  data-item-custom1-value={selectedOption} // Utilisez directement selectedOption ici
->
-  Add to Cart
-</button>
-
-
+                      data-item-description={product.description}
+                      data-item-custom1-name="Option"
+                      data-item-custom1-options={optionString}
+                      data-item-custom1-value={selectedOption} // Utilisez directement selectedOption ici
+                    >
+                      Add to Cart
+                    </button>
                   </div>
                 </div>
                 <div className="productDetails_drawer_content">
