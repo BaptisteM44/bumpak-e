@@ -248,7 +248,7 @@ function ProductDetails() {
     setShowDimensions(!showDimensions);
     setShowDescription(false);
   };
-
+  axios.defaults.baseURL = "https://bumpak.onrender.com/";
   // récupérer les détails du produit à partir de l'API
   useEffect(() => {
     axios.get(`/api/products/${slug}`)
