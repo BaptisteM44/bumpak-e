@@ -1,9 +1,3 @@
-// import express from 'express';
-// import connectDatabase from './config/MongoDb.js';
-// import dotenv from "dotenv"
-// import ImportData from './DataImport.js';
-// import productRoute from './routes/ProductRoutes.js';
-// import Product from "./models/ProductModel.js";
 import express from 'express';
 import http from 'http';
 import connectDatabase from './config/MongoDb.js'
@@ -42,50 +36,3 @@ app.get('/api/products/:slug', async (req, res) => {
 
 // Lancement du serveur
 app.listen(process.env.PORT, () => { console.log(`Server started on port ${process.env.PORT}`)});
-
-
-// import express from 'express';
-// import http from 'http';
-// import connectDatabase from './config/MongoDb.js'
-// import dotenv from "dotenv"
-// import ImportData from './DataImport.js';
-// import productRoute from './ProductRoutes.js';
-// import Product from "./models/ProductModel.js";
-
-// dotenv.config(); // Initialisation de la configuration dotenv
-// connectDatabase(); // Connexion à la base de données MongoDB
-
-// const app = express(); // Initialisation de l'application Express
-
-// // MIDDLEWARES
-// app.use(express.json()); // Middleware pour traiter les données au format JSON
-// app.use(express.urlencoded({ extended: true })); // Middleware pour traiter les données au format URL-encoded
-
-// // ROUTES
-// app.use("/api/import", ImportData); // Route pour importer les données de test
-// app.use("/api/products", productRoute); // Route pour les produits
-
-// // Récupération d'un produit par son slug
-// app.get('/api/products/:slug', async (req, res) => {
-//   try {
-//     const productSlug = req.params.slug;
-//     const product = await Product.findOne({ slug: productSlug }); // Utilisation du modèle Product pour rechercher le produit par le slug
-//     if (product) {
-//       res.send(product);
-//     } else {
-//       res.status(404).send({ message: 'Product not found' });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send({ message: 'Server error' });
-//   }
-// });
-
-// // Créez un serveur HTTP pour encapsuler l'application Express
-// const server = http.createServer(app);
-
-// // Exporter votre application Express comme une fonction sans serveur
-// export default (req, res) => {
-//   return server.emit('request', req, res);
-// };
-// app.listen(process.env.PORT, () => { console.log(`Server started on port ${process.env.PORT}`)});

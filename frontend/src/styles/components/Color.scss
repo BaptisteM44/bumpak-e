@@ -60,7 +60,7 @@
       z-index: 3;
       display: flex;
       flex-wrap: wrap;
-      max-width: 400px;
+      max-width: auto;
       .color {
           margin: 0.5em;
           height: 30px;
@@ -73,6 +73,8 @@
           border-radius: 50px;
           color: $secondary-color;
           cursor: pointer;
+          margin: 0.5em;
+          height: 30px;
           padding: 4px 14px;
           font-size: $size3;
           border: none;
@@ -94,7 +96,7 @@
 .config_select{
   position: relative;
   display: flex;
-  width: 400px;
+  width: auto;
   align-items: center;
   border-bottom: 1px solid #000000;
   margin-bottom: 10px;
@@ -152,14 +154,12 @@
       width: 14px;
         border-radius: 18px;
       }
+      button {
+        margin: 0.4em;
+        height: 20px;
+        padding: 0px 11px;
+      }  
   }
-}
-.color_btn{
-  position: absolute;
-  bottom: 4px;
-  left: 210px;
-  z-index: 10;
-
 }
 
 // styles pour le select
@@ -192,4 +192,13 @@ select {
 }
 
 }
+}
+@media (max-height: 700px){
+
+  #container {
+
+    width: 60%;
+    margin: 1em auto;
+    padding-bottom: 2em;
+  }
 }

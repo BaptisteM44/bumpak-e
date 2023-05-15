@@ -10,6 +10,7 @@
             display: flex;
             align-items: center;
             height: 100%;
+            font-weight: 300;
         }
     }
     .productDetails_container{
@@ -31,7 +32,7 @@
             top: 0;
             .productDetails_config_firstpart{
                 position: relative;
-                padding-left: 2em;
+                padding: 0 2em;
                 display: flex;
                 flex-direction: column;
                 height: 100%;
@@ -244,13 +245,17 @@
                     h2{
                         font-size: $size5;
                         font-weight: $font3;
-                        
+                        margin: 0.6rem 0;
+                    }
+                    p{
+                      font-size: $size3;
                     }
                 }
                 .productDetails_config_price{
                     p{
                         font-size: $size3;
                         font-weight: $font3;
+                        margin-bottom: 0.6rem;
                     }
                 }
                 .productDetails_config_color_title{
@@ -385,3 +390,8 @@
 
 
 // }
+
+@media (max-height: 700px){
+
+
+}
