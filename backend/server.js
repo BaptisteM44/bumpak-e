@@ -14,6 +14,13 @@ const app = express(); // Initialisation de l'application Express
 app.use(express.json()); // Middleware pour traiter les données au format JSON
 app.use(express.urlencoded({ extended: true })); // Middleware pour traiter les données au format URL-encoded
 
+// Middleware pour gérer les en-têtes CORS
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5001");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
 // ROUTES
 app.use("/api/import", ImportData); // Route pour importer les données de test
 app.use("/api/products", productRoute); // Route pour les produits

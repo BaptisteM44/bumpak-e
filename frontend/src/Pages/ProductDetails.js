@@ -325,11 +325,6 @@ function ProductDetails() {
               </div>
                 <img id="background-image" src={productImages[product.image]} />
               </div>
-              <div id="container">
-              <div id="product-svg" dangerouslySetInnerHTML={{ __html: product.svg }}>
-              </div>
-                <img id="background-image" src={productImages[product.image]} />
-              </div>
               </div>
             
             <div className="productDetails_config">
