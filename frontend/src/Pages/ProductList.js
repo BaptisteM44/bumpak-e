@@ -254,7 +254,7 @@ function ProductList() {
   const [currentProductImage, setCurrentProductImage] = useState(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const { handleMouseEnter, handleMouseLeave, isHovering } = Click();
-  axios.defaults.baseURL = "https://bumpak.onrender.com/";
+  axios.defaults.baseURL = "https://bumpak.onrender.com";
   useEffect(() => {
     axios.get(`/api/products?category=${category}`)
       .then(response => {

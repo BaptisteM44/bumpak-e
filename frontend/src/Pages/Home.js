@@ -8,7 +8,7 @@ import bikepackingImage from '../assets/images/framebag.jpg';
 import homepageimg from '../assets/images/homepage.jpeg';
 
 function Home() {
-  axios.defaults.baseURL = "https://bumpak.onrender.com/";
+  axios.defaults.baseURL = "https://bumpak.onrender.com";
     const category = 'goodies'; // la catégorie que vous souhaitez récupérer
     axios.get(`/api/products?category=${category}`)
     .then(response => {
