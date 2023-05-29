@@ -5,12 +5,23 @@
     .productDetails_title{
         height: 7vh;
         border-bottom: 1px solid $primary-color;
+        display: flex;
+        align-items: center;
+        padding-left: 4em;
+        svg {
+          margin-right: 30px;
+          cursor: pointer;
+          color: #000; // You can change this to suit your design.
+        }
         h1{
-            padding-left: 2.35em;
+            
             display: flex;
             align-items: center;
             height: 100%;
             font-weight: 300;
+            text-transform: uppercase;
+            font-size: $size7;
+            margin: 0;
         }
     }
     .productDetails_container{
@@ -19,7 +30,7 @@
         overflow-y: scroll;
         .productDetails_img{
             width: 70%;
-            height: 100%;
+            height: fit-content;
             border-right: 1px solid $primary-color;
             display: flex;
             flex-direction: column;
@@ -43,6 +54,7 @@
                     font-weight: $font3;
                     margin: 1rem 0 1.38rem;
                     text-transform: uppercase;
+                    font-size: $size6;
                 }
                 p{
                   font-size: $size3;
@@ -51,7 +63,7 @@
             }
             .productDetails_config_price{
                 p{
-                    font-size: $size6;
+                    font-size: $size5;
                     font-weight: $font3;
                 }
             }
@@ -239,7 +251,7 @@
                 .productDetails_config_firstpart{
                     justify-content: space-evenly;
                     width: 100%;
-                    padding: 0em 2em;
+                    padding: 0em 1.3em;
                 }
                 .productDetails_config_name{
                     h2{

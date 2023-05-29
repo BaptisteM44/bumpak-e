@@ -68,6 +68,61 @@
           border-radius: 18px;
           cursor: pointer;
         }
+        $colors: ("#d0f352", "#2a2b2d", "#fe251d", "#96498d",'#028790','#3f3d40','#0564c1','#921224','#fab642','#453e29', '#c0005d', '#ff0076', '#835e3d', '#c6c6c6', '#eaeaea', '#092642', '#162a27', '#5e2828', '#15174b');
+
+        @keyframes changeColor {
+          @for $i from 1 through length($colors) {
+            #{percentage($i*(1/length($colors)))} {
+              background-color: nth($colors, $i);
+            }
+          }
+        }
+        
+        .button {
+          position: relative;
+          width: 200px;
+          height: 60px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: none;
+          border-radius: 30px;
+          color: white;
+          font-size: 1.25rem;
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          cursor: pointer;
+          overflow: hidden;
+          z-index: 1;
+          transition: transform .3s ease-in-out;
+          box-shadow: 0 10px 10px -5px rgba(0,0,0,0.2);
+          background: #333;
+          
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #333;
+            z-index: -1;
+          }
+        
+          &:hover {
+            transform: translateY(-3px);
+            
+            &::before {
+              animation: changeColor 10s infinite;
+            }
+          }
+          
+          &:active {
+            transform: translateY(1px);
+          }
+        }
+        
+        
         button {
           background-color: $primary-color;
           border-radius: 50px;
@@ -103,7 +158,6 @@
   label{
     min-width: 100px;
     padding: 20px;
-    padding-right: 20px;
     line-height: 100%;
     font-size: $size3;
     color: rgb(121, 121, 121);
@@ -113,8 +167,6 @@
     color: inherit;
     border: none;
     outline: none;
-    padding-top: 16px;
-    padding-bottom: 16px;
     appearance: none;
     -webkit-appearance: none;
     cursor: pointer;

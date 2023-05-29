@@ -251,8 +251,8 @@ function ProductList() {
   const { category } = useParams();
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [currentProductImage, setCurrentProductImage] = useState(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [currentProductImage, setCurrentProductImage] = useState(null);  
+  
   const { handleMouseEnter, handleMouseLeave, isHovering } = Click();
   axios.defaults.baseURL = "https://bumpak.onrender.com";
   useEffect(() => {
@@ -285,20 +285,6 @@ function ProductList() {
     setFilteredProducts(productsBySubcategory);
   }, [category, products]);
 
-  const handleMouseMove = (event) => {
-    const boundingRect = event.currentTarget.getBoundingClientRect();
-    const offsetX = event.clientX - boundingRect.left;
-    const offsetY = event.clientY - boundingRect.top;
-    setMousePosition({ x: offsetX, y: offsetY });
-  }
-
-  const getTransformStyle = () => {
-    const maxOffset = 50;
-    const xOffset = (mousePosition.x / 1000) * maxOffset - maxOffset / 2;
-    const yOffset = (mousePosition.y / 600) * maxOffset - maxOffset / 2;
-    return `translate(${xOffset}px, ${yOffset}px)`;
-  }
-
   return (
     <>
       <Header />
@@ -308,7 +294,7 @@ function ProductList() {
         </div>
         {filteredProducts.length > 0 && (
           <div className="productList_container">
-            <div className="productList_container_bloc" onMouseMove={handleMouseMove}>
+            <div className="productList_container_bloc">
               {filteredProducts.map((subcategory, subcategoryIndex) => (
                 <div className="productList_subcategory" key={subcategoryIndex}>
                   <h2>{subcategory.name}</h2>
@@ -343,7 +329,6 @@ function ProductList() {
                       src={currentProductImage}
                       alt=""
                       style={{
-                        transform: getTransformStyle(),
                         transition: 'transform 1s ease-out',
                       }}
                     />

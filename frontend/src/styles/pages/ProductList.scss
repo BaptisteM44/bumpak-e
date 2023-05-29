@@ -6,10 +6,14 @@
         height: 7vh;
         border-bottom: 1px solid $primary-color;
         h1{
-            padding-left: 2.5em;
+            // padding-left: 6.6em;
             display: flex;
             align-items: center;
+            justify-content: center;
             height: 100%;
+            font-size: $size7;
+            text-transform: uppercase;
+            font-weight: 500;
         }
     }
     .productList_container{
@@ -20,11 +24,11 @@
         border-right: 1px solid $primary-color;
         display: flex;
         flex-direction: column;
-        padding-left: 5em;
+        padding-left: 4.8em;
         .productList_subcategory{
             h2{
-                font-size: $size6;
-                padding-left: 1.8em;
+                font-size: clamp($size4,14vw,$size7);
+                padding-left: 2.6em;
                 font-weight: 300;
                 text-transform: uppercase;
                 margin: 0.8rem 0 0.38rem;
@@ -35,7 +39,7 @@
         .product_bloc{
             display: flex;
             flex-direction: column;
-            padding-left: 5em;
+            padding-left: 7.3em;
             text-transform: uppercase;
             height: 8%;
             width: fit-content;
