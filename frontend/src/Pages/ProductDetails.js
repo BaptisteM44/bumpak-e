@@ -162,16 +162,6 @@ function ProductDetails() {
                       </React.Fragment>
                     ))}
                   </p>
-                  {product.features2 && (
-                    <p>
-                      {product.features2.split('\n').map((option, index) => (
-                        <React.Fragment key={index}>
-                          {option}
-                          <br />
-                        </React.Fragment>
-                      ))}
-                    </p>
-                  )}
                 </div>
               </div>
               <div className={`productDetails_drawer ${showDimensions ? 'active' : ''}`} onClick={toggleDimensions}>
@@ -192,14 +182,14 @@ function ProductDetails() {
                       </React.Fragment>
                     ))}
                   </p>
-                  <p>
+                  {/* <p>
                     {product.poids.split('\n').map((option, index) => (
                       <React.Fragment key={index}>
                         {option}
                         <br />
                       </React.Fragment>
                     ))}
-                  </p>
+                  </p> */}
                 </div>
               </div>
             </div>

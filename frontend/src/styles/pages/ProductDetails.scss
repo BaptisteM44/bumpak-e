@@ -7,7 +7,7 @@
         border-bottom: 1px solid $primary-color;
         display: flex;
         align-items: center;
-        padding-left: 4em;
+        padding-left: 5em;
         svg {
           margin-right: 30px;
           cursor: pointer;
@@ -18,10 +18,10 @@
             display: flex;
             align-items: center;
             height: 100%;
-            font-weight: 300;
             text-transform: uppercase;
             font-size: $size7;
             margin: 0;
+            padding-left: 11px;
         }
     }
     .productDetails_container{
@@ -31,7 +31,7 @@
         .productDetails_img{
             width: 70%;
             height: fit-content;
-            border-right: 1px solid $primary-color;
+            
             display: flex;
             flex-direction: column;
         }
@@ -41,6 +41,7 @@
             width: 30%;
             position: sticky;
             top: 0;
+            border-left: 1px solid $primary-color;
             .productDetails_config_firstpart{
                 position: relative;
                 padding: 0 2em;
@@ -84,7 +85,6 @@
                 .productDetails_drawer {
                   display: flex;
                   flex-direction: column;
-                  justify-content: space-between;
                   padding: 0 2em;
                   cursor: pointer;
                   margin: auto;
