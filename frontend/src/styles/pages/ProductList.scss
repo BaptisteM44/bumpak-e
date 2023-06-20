@@ -6,7 +6,7 @@
         height: 7vh;
         border-bottom: 1px solid $primary-color;
         h1{
-            padding-left: 145px;
+            padding-left: 168px;
             display: flex;
             align-items: center;
             height: 100%;
@@ -23,7 +23,7 @@
         border-right: 1px solid $primary-color;
         display: flex;
         flex-direction: column;
-        padding-left: 4.8em;
+        padding-left: 102px;
         .productList_subcategory{
             h2{
                 font-size: clamp(1rem, 14vw, 1.563rem);
@@ -115,7 +115,7 @@
         .productList_products{
             padding: 0em;
             .product_bloc{
-                padding-left: 1.5em;
+                margin-left: 1.5em;
                 .product{
                     font-size: $size2;
                     margin-bottom: 0;

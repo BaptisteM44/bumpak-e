@@ -42,3 +42,49 @@ function Home() {
   }
   
   export default Home;
+// import React, { useState, useRef, useEffect } from 'react';
+// import { gsap } from 'gsap';
+
+// // Importez vos images ici
+// import mainImage1 from '../assets/images/barbag.png';
+// import thumbnailImage1 from '../assets/images/barbag.png';
+// import mainImage2 from '../assets/images/minitriangle.png';
+// import thumbnailImage2 from '../assets/images/minitriangle.png';
+
+// // Create an array of objects for your images
+// const images = [
+//   { main: mainImage1, thumbnail: thumbnailImage1 },
+//   { main: mainImage2, thumbnail: thumbnailImage2 },
+//   // add more images here if necessary
+// ];
+
+// const ProductGallery = () => {
+//   const [activeImage, setActiveImage] = useState(images[0].main);
+//   const imageRef = useRef(null);
+
+//   const handleThumbnailClick = (image) => {
+//       gsap.to(imageRef.current, { opacity: 0, duration: 0.2 })
+//           .then(() => setActiveImage(image.main))
+//           .then(() => gsap.to(imageRef.current, { opacity: 1, duration: 0.2 }));
+//   };
+
+//   return (
+//       <div className="product-gallery">
+//           <div className="thumbnails">
+//               {images.map((image, i) => (
+//                   <img key={i}
+//                       src={image.thumbnail}
+//                       alt=""
+//                       onClick={() => handleThumbnailClick(image)} />
+//               ))}
+//           </div>
+//           <div className="main-image">
+//               <img ref={imageRef}
+//                   src={activeImage}
+//                   alt="" />
+//           </div>
+//       </div>
+//   );
+// }
+
+// export default ProductGallery;
