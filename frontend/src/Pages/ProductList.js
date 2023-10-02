@@ -14,7 +14,7 @@ function ProductList() {
   const [currentProductImage, setCurrentProductImage] = useState(null);  
   
   const { handleMouseEnter, handleMouseLeave, isHovering } = Click();
-  axios.defaults.baseURL = "https://bumpak-e-production.up.railway.app";
+  axios.defaults.baseURL = "https://bumpak.onrender.com";
   useEffect(() => {
     axios.get(`/api/products?category=${category}`)
       .then(response => {
@@ -64,7 +64,8 @@ function ProductList() {
                         className={`product_bloc`}
                         key={productIndex}
                         onMouseEnter={() => {
-                          setCurrentProductImage(productImages[product.image]);
+                          // setCurrentProductImage(productImages[product.image]);
+                          setCurrentProductImage(product.image2);
                           handleMouseEnter();
                         }}
                         onMouseLeave={() => {

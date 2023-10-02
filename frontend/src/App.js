@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Home from '../src/Pages/Home';
-import ProductDetails from '../src/Pages/ProductDetails';
+import ProductDetailsBis from '../src/Pages/ProductDetailsBis';
 import Contact from './Pages/Contact';
 import ProductList from './Pages/ProductList';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -22,7 +22,7 @@ function App() {
       <Route path="/" element={<RouteWithTransition component={Home} />} />
       <Route path="/:category" element={<RouteWithTransition component={ProductList} />} />
       <Route path="/Contact" element={<RouteWithTransition component={Contact} />} />
-      <Route path="/:category/:slug" element={<RouteWithTransition component={ProductDetails} />} />
+      <Route path="/:category/:slug" element={<RouteWithTransition component={ProductDetailsBis} />} />
     </Routes>
   );
 }
