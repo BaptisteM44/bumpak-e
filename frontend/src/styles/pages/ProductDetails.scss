@@ -29,7 +29,7 @@
         display: flex;
         overflow-y: scroll;
         .productDetails_img{
-            width: 80%;
+            width: 70%;
             display: flex;
         }
         .productDetails_img img:hover {
@@ -42,10 +42,10 @@
         .productDetails_config{
             display: flex;
             flex-direction: column;
-            width: 20%;
-            min-width: 300px;
-            position: sticky;
-            top: 0;
+            width: 30%;
+            min-width: 400px;
+            // position: sticky;
+            // top: 0;
             border-left: 1px solid $primary-color;
             .productDetails_config_firstpart{
                 position: relative;
@@ -105,7 +105,7 @@
                     }
                   }
                   &.active {
-                    height: 260px;
+                    height: 380px;
                     border-bottom-left-radius: 0;
                     border-bottom-right-radius: 0;
                   }

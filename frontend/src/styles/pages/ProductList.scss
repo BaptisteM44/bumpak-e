@@ -17,7 +17,7 @@
     }
     .productList_container{
         display: flex;
-        height: 86vh;
+        min-height: 86vh;
     .productList_container_bloc{
         width: 50%;
         border-right: 1px solid $primary-color;
@@ -30,7 +30,7 @@
                 padding-left: 2.8em;
                 font-weight: 300;
                 text-transform: uppercase;
-                margin: 0.7rem 0 0.2rem;
+                margin: 0.5rem 0 0.2rem;
             }
         }
     }

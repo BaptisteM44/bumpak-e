@@ -65,7 +65,7 @@ function ProductList() {
                         key={productIndex}
                         onMouseEnter={() => {
                           // setCurrentProductImage(productImages[product.image]);
-                          setCurrentProductImage(product.image2);
+                          setCurrentProductImage(product.image8);
                           handleMouseEnter();
                         }}
                         onMouseLeave={() => {

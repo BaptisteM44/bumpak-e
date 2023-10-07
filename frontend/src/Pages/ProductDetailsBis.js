@@ -17,7 +17,7 @@ function ProductDetails() {
   const [selectedOptionPrice, setSelectedOptionPrice] = useState(null);
   const [selectedColors, setSelectedColors] = useState({});
   const [showDescription, setShowDescription] = useState(false);
-  const [showDimensions, setShowDimensions] = useState(false);
+  // const [showDimensions, setShowDimensions] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedColorNames, setSelectedColorNames] = useState({});
   const [colorNames, setColorNames] = useState({});
@@ -57,15 +57,15 @@ function ProductDetails() {
   
   const toggleDescription = () => {
     setShowDescription(!showDescription);
-    setShowDimensions(false);
+    // setShowDimensions(false);
   };
 const handleColorNamesChange = (newColorNames) => {
     setColorNames(newColorNames);
   };
-  const toggleDimensions = () => {
-    setShowDimensions(!showDimensions);
-    setShowDescription(false);
-  };
+  // const toggleDimensions = () => {
+  //   setShowDimensions(!showDimensions);
+  //   setShowDescription(false);
+  // };
 
   useEffect(() => {
     axios.get(`/api/products/${slug}`)
@@ -233,7 +233,7 @@ const handleColorNamesChange = (newColorNames) => {
                   </p>
                 </div>
               </div>
-              <div className={`productDetails_drawer ${showDimensions ? 'active' : ''}`} onClick={toggleDimensions}>
+              {/* <div className={`productDetails_drawer ${showDimensions ? 'active' : ''}`} onClick={toggleDimensions}>
                 <div className="productDetails_title_tiroir">
                   <h2>{product.title}Dimensions</h2>
                   <div className="productDetails_icon">
@@ -252,7 +252,7 @@ const handleColorNamesChange = (newColorNames) => {
                     ))}
                   </p>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
