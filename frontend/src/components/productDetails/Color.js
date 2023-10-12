@@ -43,7 +43,7 @@ export const transformSelectedColors = (selectedColors, product) => {
 
       // Si la clé commence par 'product-shape', récupérer la valeur correspondante depuis 'product'
       if (key.startsWith('product-shape')) {
-          const partNumber = key.replace('product-shape', ''); // e.g., "1" pour "product-shape1"
+          const partNumber = key.replace('product-shape', '');
           const correspondingPartValue = product[`part${partNumber}`];
           transformedObject[correspondingPartValue] = newValue;
       } else {

@@ -102,7 +102,7 @@ const handleColorNamesChange = (newColorNames) => {
   }
 
   const options = [];
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 30; i++) {
     const option = product[`option${i}`];
     const price = i === 1 ? 0 : product[`option${i}price`];
     if (option) {
@@ -110,7 +110,7 @@ const handleColorNamesChange = (newColorNames) => {
     }
   }
 
- const images = [product.image1, product.image2, product.image3, product.image4]; // Add more images if necessary
+ const images = [product.image1, product.image2, product.image3, product.image4, product.image8]; // Add more images if necessary
 
   const productImage = productImages[product.slug.toLowerCase().replace(/ /g, '')];
 
@@ -128,15 +128,15 @@ const handleColorNamesChange = (newColorNames) => {
           <div className="productDetails_img">
           <div className="thumbnails">
           {images.map((image, i) => (
-  <img
-    key={i}
-    src={image}
-    alt=""
-    onClick={() => handleThumbnailClick(image, i)}
-    className={activeImageIndex === i ? "active" : ""}
-    style={{ opacity: activeImageIndex === i ? 1 : 0.5, cursor: activeImageIndex === i ? 'default' : 'pointer' }}
-  />
-))}
+            <img
+              key={i}
+              src={image}
+              alt=""
+              onClick={() => handleThumbnailClick(image, i)}
+              className={activeImageIndex === i ? "active" : ""}
+              style={{ opacity: activeImageIndex === i ? 1 : 0.5, cursor: activeImageIndex === i ? 'default' : 'pointer' }}
+            />
+          ))}
 
           </div>
           <div className="main-image">
