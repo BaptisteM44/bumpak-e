@@ -105,7 +105,7 @@
                     }
                   }
                   &.active {
-                    height: 380px;
+                    height: 360px;
                     border-bottom-left-radius: 0;
                     border-bottom-right-radius: 0;
                   }
@@ -191,7 +191,7 @@
                     justify-content: space-between;
                     flex-flow: wrap;
                     p{
-                      font-size: $size4;
+                      font-size: $size3;
                       font-weight: $font3;
                     }
                     &.active {
