@@ -22,14 +22,16 @@ function ProductDetails() {
   const [selectedColorNames, setSelectedColorNames] = useState({});
   const [colorNames, setColorNames] = useState({});
   const transformedColors = transformSelectedColors(selectedColors, product);
-
   const navigate = useNavigate();
   const imageRef = useRef(null);
   const [activeImage, setActiveImage] = useState(null);
   const handleBack = () => {
     navigate(-1);
   };
-  const availableParts = product ? [product.part1, product.part2, product.part3, product.part4, product.part5, product.part6, product.part7].filter(Boolean) : [];
+  const availableElastics = product ? [product.elastic1, product.elastic2, product.elastic3].filter(Boolean) : []  ;
+
+  const availableParts = product ? [product.part1, product.part2, product.part3, product.part4, product.part5, product.part6].filter(Boolean) : [];
+  
   useEffect(() => {
     if (product) {
       
@@ -183,10 +185,12 @@ const handleColorNamesChange = (newColorNames) => {
               <Color 
                 productOption={selectedOption}
                 availableParts={availableParts}
+                availableElastics={availableElastics}
+                onElasticColorsChange={handleColorNamesChange}
                 selectedColors={selectedColors}
                 onColorsChange={handleColorsChange}
                 selectedColorNames={selectedColorNames}
-                onColorNamesChange={handleColorNamesChange} // Ajoutez ceci ici
+                onColorNamesChange={handleColorNamesChange}
               />
 
 
