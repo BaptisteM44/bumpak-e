@@ -53,17 +53,21 @@ function ProductDetails() {
   }, []);
   
   const handleColorsChange = (newColors) => {
+    console.log('newColors', newColors); // Ajoutez cette ligne pour vérifier les nouvelles couleurs
     setSelectedColors(newColors);
   };
+  
 
   
   const toggleDescription = () => {
     setShowDescription(!showDescription);
     // setShowDimensions(false);
   };
-const handleColorNamesChange = (newColorNames) => {
+  const handleColorNamesChange = (newColorNames) => {
     setColorNames(newColorNames);
-  };
+    handleColorsChange({ ...selectedColors, ...newColorNames });
+};
+
   // const toggleDimensions = () => {
   //   setShowDimensions(!showDimensions);
   //   setShowDescription(false);
@@ -81,6 +85,7 @@ const handleColorNamesChange = (newColorNames) => {
         console.log(error);
       });
   }, [slug]);
+  console.log('selectedColors', selectedColors); // Ajoutez cette ligne pour vérifier les nouvelles couleurs
 
   const handleOptionChange = (e) => {
     const selectedOption = e.target.value;
@@ -112,7 +117,7 @@ const handleColorNamesChange = (newColorNames) => {
     }
   }
 
- const images = [product.image1, product.image2, product.image3, product.image4, product.image8]; // Add more images if necessary
+ const images = [product.image1, product.image2, product.image3, product.image4,product.image5, product.image6,product.image7, product.image8, product.image9,]; // Add more images if necessary
 
   const productImage = productImages[product.slug.toLowerCase().replace(/ /g, '')];
 
@@ -182,7 +187,24 @@ const handleColorNamesChange = (newColorNames) => {
                   </div>
                 </div>
               )}
-              <Color 
+              {/* <Color 
+                productOption={selectedOption}
+                availableParts={availableParts}
+
+                availableElastics={availableElastics}
+                onElasticColorsChange={handleColorNamesChange}
+                
+                selectedColors={selectedColors}
+
+                onColorsChange={handleColorsChange}
+                selectedColorNames={selectedColorNames}
+                onColorNamesChange={handleColorNamesChange}
+              /> */}
+              <div className="productDetails_config">
+    <div className="productDetails_config_firstpart">
+        {/* ... (autres éléments) */}
+        {(product.elastic1 || product.part1) && (
+            <Color 
                 productOption={selectedOption}
                 availableParts={availableParts}
                 availableElastics={availableElastics}
@@ -191,7 +213,13 @@ const handleColorNamesChange = (newColorNames) => {
                 onColorsChange={handleColorsChange}
                 selectedColorNames={selectedColorNames}
                 onColorNamesChange={handleColorNamesChange}
-              />
+            />
+        )}
+        {/* ... (autres éléments) */}
+    </div>
+    {/* ... (autres éléments) */}
+</div>
+
 
 
               <div className="config_bag">
@@ -214,6 +242,7 @@ const handleColorNamesChange = (newColorNames) => {
                 >
                   Add to Cart
                 </button>
+                
               </div>
             </div>
             <div className="productDetails_drawer_content">
@@ -237,26 +266,6 @@ const handleColorNamesChange = (newColorNames) => {
                   </p>
                 </div>
               </div>
-              {/* <div className={`productDetails_drawer ${showDimensions ? 'active' : ''}`} onClick={toggleDimensions}>
-                <div className="productDetails_title_tiroir">
-                  <h2>{product.title}Dimensions</h2>
-                  <div className="productDetails_icon">
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M5 0V10M0 5H10" stroke="#000" strokeWidth="1.5" strokeLinecap="round" />
-                    </svg>
-                  </div>
-                </div>
-                <div className="productDetails_content">
-                  <p>
-                    {product.dimensions.split('\n').map((option, index) => (
-                      <React.Fragment key={index}>
-                        {option}
-                        <br />
-                      </React.Fragment>
-                    ))}
-                  </p>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>
