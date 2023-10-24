@@ -79,13 +79,22 @@ function ProductDetails() {
         setProduct(response.data);
         setSelectedOption(response.data.option1);
         setSelectedOptionPrice(0);
-        setActiveImage(response.data.image1);
+
+        // Vérification de la présence de image1
+        if (response.data.image1) {
+            setActiveImage(response.data.image1);
+            setActiveImageIndex(0);
+        } else if (response.data.image2) {
+            setActiveImage(response.data.image2);
+            setActiveImageIndex(1);  // Mettre à jour l'index de l'image active pour la correspondance avec image2
+        }
       })
       .catch(error => {
         console.log(error);
       });
-  }, [slug]);
-  console.log('selectedColors', selectedColors); // Ajoutez cette ligne pour vérifier les nouvelles couleurs
+}, [slug]);
+
+
 
   const handleOptionChange = (e) => {
     const selectedOption = e.target.value;
@@ -147,18 +156,18 @@ function ProductDetails() {
 
           </div>
           <div className="main-image">
-            {activeImage === product.image1 ? (
-              <div id="container">
-                <div
-                  id="product-svg"
-                  dangerouslySetInnerHTML={{ __html: product.svg }}
-                ></div>
-                <img id="background-image" src={product.image1} alt="" />
-              </div>
+            {activeImage === product.image1 ?(
+                <div id="container">
+                    <div
+                        id="product-svg"
+                        dangerouslySetInnerHTML={{ __html: product.svg }}
+                    ></div>
+                    <img id="background-image" src={activeImage} alt="" />
+                </div>
             ) : (
-              <img ref={imageRef} src={activeImage} alt="" />
+                <img ref={imageRef} src={activeImage} alt="" />
             )}
-          </div>
+        </div>
           </div>
 
           <div className="productDetails_config">
@@ -187,22 +196,6 @@ function ProductDetails() {
                   </div>
                 </div>
               )}
-              {/* <Color 
-                productOption={selectedOption}
-                availableParts={availableParts}
-
-                availableElastics={availableElastics}
-                onElasticColorsChange={handleColorNamesChange}
-                
-                selectedColors={selectedColors}
-
-                onColorsChange={handleColorsChange}
-                selectedColorNames={selectedColorNames}
-                onColorNamesChange={handleColorNamesChange}
-              /> */}
-              <div className="productDetails_config">
-    <div className="productDetails_config_firstpart">
-        {/* ... (autres éléments) */}
         {(product.elastic1 || product.part1) && (
             <Color 
                 productOption={selectedOption}
@@ -215,10 +208,6 @@ function ProductDetails() {
                 onColorNamesChange={handleColorNamesChange}
             />
         )}
-        {/* ... (autres éléments) */}
-    </div>
-    {/* ... (autres éléments) */}
-</div>
 
 
 
@@ -245,7 +234,7 @@ function ProductDetails() {
                 
               </div>
             </div>
-            <div className="productDetails_drawer_content">
+            {/* <div className="productDetails_drawer_content"> */}
               <div className={`productDetails_drawer ${showDescription ? 'active' : ''}`} onClick={toggleDescription}>
                 <div className="productDetails_title_tiroir">
                   <h2>{product.title}Features</h2>
@@ -266,7 +255,7 @@ function ProductDetails() {
                   </p>
                 </div>
               </div>
-            </div>
+            {/* </div> */}
           </div>
         </div>
       </section>
