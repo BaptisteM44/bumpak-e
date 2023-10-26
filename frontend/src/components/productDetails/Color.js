@@ -49,6 +49,13 @@ const elasticColorMapping = {
   "#b70633": "Red",
   "#cd8a3f": "Golden",
 };
+const forkbagColors = {
+  '#ccf616': "Lemon Lime",
+  '#252729' : "Black",
+  '#c5c4c5' : "Silver Bullet",
+  '#eaeaea': "Snow White",
+  '#885934': "Coyote Brown",
+};
 
 export const transformSelectedColors = (selectedColors, product) => {
   let transformedObject = {};
@@ -228,6 +235,7 @@ const handleElasticColorClick = (color) => {
       });
     }
   }, []);
+  const displayColors = props.subcategory === "forkbag" ? forkbagColors : elasticColorMapping;
 
   return (
     <>
@@ -252,7 +260,7 @@ const handleElasticColorClick = (color) => {
 
       <div className="colors-content">
         <div className="colors">
-            {Object.keys(colorMapping).map((color) => (
+            {Object.keys(displayColors).map((color) => (
           <div
             key={color}
             className="color"
@@ -263,6 +271,8 @@ const handleElasticColorClick = (color) => {
             ))}
         </div>
       </div>
+      {props.availableElastics.length > 0 && (
+        <>
       <div className="config_select">
         <label htmlFor="">Elastic part</label>
         <select id="elastic-select" value={selectedElasticClass} onChange={handleElasticSelect}>
@@ -278,6 +288,7 @@ const handleElasticColorClick = (color) => {
           </svg>
         </div>
       </div>
+       
       <div className="colors-content">
         <div className="colors">
         {Object.keys(elasticColorMapping).map((color) => (
@@ -291,8 +302,11 @@ const handleElasticColorClick = (color) => {
         ))}
         </div>
       </div>
+      </>
+      )}
+      {props.subcategory !== "forkbag" && (
       <button className="random-button" onClick={handleRandomColors}>Random</button>
-
+      )}
       
     </>
   );

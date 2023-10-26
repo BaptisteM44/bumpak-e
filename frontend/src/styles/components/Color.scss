@@ -25,6 +25,7 @@
 .colors-content{
   display: flex;
   position: relative;
+  padding: 15px 0px;
   .colors {
       bottom: 12em;
       z-index: 3;
@@ -123,7 +124,7 @@
   width: auto;
   align-items: center;
   border-bottom: 1px solid #000000;
-  padding: 10px 0;
+  padding: 12px 0;
   label{
     min-width: 100px;
     line-height: 100%;

@@ -196,7 +196,7 @@ function ProductDetails() {
                   </div>
                 </div>
               )}
-        {(product.elastic1 || product.part1) && (
+        {/* {(product.elastic1 || product.part1) && (
             <Color 
                 productOption={selectedOption}
                 availableParts={availableParts}
@@ -207,7 +207,21 @@ function ProductDetails() {
                 selectedColorNames={selectedColorNames}
                 onColorNamesChange={handleColorNamesChange}
             />
-        )}
+        )} */}
+{(availableParts.length > 0 || availableElastics.length > 0) && (
+    <Color 
+        subcategory={product.subcategory}
+        productOption={selectedOption}
+        availableParts={availableParts}
+        availableElastics={availableElastics.length > 0 ? availableElastics : []} // N'affichez pas les élastiques s'ils ne sont pas présents
+        onElasticColorsChange={handleColorNamesChange}
+        selectedColors={selectedColors}
+        onColorsChange={handleColorsChange}
+        selectedColorNames={selectedColorNames}
+        onColorNamesChange={handleColorNamesChange}
+    />
+)}
+
 
 
 
