@@ -23,7 +23,7 @@
           
         }
     .link{
-        font-size: $size6;
+        font-size: $size5;
         color: $primary-color;
         font-weight: 300;
         .linkPrice{
@@ -32,7 +32,7 @@
         }
     }
     .nav_list{
-        width: 56.3vw;
+        width: -webkit-fill-available;
         li{
             display: flex;
             justify-content: space-evenly;

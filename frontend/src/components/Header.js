@@ -24,6 +24,8 @@ function Header() {
                     <li >
                         <Link className="link" to="/Bikepacking">Bikepacking</Link>
                         <Link className="link" to="/Goodies">Goodies</Link>
+                        <Link className="link" to="/Material">Material</Link>
+                        <Link className="link" to="/Info">Info</Link>
                         <Link className="link" to="/contact">Contact</Link>
                         <Link className="link snipcart-checkout" >Cart</Link>
                     </li>

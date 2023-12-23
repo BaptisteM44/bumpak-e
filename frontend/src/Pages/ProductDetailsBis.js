@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import productImages from '../components/productImages';
 import BackArrow from '../components/backArrow';
 
 import Header from '../components/Header';
@@ -17,7 +16,6 @@ function ProductDetails() {
   const [selectedOptionPrice, setSelectedOptionPrice] = useState(null);
   const [selectedColors, setSelectedColors] = useState({});
   const [showDescription, setShowDescription] = useState(false);
-  // const [showDimensions, setShowDimensions] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedColorNames, setSelectedColorNames] = useState({});
   const [colorNames, setColorNames] = useState({});
@@ -68,12 +66,9 @@ function ProductDetails() {
     handleColorsChange({ ...selectedColors, ...newColorNames });
 };
 
-  // const toggleDimensions = () => {
-  //   setShowDimensions(!showDimensions);
-  //   setShowDescription(false);
-  // };
-
   useEffect(() => {
+    console.log('Fetching product data for slug:', slug);
+
     axios.get(`/api/products/${slug}`)
       .then(response => {
         setProduct(response.data);
@@ -90,9 +85,9 @@ function ProductDetails() {
         }
       })
       .catch(error => {
-        console.log(error);
+        console.error('Error fetching product data:', error);
       });
-}, [slug]);
+  }, [slug]);
 
 
 
@@ -127,8 +122,6 @@ function ProductDetails() {
   }
 
  const images = [product.image1, product.image2, product.image3, product.image4,product.image5, product.image6,product.image7, product.image8, product.image9,]; // Add more images if necessary
-
-  const productImage = productImages[product.slug.toLowerCase().replace(/ /g, '')];
 
   const optionString = options.map(option => `${option.name}[+${option.price}.00]`).join("|");
 
@@ -173,7 +166,10 @@ function ProductDetails() {
           <div className="productDetails_config">
             <div className="productDetails_config_firstpart">
               <div className="productDetails_config_name">
-                <h2>{product.name}</h2>
+                <div className="name_product_title">
+                  <h2>{product.subcategory}</h2>
+                  <h2>{product.name}</h2>
+                </div>
                 <p>{product.description}</p>
               </div>
               <div className="productDetails_config_price">
@@ -208,29 +204,24 @@ function ProductDetails() {
                 onColorNamesChange={handleColorNamesChange}
             />
         )} */}
-{(availableParts.length > 0 || availableElastics.length > 0) && (
-    <Color 
-        subcategory={product.subcategory}
-        productOption={selectedOption}
-        availableParts={availableParts}
-        availableElastics={availableElastics.length > 0 ? availableElastics : []} // N'affichez pas les élastiques s'ils ne sont pas présents
-        onElasticColorsChange={handleColorNamesChange}
-        selectedColors={selectedColors}
-        onColorsChange={handleColorsChange}
-        selectedColorNames={selectedColorNames}
-        onColorNamesChange={handleColorNamesChange}
-    />
-)}
-
-
-
-
+              {(availableParts.length > 0 || availableElastics.length > 0) && (
+                  <Color 
+                      subcategory={product.subcategory}
+                      productOption={selectedOption}
+                      availableParts={availableParts}
+                      availableElastics={availableElastics.length > 0 ? availableElastics : []} // N'affichez pas les élastiques s'ils ne sont pas présents
+                      onElasticColorsChange={handleColorNamesChange}
+                      selectedColors={selectedColors}
+                      onColorsChange={handleColorsChange}
+                      selectedColorNames={selectedColorNames}
+                      onColorNamesChange={handleColorNamesChange}
+                  />
+              )}
               <div className="config_bag">
                 <button
                   className="snipcart-add-item"
                   id="frameSize"
                   data-item-id={product._id}
-                  data-item-image={productImages[product.image]}
                   data-item-name={product.name}
                   data-item-price={parseInt(product.price)}
                   data-item-description={product.description}
@@ -260,7 +251,7 @@ function ProductDetails() {
                 </div>
                 <div className="productDetails_content">
                   <p>
-                    {product.features.split('\n').map((option, index) => (
+                    {product.features && product.features.split('\n').map((option, index) => (
                       <React.Fragment key={index}>
                         {option}
                         <br />
@@ -268,6 +259,7 @@ function ProductDetails() {
                     ))}
                   </p>
                 </div>
+
               </div>
             {/* </div> */}
           </div>
