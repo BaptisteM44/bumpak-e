@@ -11,7 +11,7 @@ import '../styles/pages/ProductDetails.scss';
 import { gsap } from 'gsap';
 function ProductDetails() {
   const { slug } = useParams();
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState();
   const [selectedOption, setSelectedOption] = useState(null);
   const [selectedOptionPrice, setSelectedOptionPrice] = useState(null);
   const [selectedColors, setSelectedColors] = useState({});
@@ -29,43 +29,6 @@ function ProductDetails() {
   const availableElastics = product ? [product.elastic1, product.elastic2, product.elastic3].filter(Boolean) : []  ;
 
   const availableParts = product ? [product.part1, product.part2, product.part3, product.part4, product.part5, product.part6].filter(Boolean) : [];
-  
-  useEffect(() => {
-    if (product) {
-      
-      const initialColors = availableParts.reduce((acc, part, index) => {
-        // N'écrasez pas la couleur de part1 si elle est déjà définie
-        if (!acc[`product-shape${index + 1}`]) {
-          acc[`product-shape${index + 1}`] = "#FFFFFF"; // default color
-        }
-        return acc;
-      }, selectedColors); // passez selectedColors comme valeur initiale à reduce
-  
-      setSelectedColors(initialColors);
-    }
-  }, [product]);
-  
-  
-  useEffect(() => {
-    handleColorsChange({ ...selectedColors, 'part1': '#FFFFFF' }); // replace with your default color for part1
-  }, []);
-  
-  const handleColorsChange = (newColors) => {
-    console.log('newColors', newColors); // Ajoutez cette ligne pour vérifier les nouvelles couleurs
-    setSelectedColors(newColors);
-  };
-  
-
-  
-  const toggleDescription = () => {
-    setShowDescription(!showDescription);
-    // setShowDimensions(false);
-  };
-  const handleColorNamesChange = (newColorNames) => {
-    setColorNames(newColorNames);
-    handleColorsChange({ ...selectedColors, ...newColorNames });
-};
-
   useEffect(() => {
     console.log('Fetching product data for slug:', slug);
 
@@ -88,6 +51,43 @@ function ProductDetails() {
         console.error('Error fetching product data:', error);
       });
   }, [slug]);
+  useEffect(() => {
+    if (product) {
+      
+      const initialColors = availableParts.reduce((acc, index) => {
+        // N'écrasez pas la couleur de part1 si elle est déjà définie
+        if (!acc[`product-shape${index + 1}`]) {
+          acc[`product-shape${index + 1}`] = "#FFFFFF"; // default color
+        }
+        return acc;
+      }, selectedColors); // passez selectedColors comme valeur initiale à reduce
+  
+      setSelectedColors();
+    }
+  }, [product]);
+  
+  
+  useEffect(() => {
+    handleColorsChange({ ...selectedColors, 'part1': '#FFFFFF' }); // replace with your default color for part1
+  }, []);
+   const handleColorNamesChange = (newColorNames) => {
+    setColorNames(newColorNames);
+    handleColorsChange({ ...selectedColors, ...newColorNames });
+  };
+  const handleColorsChange = (newColors) => {
+    console.log('newColors', newColors); // Ajoutez cette ligne pour vérifier les nouvelles couleurs
+    setSelectedColors(newColors);
+  };
+  
+
+  
+  const toggleDescription = () => {
+    setShowDescription(!showDescription);
+    // setShowDimensions(false);
+  };
+ 
+
+
 
 
 
@@ -232,7 +232,6 @@ function ProductDetails() {
                   data-item-custom2-name="Colors"
                   data-item-custom2-type="readonly"
                   data-item-custom2-value={JSON.stringify(transformSelectedColors(transformedColors,selectedColors,))}
-
                 >
                   Add to Cart
                 </button>

@@ -124,27 +124,87 @@ function Color(props) {
     }
   };
 
-  const handleColorClick = (color) => {
-    const colorName = colorMapping[color];
-    setSelectedColor(colorName);
-    setSelectedColors(prevSelectedColors => ({
-      ...prevSelectedColors,
-      [selectedClass]: colorName,
-    }));
-    props.onColorsChange({
-      ...selectedColors,
-      [selectedClass]: colorName,
-    });
-    console.log('selectedClass:', selectedClass);
+  // const handleColorClick = (color) => {
+  //   const colorName = colorMapping[color];
+  //   setSelectedColor(colorName);
+  //   setSelectedColors(prevSelectedColors => ({
+  //     ...prevSelectedColors,
+  //     [selectedClass]: colorName,
+  //   }));
+  //   props.onColorsChange({
+  //     ...selectedColors,
+  //     [selectedClass]: colorName,
+  //   });
+  //   console.log('selectedClass:', selectedClass);
 
+  //   const svgElement = document.getElementById("product-svg");
+  //   if (svgElement) {
+  //     const elements = svgElement.querySelectorAll("." + selectedClass);
+  //     elements.forEach(element => {
+  //       element.style.fill = color;
+  //     });
+  //   }
+  // };
+  // const handleColorClick = (color) => {
+  //   // Utilisation directe de 'color' au lieu de 'colorName' car 'color' est la valeur hexadécimale
+  //   setSelectedColor(color);
+  
+  //   // Mise à jour de l'état selectedColors
+  //   setSelectedColors(prevSelectedColors => {
+  //     const updatedColors = {
+  //       ...prevSelectedColors,
+  //       [selectedClass]: color, // Utilisation directe de la valeur hexadécimale
+  //     };
+  
+  //     // Notifier le composant parent du changement
+  //     if (props.onColorsChange) {
+  //       props.onColorsChange(updatedColors);
+  //     }
+  
+  //     return updatedColors;
+  //   });
+  
+  //   // Mise à jour de la couleur dans l'élément SVG
+  //   const svgElement = document.getElementById("product-svg");
+  //   if (svgElement) {
+  //     const elements = svgElement.querySelectorAll("." + selectedClass);
+  //     elements.forEach(element => {
+  //       element.style.fill = color;
+  //     });
+  //   }
+  // };
+  const handleColorClick = (hexColor) => {
+    // Trouver le nom de la couleur basé sur la valeur hexadécimale
+    const colorName = colorMapping[hexColor];
+  
+    setSelectedColor(colorName); // Utilisation du nom de la couleur
+  
+    // Mise à jour de l'état selectedColors avec le nom de la couleur
+    setSelectedColors(prevSelectedColors => {
+      const updatedColors = {
+        ...prevSelectedColors,
+        [selectedClass]: colorName, // Utilisation du nom de la couleur
+      };
+  
+      // Notifier le composant parent du changement
+      if (props.onColorsChange) {
+        props.onColorsChange(updatedColors);
+      }
+  
+      return updatedColors;
+    });
+  
+    // Mise à jour de la couleur dans l'élément SVG avec la valeur hexadécimale
     const svgElement = document.getElementById("product-svg");
     if (svgElement) {
       const elements = svgElement.querySelectorAll("." + selectedClass);
       elements.forEach(element => {
-        element.style.fill = color;
+        element.style.fill = hexColor;
       });
     }
   };
+  
+  
 
 //ELASTIC PART
 const handleElasticSelect = (e) => {
@@ -260,15 +320,16 @@ const handleElasticColorClick = (color) => {
 
       <div className="colors-content">
         <div className="colors">
-            {Object.keys(displayColors).map((color) => (
-          <div
-            key={color}
-            className="color"
-            style={{ backgroundColor: color }}
-            onClick={() => handleColorClick(color)}
-            alt={colorMapping[color]}
-          />
-            ))}
+        {Object.keys(colorMapping).map((hexColor) => (
+  <div
+    key={hexColor}
+    className="color"
+    style={{ backgroundColor: hexColor }}
+    onClick={() => handleColorClick(hexColor)}
+    alt={colorMapping[hexColor]}
+  />
+))}
+
         </div>
       </div>
       {props.availableElastics.length > 0 && (

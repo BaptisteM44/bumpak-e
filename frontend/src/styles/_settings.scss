@@ -1,10 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:100,200,300,400');
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,200,300,400&display=swap');
 
 @font-face{
   font-family:"helvetica-neue-bold-italic";
   font-style: italic;
   font-weight: normal;
   src: local('Futura PT Book'), url('../assets/Helvetica\ Neue\ Bold\ Italic.ttf') format('woff');
+  font-display: swap
 }
 * {
     margin: 0;

@@ -1,35 +1,25 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Home from '../src/Pages/Home';
 import ProductDetailsBis from '../src/Pages/ProductDetailsBis';
 import Contact from './Pages/Contact';
 import ProductList from './Pages/ProductList';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Info from './Pages/Info';
 import Material from './Pages/Material';
 
 function App() {
   const location = useLocation();
 
-  const RouteWithTransition = ({ component: Component, ...rest }) => (
-    <TransitionGroup>
-      <CSSTransition key={location.key} timeout={1300} classNames="fade">
-        <Component {...rest} />
-      </CSSTransition>
-    </TransitionGroup>
-  );
-
   return (
-    <Routes>
-      <Route path="/" element={<RouteWithTransition component={Home} />} />
-      <Route path="/:category" element={<RouteWithTransition component={ProductList} />} />
-      <Route path="/Info" element={<RouteWithTransition component={Info} />} />
-      <Route path="/Material" element={<RouteWithTransition component={Material} />} />
-      <Route path="/Contact" element={<RouteWithTransition component={Contact} />} />
-      <Route path="/:category/:slug" element={<RouteWithTransition component={ProductDetailsBis} />} />
+    <Routes location={location} key={location.pathname}>
+      <Route path="/" element={<Home />} />
+      <Route path="/:category" element={<ProductList />} />
+      <Route path="/Info" element={<Info />} />
+      <Route path="/Material" element={<Material />} />
+      <Route path="/Contact" element={<Contact />} />
+      <Route path="/:category/:slug" element={<ProductDetailsBis />} />
     </Routes>
   );
 }
-
 
 export default App;

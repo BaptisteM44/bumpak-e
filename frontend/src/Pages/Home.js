@@ -1,21 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-// import axios from 'axios';
 import Header from '../components/Header';
 
 
 function Home() {
-  // axios.defaults.baseURL = "https://bumpak-e-production.up.railway.app";
-  //   const category = 'goodies'; // la catégorie que vous souhaitez récupérer
-  //   axios.get(`/api/products?category=${category}`)
-  //   .then(response => {
-  //   const products = response.data;
-  //   console.log(products);
-  //   // Faites quelque chose avec les produits récupérés
-  // })
-  // .catch(error => {
-  //   console.error(error);
-  // });
     return (
         <>
         <Header />
