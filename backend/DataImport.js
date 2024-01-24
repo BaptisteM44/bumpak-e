@@ -12,7 +12,6 @@
 // export default ImportData;
 import express from "express"
 import Product from './models/ProductModel.js'
-import asyncHandler from "express-async-handler"
 const ImportData = express.Router();
  
 ImportData.post("/products", async (req, res) => {
