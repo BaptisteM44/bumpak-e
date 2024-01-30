@@ -11,7 +11,7 @@ import '../styles/pages/ProductDetails.scss';
 import { gsap } from 'gsap';
 function ProductDetails() {
   const { slug } = useParams();
-  const [product, setProduct] = useState();
+  const [product, setProduct] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
   const [selectedOptionPrice, setSelectedOptionPrice] = useState(null);
   const [selectedColors, setSelectedColors] = useState({});
@@ -29,9 +29,8 @@ function ProductDetails() {
   const availableElastics = product ? [product.elastic1, product.elastic2, product.elastic3].filter(Boolean) : []  ;
 
   const availableParts = product ? [product.part1, product.part2, product.part3, product.part4, product.part5, product.part6].filter(Boolean) : [];
+  
   useEffect(() => {
-    console.log('Fetching product data for slug:', slug);
-
     axios.get(`/api/products/${slug}`)
       .then(response => {
         setProduct(response.data);
@@ -51,20 +50,29 @@ function ProductDetails() {
         console.error('Error fetching product data:', error);
       });
   }, [slug]);
+
+
   useEffect(() => {
     if (product) {
-      
-      const initialColors = availableParts.reduce((acc, index) => {
-        // N'écrasez pas la couleur de part1 si elle est déjà définie
-        if (!acc[`product-shape${index + 1}`]) {
-          acc[`product-shape${index + 1}`] = "#FFFFFF"; // default color
-        }
+      console.log("Product Data:", product);
+      console.log("Selected Option:", selectedOption);
+      console.log("Selected Option Price:", selectedOptionPrice);
+      console.log("Selected Colors:", selectedColors);
+    }
+  }, [product, selectedOption, selectedOptionPrice, selectedColors]);
+
+
+  useEffect(() => {
+    if (product) {
+      const initialColors = availableParts.reduce((acc, part, index) => {
+        acc[`product-shape${index + 1}`] = acc[`product-shape${index + 1}`] || "#FFFFFF";
         return acc;
-      }, selectedColors); // passez selectedColors comme valeur initiale à reduce
+      }, selectedColors);
   
-      setSelectedColors();
+      setSelectedColors(initialColors);
     }
   }, [product]);
+  
   
   
   useEffect(() => {
@@ -85,12 +93,6 @@ function ProductDetails() {
     setShowDescription(!showDescription);
     // setShowDimensions(false);
   };
- 
-
-
-
-
-
   const handleOptionChange = (e) => {
     const selectedOption = e.target.value;
     const optionPrice = options.find(option => option.name === selectedOption).price;
@@ -124,7 +126,6 @@ function ProductDetails() {
  const images = [product.image1, product.image2, product.image3, product.image4,product.image5, product.image6,product.image7, product.image8, product.image9,]; // Add more images if necessary
 
   const optionString = options.map(option => `${option.name}[+${option.price}.00]`).join("|");
-
   return (
     <>
       <Header />
@@ -192,18 +193,6 @@ function ProductDetails() {
                   </div>
                 </div>
               )}
-        {/* {(product.elastic1 || product.part1) && (
-            <Color 
-                productOption={selectedOption}
-                availableParts={availableParts}
-                availableElastics={availableElastics}
-                onElasticColorsChange={handleColorNamesChange}
-                selectedColors={selectedColors}
-                onColorsChange={handleColorsChange}
-                selectedColorNames={selectedColorNames}
-                onColorNamesChange={handleColorNamesChange}
-            />
-        )} */}
               {(availableParts.length > 0 || availableElastics.length > 0) && (
                   <Color 
                       subcategory={product.subcategory}
@@ -219,11 +208,23 @@ function ProductDetails() {
               )}
               <div className="config_bag">
                 <button
+                onClick={() => {
+                  // Afficher les valeurs des attributs data-item-* avant d'ajouter au panier
+                  console.log("Snipcart Item Data:", {
+                    id: product._id,
+                    name: product.name,
+                    price: product.price,
+                    description: product.description,
+                    option: selectedOption,
+                    colors: JSON.stringify(transformSelectedColors(transformedColors, selectedColors)),
+                  });
+                }}
                   className="snipcart-add-item"
                   id="frameSize"
                   data-item-id={product._id}
                   data-item-name={product.name}
-                  data-item-price={parseInt(product.price)}
+                  data-item-price={product.price}
+                  data-item-url={`https://bumpak.fr/${product.category}/${product.slug}`}
                   data-item-description={product.description}
                   data-item-custom1-name="Option"
                   data-item-custom1-options={optionString}

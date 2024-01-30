@@ -19,9 +19,9 @@ const colorMapping = {
   '#f20a0a' : "Revel Red",
   '#92351f': "Brick Red",
   '#803636': "Red Barn",
-  '#eaeaea': "Snow White",
+  '#ffffff': "Snow White",
   '#f2f4e8' : "Silver Bullet",
-  '#a39a83' : "Wolf Grey",
+  '#8E8D93' : "Wolf Grey",
   '#252729' : "Black",
 };
 const elasticColorMapping = {
@@ -145,45 +145,15 @@ function Color(props) {
   //     });
   //   }
   // };
-  // const handleColorClick = (color) => {
-  //   // Utilisation directe de 'color' au lieu de 'colorName' car 'color' est la valeur hexadécimale
-  //   setSelectedColor(color);
+  const handleColorClick = (color) => {
+    // Utilisation directe de 'color' au lieu de 'colorName' car 'color' est la valeur hexadécimale
+    setSelectedColor(color);
   
-  //   // Mise à jour de l'état selectedColors
-  //   setSelectedColors(prevSelectedColors => {
-  //     const updatedColors = {
-  //       ...prevSelectedColors,
-  //       [selectedClass]: color, // Utilisation directe de la valeur hexadécimale
-  //     };
-  
-  //     // Notifier le composant parent du changement
-  //     if (props.onColorsChange) {
-  //       props.onColorsChange(updatedColors);
-  //     }
-  
-  //     return updatedColors;
-  //   });
-  
-  //   // Mise à jour de la couleur dans l'élément SVG
-  //   const svgElement = document.getElementById("product-svg");
-  //   if (svgElement) {
-  //     const elements = svgElement.querySelectorAll("." + selectedClass);
-  //     elements.forEach(element => {
-  //       element.style.fill = color;
-  //     });
-  //   }
-  // };
-  const handleColorClick = (hexColor) => {
-    // Trouver le nom de la couleur basé sur la valeur hexadécimale
-    const colorName = colorMapping[hexColor];
-  
-    setSelectedColor(colorName); // Utilisation du nom de la couleur
-  
-    // Mise à jour de l'état selectedColors avec le nom de la couleur
+    // Mise à jour de l'état selectedColors
     setSelectedColors(prevSelectedColors => {
       const updatedColors = {
         ...prevSelectedColors,
-        [selectedClass]: colorName, // Utilisation du nom de la couleur
+        [selectedClass]: color, // Utilisation directe de la valeur hexadécimale
       };
   
       // Notifier le composant parent du changement
@@ -194,15 +164,53 @@ function Color(props) {
       return updatedColors;
     });
   
-    // Mise à jour de la couleur dans l'élément SVG avec la valeur hexadécimale
+    // Mise à jour de la couleur dans l'élément SVG
     const svgElement = document.getElementById("product-svg");
     if (svgElement) {
       const elements = svgElement.querySelectorAll("." + selectedClass);
       elements.forEach(element => {
-        element.style.fill = hexColor;
+        element.style.fill = color;
       });
     }
   };
+  let displayColors;
+  if (props.subcategory === "forkbag") {
+    displayColors = forkbagColors;
+  } else if (props.availableElastics && props.availableElastics.length > 0) {
+    displayColors = elasticColorMapping;
+  } else {
+    displayColors = colorMapping;
+  }
+  // const handleColorClick = (hexColor) => {
+  //   // Trouver le nom de la couleur basé sur la valeur hexadécimale
+  //   const colorName = displayColors[hexColor];
+  
+  //   setSelectedColor(colorName); // Utilisation du nom de la couleur
+  
+  //   // Mise à jour de l'état selectedColors avec le nom de la couleur
+  //   setSelectedColors(prevSelectedColors => {
+  //     const updatedColors = {
+  //       ...prevSelectedColors,
+  //       [selectedClass]: colorName, // Utilisation du nom de la couleur
+  //     };
+  
+  //     // Notifier le composant parent du changement
+  //     if (props.onColorsChange) {
+  //       props.onColorsChange(updatedColors);
+  //     }
+  
+  //     return updatedColors;
+  //   });
+  
+  //   // Mise à jour de la couleur dans l'élément SVG avec la valeur hexadécimale
+  //   const svgElement = document.getElementById("product-svg");
+  //   if (svgElement) {
+  //     const elements = svgElement.querySelectorAll("." + selectedClass);
+  //     elements.forEach(element => {
+  //       element.style.fill = hexColor;
+  //     });
+  //   }
+  // };
   
   
 
@@ -295,7 +303,7 @@ const handleElasticColorClick = (color) => {
       });
     }
   }, []);
-  const displayColors = props.subcategory === "forkbag" ? forkbagColors : elasticColorMapping;
+  // const displayColors = props.subcategory === "forkbag" ? forkbagColors : elasticColorMapping;
 
   return (
     <>
@@ -320,16 +328,15 @@ const handleElasticColorClick = (color) => {
 
       <div className="colors-content">
         <div className="colors">
-        {Object.keys(colorMapping).map((hexColor) => (
-  <div
-    key={hexColor}
-    className="color"
-    style={{ backgroundColor: hexColor }}
-    onClick={() => handleColorClick(hexColor)}
-    alt={colorMapping[hexColor]}
-  />
-))}
-
+          {Object.keys(displayColors).map((hexColor) => (
+            <div
+              key={hexColor}
+              className="color"
+              style={{ backgroundColor: hexColor }}
+              onClick={() => handleColorClick(hexColor)}
+              alt={displayColors[hexColor]}
+            />
+          ))}
         </div>
       </div>
       {props.availableElastics.length > 0 && (

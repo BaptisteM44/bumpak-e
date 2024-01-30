@@ -8,7 +8,7 @@ function Info() {
         <Header />
         <div className="productDetails_title">
             <h1>Info</h1>
-          </div>
+        </div>
         <section className="page_material">
             <div className="material_title_part">
               <h2>SHIPPING</h2>

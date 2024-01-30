@@ -40,6 +40,10 @@ app.get('/api/products/:slug', async (req, res) => {
     res.status(500).send({ message: 'Server error' });
   }
 });
+// Après toutes les autres routes API
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'chemin_vers_votre_index.html'));
+});
 
 // Lancement du serveur
 app.listen(process.env.PORT, () => { console.log(`Server started on port ${process.env.PORT}`)});

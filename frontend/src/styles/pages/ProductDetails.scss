@@ -52,15 +52,16 @@
                 padding: 0 20px;
                 display: flex;
                 flex-direction: column;
-                min-height: 80vh;
-                justify-content: center;
+                // min-height: 80vh;
+                overflow: auto;
+                // justify-content: center;
             }
             .productDetails_config_name{
               .name_product_title{
                 display: flex;
                 h2{
                     font-weight: $font2;
-                    // margin: 0rem 0.4em 1.38rem 0em;
+                    margin: 1rem 0.4em 1.38rem 0em;
                     text-transform: uppercase;
                     font-size: $size5;
                 }
@@ -99,7 +100,7 @@
                   &.active {
                     height: 100%;
                     width: 100%;
-                    bottom: 320px;
+                    // bottom: 320px;
                     overflow: visible;
                     position: relative;
                     background-color: white;
@@ -181,15 +182,10 @@
                   }
                   
                   .productDetails_content {
-                    height: 326px;
+                    height: 300px;
                     padding: 1em 0;
                     border-top-left-radius: 0;
                     border-top-right-radius: 0;
-                    transform: translateY(-10px);
-                    transition: opacity 0.3s ease, transform 0.3s ease;
-                    display: flex;
-                    justify-content: space-between;
-                    flex-flow: wrap;
                     p{
                       font-size: $size3;
                       font-weight: $font3;
