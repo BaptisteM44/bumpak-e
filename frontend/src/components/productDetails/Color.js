@@ -145,53 +145,15 @@ function Color(props) {
   //     });
   //   }
   // };
-  const handleColorClick = (color) => {
-    // Utilisation directe de 'color' au lieu de 'colorName' car 'color' est la valeur hexadécimale
-    setSelectedColor(color);
+  // const handleColorClick = (color) => {
+  //   // Utilisation directe de 'color' au lieu de 'colorName' car 'color' est la valeur hexadécimale
+  //   setSelectedColor(color);
   
-    // Mise à jour de l'état selectedColors
-    setSelectedColors(prevSelectedColors => {
-      const updatedColors = {
-        ...prevSelectedColors,
-        [selectedClass]: color, // Utilisation directe de la valeur hexadécimale
-      };
-  
-      // Notifier le composant parent du changement
-      if (props.onColorsChange) {
-        props.onColorsChange(updatedColors);
-      }
-  
-      return updatedColors;
-    });
-  
-    // Mise à jour de la couleur dans l'élément SVG
-    const svgElement = document.getElementById("product-svg");
-    if (svgElement) {
-      const elements = svgElement.querySelectorAll("." + selectedClass);
-      elements.forEach(element => {
-        element.style.fill = color;
-      });
-    }
-  };
-  let displayColors;
-  if (props.subcategory === "forkbag") {
-    displayColors = forkbagColors;
-  } else if (props.availableElastics && props.availableElastics.length > 0) {
-    displayColors = elasticColorMapping;
-  } else {
-    displayColors = colorMapping;
-  }
-  // const handleColorClick = (hexColor) => {
-  //   // Trouver le nom de la couleur basé sur la valeur hexadécimale
-  //   const colorName = displayColors[hexColor];
-  
-  //   setSelectedColor(colorName); // Utilisation du nom de la couleur
-  
-  //   // Mise à jour de l'état selectedColors avec le nom de la couleur
+  //   // Mise à jour de l'état selectedColors
   //   setSelectedColors(prevSelectedColors => {
   //     const updatedColors = {
   //       ...prevSelectedColors,
-  //       [selectedClass]: colorName, // Utilisation du nom de la couleur
+  //       [selectedClass]: color, // Utilisation directe de la valeur hexadécimale
   //     };
   
   //     // Notifier le composant parent du changement
@@ -202,15 +164,53 @@ function Color(props) {
   //     return updatedColors;
   //   });
   
-  //   // Mise à jour de la couleur dans l'élément SVG avec la valeur hexadécimale
+  //   // Mise à jour de la couleur dans l'élément SVG
   //   const svgElement = document.getElementById("product-svg");
   //   if (svgElement) {
   //     const elements = svgElement.querySelectorAll("." + selectedClass);
   //     elements.forEach(element => {
-  //       element.style.fill = hexColor;
+  //       element.style.fill = color;
   //     });
   //   }
   // };
+  let displayColors;
+  if (props.subcategory === "forkbag") {
+    displayColors = forkbagColors;
+  } else if (props.availableElastics && props.availableElastics.length > 0) {
+    displayColors = elasticColorMapping;
+  } else {
+    displayColors = colorMapping;
+  }
+  const handleColorClick = (hexColor) => {
+    // Trouver le nom de la couleur basé sur la valeur hexadécimale
+    const colorName = displayColors[hexColor];
+  
+    setSelectedColor(colorName); // Utilisation du nom de la couleur
+  
+    // Mise à jour de l'état selectedColors avec le nom de la couleur
+    setSelectedColors(prevSelectedColors => {
+      const updatedColors = {
+        ...prevSelectedColors,
+        [selectedClass]: colorName, // Utilisation du nom de la couleur
+      };
+  
+      // Notifier le composant parent du changement
+      if (props.onColorsChange) {
+        props.onColorsChange(updatedColors);
+      }
+  
+      return updatedColors;
+    });
+  
+    // Mise à jour de la couleur dans l'élément SVG avec la valeur hexadécimale
+    const svgElement = document.getElementById("product-svg");
+    if (svgElement) {
+      const elements = svgElement.querySelectorAll("." + selectedClass);
+      elements.forEach(element => {
+        element.style.fill = hexColor;
+      });
+    }
+  };
   
   
 

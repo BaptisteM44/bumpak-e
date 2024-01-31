@@ -5,6 +5,7 @@ import dotenv from "dotenv"
 import ImportData from './DataImport.js';
 import productRoute from './ProductRoutes.js';
 import Product from "./models/ProductModel.js";
+import path from 'path';
 
 dotenv.config(); // Initialisation de la configuration dotenv
 connectDatabase(); // Connexion à la base de données MongoDB
@@ -24,6 +25,8 @@ app.use((req, res, next) => {
 // ROUTES
 app.use("/api/import", ImportData); // Route pour importer les données de test
 app.use("/api/products", productRoute); // Route pour les produits
+app.use(express.static(path.join(__dirname, 'build')));
+
 
 // Récupération d'un produit par son slug
 app.get('/api/products/:slug', async (req, res) => {
@@ -42,7 +45,7 @@ app.get('/api/products/:slug', async (req, res) => {
 });
 // Après toutes les autres routes API
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'chemin_vers_votre_index.html'));
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 // Lancement du serveur

@@ -11,18 +11,18 @@ import '../styles/pages/ProductDetails.scss';
 import { gsap } from 'gsap';
 function ProductDetails() {
   const { slug } = useParams();
-  const [product, setProduct] = useState(null);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [selectedOptionPrice, setSelectedOptionPrice] = useState(null);
+  const [product, setProduct] = useState();
+  const [selectedOption, setSelectedOption] = useState();
+  const [selectedOptionPrice, setSelectedOptionPrice] = useState();
   const [selectedColors, setSelectedColors] = useState({});
-  const [showDescription, setShowDescription] = useState(false);
+  const [showDescription, setShowDescription] = useState();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedColorNames, setSelectedColorNames] = useState({});
   const [colorNames, setColorNames] = useState({});
   const transformedColors = transformSelectedColors(selectedColors, product);
   const navigate = useNavigate();
-  const imageRef = useRef(null);
-  const [activeImage, setActiveImage] = useState(null);
+  const imageRef = useRef();
+  const [activeImage, setActiveImage] = useState();
   const handleBack = () => {
     navigate(-1);
   };
@@ -31,6 +31,7 @@ function ProductDetails() {
   const availableParts = product ? [product.part1, product.part2, product.part3, product.part4, product.part5, product.part6].filter(Boolean) : [];
   
   useEffect(() => {
+    console.log('Slug:', slug);
     axios.get(`/api/products/${slug}`)
       .then(response => {
         setProduct(response.data);
@@ -54,7 +55,6 @@ function ProductDetails() {
 
   useEffect(() => {
     if (product) {
-      console.log("Product Data:", product);
       console.log("Selected Option:", selectedOption);
       console.log("Selected Option Price:", selectedOptionPrice);
       console.log("Selected Colors:", selectedColors);
@@ -222,7 +222,7 @@ function ProductDetails() {
                   className="snipcart-add-item"
                   id="frameSize"
                   data-item-id={product._id}
-                  data-item-name={product.name}
+                  data-item-name={product.name + product.subcategory}
                   data-item-price={product.price}
                   data-item-url={`https://bumpak.fr/${product.category}/${product.slug}`}
                   data-item-description={product.description}
