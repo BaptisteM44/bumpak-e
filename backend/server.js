@@ -25,8 +25,6 @@ app.use((req, res, next) => {
 // ROUTES
 app.use("/api/import", ImportData); // Route pour importer les données de test
 app.use("/api/products", productRoute); // Route pour les produits
-app.use(express.static(path.join(__dirname, 'build')));
-
 
 // Récupération d'un produit par son slug
 app.get('/api/products/:slug', async (req, res) => {
