@@ -181,6 +181,7 @@ function Color(props) {
   } else {
     displayColors = colorMapping;
   }
+  
   const handleColorClick = (hexColor) => {
     // Trouver le nom de la couleur basé sur la valeur hexadécimale
     const colorName = displayColors[hexColor];
@@ -328,7 +329,7 @@ const handleElasticColorClick = (color) => {
 
       <div className="colors-content">
         <div className="colors">
-          {Object.keys(displayColors).map((hexColor) => (
+          {Object.keys(colorMapping).map((hexColor) => (
             <div
               key={hexColor}
               className="color"

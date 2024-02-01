@@ -22,9 +22,10 @@ function ProductDetails() {
   const [selectedColorNames, setSelectedColorNames] = useState({});
   const [colorNames, setColorNames] = useState({});
   const transformedColors = transformSelectedColors(selectedColors, product);
-  const navigate = useNavigate();
   const imageRef = useRef();
   const [activeImage, setActiveImage] = useState();
+  const navigate = useNavigate();
+
   const handleBack = () => {
     navigate(-1);
   };
