@@ -28,16 +28,16 @@ app.use("/api/products/", productRoute); // Route pour les produits
 
 // Route pour le webhook de validation Snipcart
 app.post('/api/snipcart/webhook', async (req, res) => {
-  const { items } = req.body;
+  const { products } = req.body;
 
   try {
       // Itérer sur chaque produit dans la commande
-      for (const item of items) {
-          const product = await Product.findById(item.id);
+      for (const product of products) {
+          const product = await Product.findById(product.id);
           // Valider le produit (par exemple, vérifier le prix)
-          if (!product || product.price !== item.price) {
+          if (!product || product.price !== product.price) {
               // Si la validation échoue, envoyer une réponse d'erreur
-              return res.status(400).send({ error: "Validation failed for one or more items." });
+              return res.status(400).send({ error: "Validation failed for one or more products." });
           }
       }
 
