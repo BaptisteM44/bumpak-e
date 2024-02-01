@@ -27,27 +27,27 @@ app.use("/api/import", ImportData); // Route pour importer les données de test
 app.use("/api/products/", productRoute); // Route pour les produits
 
 // Route pour le webhook de validation Snipcart
-// app.post('/api/snipcart/webhook', async (req, res) => {
-//   const { items } = req.body;
+app.post('/api/snipcart/webhook', async (req, res) => {
+  const { items } = req.body;
 
-//   try {
-//       // Itérer sur chaque produit dans la commande
-//       for (const item of items) {
-//           const dbProduct = await Product.findById(item.id); // Trouvez le produit dans la base de données
-//           // Valider le produit (par exemple, vérifier le prix)
-//           if (!dbProduct || dbProduct.price !== item.price) {
-//               // Si la validation échoue, envoyer une réponse d'erreur
-//               return res.status(400).send({ error: "Validation failed for one or more products." });
-//           }
-//       }
+  try {
+      // Itérer sur chaque produit dans la commande
+      for (const item of items) {
+          const dbProduct = await Product.findById(item.id); // Trouvez le produit dans la base de données
+          // Valider le produit (par exemple, vérifier le prix)
+          if (!dbProduct || dbProduct.price !== item.price) {
+              // Si la validation échoue, envoyer une réponse d'erreur
+              return res.status(400).send({ error: "Validation failed for one or more products." });
+          }
+      }
 
-//       // Si tous les produits sont validés, envoyer une réponse de succès
-//       res.send({ valid: true });
-//   } catch (error) {
-//       console.error(error);
-//       res.status(500).send({ error: "Server error during validation." });
-//   }
-// });
+      // Si tous les produits sont validés, envoyer une réponse de succès
+      res.send({ valid: true });
+  } catch (error) {
+      console.error(error);
+      res.status(500).send({ error: "Server error during validation." });
+  }
+});
 
 
 
