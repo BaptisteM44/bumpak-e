@@ -313,6 +313,12 @@
                     object-fit: cover;
                   }
                 }
+                #container {
+                  width: 80%;
+                  margin: 1em auto;
+                  padding-bottom: 0em;
+                }
+
               }
             
             .productDetails_config{
@@ -452,12 +458,21 @@
   .productDetails{
      .productDetails_container{
         .productDetails_config{
-        //    .productDetails_drawer.active {
-        //   bottom: 0;
-        // }
           .productDetails_title_tiroir {
           padding-top:  0px!important;
         }
 }
 }
 }}
+
+@media (max-height: 700px){
+  .productDetails_img {
+    .main-image {
+      #container {
+        width: 60%;
+        margin: 1em auto;
+        padding-bottom: 2em;
+      }
+    }
+      }
+}

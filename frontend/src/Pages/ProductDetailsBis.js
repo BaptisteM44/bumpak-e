@@ -35,6 +35,7 @@ function ProductDetails() {
   
   useEffect(() => {
     console.log('Slug:', slug);
+    axios.defaults.baseURL = "https://bumpak-e-production.up.railway.app/";
     axios.get(`/api/products/${slug}`)
       .then(response => {
         setProduct(response.data);

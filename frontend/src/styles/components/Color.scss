@@ -113,14 +113,6 @@
 
 
 @media (max-width: $breakpoint-tablet) {
-
-
-#container {
-
-  width: 80%;
-  margin: 1em auto;
-  padding-bottom: 2em;
-}
 .colors-tiroir{
   display: initial;
 }
@@ -170,13 +162,4 @@ select {
 }
 
 }
-}
-@media (max-height: 700px){
-
-  #container {
-
-    width: 60%;
-    margin: 1em auto;
-    padding-bottom: 2em;
-  }
 }
