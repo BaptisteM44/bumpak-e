@@ -226,7 +226,8 @@ function ProductDetails() {
                   className="snipcart-add-item"
                   id="frameSize"
                   data-item-id={product._id}
-                  data-item-name={product.name + product.subcategory}
+                  data-item-name={product.name}
+                  // data-item-name={product.name + (product.subcategory ? " " + product.subcategory : "")}
                   data-item-price={product.price}
                   data-item-url={`https://bumpak.fr/${product.category}/${product.slug}`}
                   data-item-description={product.description}
