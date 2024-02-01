@@ -11,11 +11,13 @@ import '../styles/pages/ProductDetails.scss';
 import { gsap } from 'gsap';
 function ProductDetails() {
   const { slug } = useParams();
-  const [product, setProduct] = useState();
-  const [selectedOption, setSelectedOption] = useState();
-  const [selectedOptionPrice, setSelectedOptionPrice] = useState();
+
+  const [product, setProduct] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOptionPrice, setSelectedOptionPrice] = useState(0);
+  const [showDescription, setShowDescription] = useState(false);
+
   const [selectedColors, setSelectedColors] = useState({});
-  const [showDescription, setShowDescription] = useState();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedColorNames, setSelectedColorNames] = useState({});
   const [colorNames, setColorNames] = useState({});

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import Header from '../components/Header';
-import productImages from '../components/productImages';
 import Click from '../utils/Click';
 
 
@@ -17,6 +16,7 @@ function ProductList() {
 
   
   const { handleMouseEnter, handleMouseLeave, isHovering } = Click();
+  
   axios.defaults.baseURL = "https://bumpak-e-production.up.railway.app/";
   useEffect(() => {
     axios.get(`/api/products?category=${category}`)
@@ -27,11 +27,6 @@ function ProductList() {
           slug: product.slug ? product.slug.toLowerCase().replace(/ /g, "-") : ''
         }));
         setProducts(productsWithNames);
-  
-        // Set the image of the first product as default
-        if (productsWithNames.length > 0) {
-          setCurrentProductImage(productImages[productsWithNames[0].image]);
-        }
       })
       .catch(error => {
         console.log(error);
@@ -67,7 +62,6 @@ function ProductList() {
                         className={`product_bloc`}
                         key={productIndex}
                         onMouseEnter={() => {
-                          // setCurrentProductImage(productImages[product.image]);
                           setCurrentProductImage(product.image8);
                           handleMouseEnter();
                         }}
