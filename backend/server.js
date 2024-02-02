@@ -196,6 +196,20 @@ app.post('/api/snipcart/webhooks', async (req, res) => {
     res.status(500).send({ error: "Server error during validation." });
   }
 });
+app.get('/api/products/:slug', async (req, res) => {
+  try {
+    const productSlug = req.params.slug;
+    const product = await Product.findOne({ slug: productSlug });
+    if (product) {
+      res.send(product);
+    } else {
+      res.status(404).send({ message: 'Product not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Server error' });
+  }
+});
 // Nouvelle route pour servir les données du produit en JSON pour Snipcart
 app.get('/api/products/:slug/json', async (req, res) => {
   const slug = req.params.slug;
