@@ -210,7 +210,7 @@ app.get('/api/products/:slug/json', async (req, res) => {
     res.json({
       id: product.id.toString(),
       price: product.price,
-      url: `https://votreDomaine.com/api/products/${slug}/json`
+      url: `https://bumpak.fr/api/products/${slug}/json`
     });
   } catch (error) {
     console.error('Error fetching product data:', error);
