@@ -103,19 +103,30 @@ app.use("/api/products", productRoute);
 
 app.post('/api/snipcart/webhooks', async (req, res) => {
   const { items } = req.body;
+
   try {
-      for (const item of items) {
-          const dbProduct = await Product.findById(item.id);
-          if (!dbProduct || dbProduct.price !== item.price) {
-              return res.status(400).send({ error: "Validation failed for one or more products." });
-          }
+    for (const item of items) {
+      const dbProduct = await Product.findById(item.id); // Supposons que cela récupère le produit de votre base de données
+      if (!dbProduct) {
+        return res.status(400).send({ error: "Product not found." });
       }
-      res.send({ valid: true });
+      
+      // Convertir le prix Snipcart et le prix de la base de données en nombre pour la comparaison
+      const snipcartPrice = parseFloat(item.price); // Prix de l'article envoyé par Snipcart
+      const dbPrice = parseFloat(dbProduct.price); // Prix de votre base de données, converti en nombre
+
+      if (dbPrice !== snipcartPrice) {
+        return res.status(400).send({ error: "Price mismatch." });
+      }
+    }
+
+    res.send({ valid: true });
   } catch (error) {
-      console.error(error);
-      res.status(500).send({ error: "Server error during validation." });
+    console.error(error);
+    res.status(500).send({ error: "Server error during validation." });
   }
 });
+
 
 app.get('/api/products/:slug', async (req, res) => {
   try {

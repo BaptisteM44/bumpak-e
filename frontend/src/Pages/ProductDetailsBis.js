@@ -40,7 +40,7 @@ function ProductDetails() {
       .then(response => {
         setProduct(response.data);
         setSelectedOption(response.data.option1);
-        setSelectedOptionPrice(0);
+        // setSelectedOptionPrice(0);
 
         // Vérification de la présence de image1
         if (response.data.image1) {
@@ -211,7 +211,7 @@ function ProductDetails() {
                   />
               )}
               <div className="config_bag">
-                <button
+                {/* <button
                 onClick={() => {
                   // Afficher les valeurs des attributs data-item-* avant d'ajouter au panier
                   console.log("Snipcart Item Data:", {
@@ -240,7 +240,38 @@ function ProductDetails() {
                   data-item-custom2-value={JSON.stringify(transformSelectedColors(transformedColors,selectedColors,))}
                 >
                   Add to Cart
-                </button>
+                </button> */}
+                <button
+                onClick={() => {
+                  // Afficher les valeurs des attributs data-item-* avant d'ajouter au panier
+                  console.log("Snipcart Item Data:", {
+                    id: product._id,
+                    name: product.name,
+                    price: product.price,
+                    description: product.description,
+                    option: selectedOption,
+                    colors: JSON.stringify(transformSelectedColors(transformedColors, selectedColors)),
+                  });
+                }}
+  className="snipcart-add-item"
+  id="frameSize"
+  data-item-id={product._id}
+  data-item-name={product.name}
+  data-item-price={product.price}
+  // data-item-price={parseInt(product.price) + (selectedOptionPrice ? parseInt(selectedOptionPrice) : 0)}
+  data-item-url={`https://bumpak.fr/${product.category}/${product.slug}`}
+  // data-item-description={product.description}
+  // data-item-custom1-name="Option"
+  // data-item-custom1-options={optionString}
+  // data-item-custom1-type="readonly"
+  // data-item-custom1-value={selectedOption}
+  // data-item-custom2-name="Colors"
+  // data-item-custom2-type="readonly"
+  // data-item-custom2-value={JSON.stringify(transformSelectedColors(transformedColors, selectedColors))}
+>
+  Add to Cart
+</button>
+
                 
               </div>
             </div>
