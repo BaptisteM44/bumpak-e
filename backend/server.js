@@ -101,31 +101,47 @@ app.use((req, res, next) => {
 app.use("/api/import", ImportData);
 app.use("/api/products", productRoute);
 
-// app.post('/api/snipcart/webhooks', async (req, res) => {
-//   const { items } = req.body;
+app.post('/api/snipcart/webhooks', async (req, res) => {
+  const { items } = req.body;
 
-//   try {
-//     for (const item of items) {
-//       const dbProduct = await Product.findById(item.id); // Supposons que cela récupère le produit de votre base de données
-//       if (!dbProduct) {
-//         return res.status(400).send({ error: "Product not found." });
-//       }
+  try {
+    for (const item of items) {
+      const dbProduct = await Product.findById(item.id); // Supposons que cela récupère le produit de votre base de données
+      if (!dbProduct) {
+        return res.status(400).send({ error: "Product not found." });
+      }
       
-//       // Convertir le prix Snipcart et le prix de la base de données en nombre pour la comparaison
-//       const snipcartPrice = parseFloat(item.price); // Prix de l'article envoyé par Snipcart
-//       const dbPrice = parseFloat(dbProduct.price); // Prix de votre base de données, converti en nombre
+      // Convertir le prix Snipcart et le prix de la base de données en nombre pour la comparaison
+      const snipcartPrice = parseFloat(item.price); // Prix de l'article envoyé par Snipcart
+      const dbPrice = parseFloat(dbProduct.price); // Prix de votre base de données, converti en nombre
 
-//       if (dbPrice !== snipcartPrice) {
-//         return res.status(400).send({ error: "Price mismatch." });
-//       }
-//     }
+      if (dbPrice !== snipcartPrice) {
+        return res.status(400).send({ error: "Price mismatch." });
+      }
+    }
 
-//     res.send({ valid: true });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send({ error: "Server error during validation." });
+    res.send({ valid: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Server error during validation." });
+  }
+});
+// app.post('/api/snipcart/webhook', (req, res) => {
+//   const event = req.body.event;
+//   const data = req.body.data;
+
+//   switch (event) {
+//     case 'order.completed':
+//       // Logique pour gérer une commande complétée
+//       break;
+//     // Gérez d'autres types d'événements ici
 //   }
+
+//   // Répondez à Snipcart pour confirmer la réception du webhook
+//   res.status(200).send({ message: 'Webhook reçu et traité' });
 // });
+
+
 app.get('/api/products/:slug', async (req, res) => {
   try {
     const productSlug = req.params.slug;
@@ -141,21 +157,13 @@ app.get('/api/products/:slug', async (req, res) => {
   }
 });
 
-app.post('/api/snipcart/webhook', (req, res) => {
-  const event = req.body.event;
-  const data = req.body.data;
+// Middleware pour servir les fichiers statiques (votre frontend SPA)
+app.use(express.static(path.join(__dirname, 'build')));
 
-  switch (event) {
-    case 'order.completed':
-      // Logique pour gérer une commande complétée
-      break;
-    // Gérez d'autres types d'événements ici
-  }
-
-  // Répondez à Snipcart pour confirmer la réception du webhook
-  res.status(200).send({ message: 'Webhook reçu et traité' });
+// Toutes les autres requêtes non traitées par les routes précédentes seront dirigées vers index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
-
 
 app.listen(process.env.PORT, () => {
   console.log(`Server started on port ${process.env.PORT}`);
