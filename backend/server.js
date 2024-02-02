@@ -126,22 +126,6 @@ app.use("/api/products", productRoute);
 //     res.status(500).send({ error: "Server error during validation." });
 //   }
 // });
-app.post('/api/snipcart/webhook', (req, res) => {
-  const event = req.body.event;
-  const data = req.body.data;
-
-  switch (event) {
-    case 'order.completed':
-      // Logique pour gérer une commande complétée
-      break;
-    // Gérez d'autres types d'événements ici
-  }
-
-  // Répondez à Snipcart pour confirmer la réception du webhook
-  res.status(200).send({ message: 'Webhook reçu et traité' });
-});
-
-
 app.get('/api/products/:slug', async (req, res) => {
   try {
     const productSlug = req.params.slug;
@@ -157,13 +141,21 @@ app.get('/api/products/:slug', async (req, res) => {
   }
 });
 
-// Middleware pour servir les fichiers statiques (votre frontend SPA)
-app.use(express.static(path.join(__dirname, 'build')));
+app.post('/api/snipcart/webhook', (req, res) => {
+  const event = req.body.event;
+  const data = req.body.data;
 
-// Toutes les autres requêtes non traitées par les routes précédentes seront dirigées vers index.html
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  switch (event) {
+    case 'order.completed':
+      // Logique pour gérer une commande complétée
+      break;
+    // Gérez d'autres types d'événements ici
+  }
+
+  // Répondez à Snipcart pour confirmer la réception du webhook
+  res.status(200).send({ message: 'Webhook reçu et traité' });
 });
+
 
 app.listen(process.env.PORT, () => {
   console.log(`Server started on port ${process.env.PORT}`);
