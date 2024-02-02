@@ -171,8 +171,31 @@ app.use("/api/import", ImportData);
 app.use("/api/products", productRoute);
 
 // Route pour le webhook de validation Snipcart
-// Votre code existant pour le webhook ici...
+app.post('/api/snipcart/webhooks', async (req, res) => {
+  const { items } = req.body;
 
+  try {
+    for (const item of items) {
+      const dbProduct = await Product.findById(item.id); // Supposons que cela récupère le produit de votre base de données
+      if (!dbProduct) {
+        return res.status(400).send({ error: "Product not found." });
+      }
+      
+      // Convertir le prix Snipcart et le prix de la base de données en nombre pour la comparaison
+      const snipcartPrice = parseFloat(item.price); // Prix de l'article envoyé par Snipcart
+      const dbPrice = parseFloat(dbProduct.price); // Prix de votre base de données, converti en nombre
+
+      if (dbPrice !== snipcartPrice) {
+        return res.status(400).send({ error: "Price mismatch." });
+      }
+    }
+
+    res.send({ valid: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Server error during validation." });
+  }
+});
 // Nouvelle route pour servir les données du produit en JSON pour Snipcart
 app.get('/api/products/:slug/json', async (req, res) => {
   const slug = req.params.slug;
