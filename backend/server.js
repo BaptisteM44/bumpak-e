@@ -1,61 +1,64 @@
 // import express from 'express';
 // import http from 'http';
-// import connectDatabase from './config/MongoDb.js'
-// import dotenv from "dotenv"
+// import connectDatabase from './config/MongoDb.js';
+// import dotenv from "dotenv";
 // import ImportData from './DataImport.js';
 // import productRoute from './ProductRoutes.js';
 // import Product from "./models/ProductModel.js";
 // import path from 'path';
+// import { fileURLToPath } from 'url'; // Importez cela pour gérer correctement les chemins
 
-// dotenv.config(); // Initialisation de la configuration dotenv
-// connectDatabase(); // Connexion à la base de données MongoDB
-// const app = express(); // Initialisation de l'application Express
+// dotenv.config();
+// connectDatabase();
+// const app = express();
 
-// // MIDDLEWARES
-// app.use(express.json()); // Middleware pour traiter les données au format JSON
-// app.use(express.urlencoded({ extended: true })); // Middleware pour traiter les données au format URL-encoded
+// // Pour gérer correctement les chemins en ES modules
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
-// // Middleware pour gérer les en-têtes CORS
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+
 // app.use((req, res, next) => {
 //   res.setHeader("Access-Control-Allow-Origin", "*");
 //   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
 //   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 //   next();
 // });
-// // ROUTES
-// app.use("/api/import", ImportData); // Route pour importer les données de test
-// app.use("/api/products/", productRoute); // Route pour les produits
 
-// // Route pour le webhook de validation Snipcart
-// app.post('/api/snipcart/webhook', async (req, res) => {
+// // Vos routes API
+// app.use("/api/import", ImportData);
+// app.use("/api/products", productRoute);
+
+// app.post('/api/snipcart/webhooks', async (req, res) => {
 //   const { items } = req.body;
 
 //   try {
-//       // Itérer sur chaque produit dans la commande
-//       for (const item of items) {
-//           const dbProduct = await Product.findById(item.id); // Trouvez le produit dans la base de données
-//           // Valider le produit (par exemple, vérifier le prix)
-//           if (!dbProduct || dbProduct.price !== item.price) {
-//               // Si la validation échoue, envoyer une réponse d'erreur
-//               return res.status(400).send({ error: "Validation failed for one or more products." });
-//           }
+//     for (const item of items) {
+//       const dbProduct = await Product.findById(item.id);
+//       if (!dbProduct) {
+//         return res.status(400).send({ error: "Product not found." });
 //       }
+      
+//       const snipcartPrice = parseFloat(item.price);
+//       const dbPrice = parseFloat(dbProduct.price);
 
-//       // Si tous les produits sont validés, envoyer une réponse de succès
-//       res.send({ valid: true });
+//       if (dbPrice !== snipcartPrice) {
+//         return res.status(400).send({ error: "Price mismatch." });
+//       }
+//     }
+
+//     res.send({ valid: true });
 //   } catch (error) {
-//       console.error(error);
-//       res.status(500).send({ error: "Server error during validation." });
+//     console.error(error);
+//     res.status(500).send({ error: "Server error during validation." });
 //   }
 // });
-
-
-
-// // Récupération d'un produit par son slug
+ 
 // app.get('/api/products/:slug', async (req, res) => {
 //   try {
 //     const productSlug = req.params.slug;
-//     const product = await Product.findOne({ slug: productSlug }); // Utilisation du modèle Product pour rechercher le produit par le slug
+//     const product = await Product.findOne({ slug: productSlug });
 //     if (product) {
 //       res.send(product);
 //     } else {
@@ -66,11 +69,13 @@
 //     res.status(500).send({ message: 'Server error' });
 //   }
 // });
-// // Lancement du serveur
-// app.listen(process.env.PORT, () => { console.log(`Server started on port ${process.env.PORT}`)});
+
+// app.listen(process.env.PORT, () => {
+//   console.log(`Server started on port ${process.env.PORT}`);
+// });
 
 import express from 'express';
-import http from 'http';
+import axios from 'axios'; // Assurez-vous d'avoir axios installé
 import connectDatabase from './config/MongoDb.js';
 import dotenv from "dotenv";
 import ImportData from './DataImport.js';
@@ -102,30 +107,42 @@ app.use("/api/import", ImportData);
 app.use("/api/products", productRoute);
 
 app.post('/api/snipcart/webhooks', async (req, res) => {
-  const { items } = req.body;
+  const token = req.headers['x-snipcart-requesttoken'];
 
+  // Valider le token avec Snipcart
+  const validationUrl = `https://app.snipcart.com/api/requestvalidation/${token}`;
   try {
-    for (const item of items) {
-      const dbProduct = await Product.findById(item.id);
-      if (!dbProduct) {
-        return res.status(400).send({ error: "Product not found." });
-      }
-      
-      const snipcartPrice = parseFloat(item.price);
-      const dbPrice = parseFloat(dbProduct.price);
+    const validationResponse = await axios.get(validationUrl);
 
-      if (dbPrice !== snipcartPrice) {
-        return res.status(400).send({ error: "Price mismatch." });
+    if (validationResponse.status === 200) {
+      // Le token est valide, continuez à traiter la requête webhook
+      const { items } = req.body;
+
+      for (const item of items) {
+        const dbProduct = await Product.findById(item.id);
+        if (!dbProduct) {
+          return res.status(400).send({ error: "Product not found." });
+        }
+
+        const snipcartPrice = parseFloat(item.price);
+        const dbPrice = parseFloat(dbProduct.price);
+
+        if (dbPrice !== snipcartPrice) {
+          return res.status(400).send({ error: "Price mismatch." });
+        }
       }
+
+      res.send({ valid: true });
+    } else {
+      // Le token n'est pas valide, rejetez la requête
+      res.status(401).send({ error: "Invalid token" });
     }
-
-    res.send({ valid: true });
   } catch (error) {
-    console.error(error);
-    res.status(500).send({ error: "Server error during validation." });
+    console.error('Error validating Snipcart token:', error);
+    res.status(500).send({ error: "Server error during token validation." });
   }
 });
- 
+
 app.get('/api/products/:slug', async (req, res) => {
   try {
     const productSlug = req.params.slug;
