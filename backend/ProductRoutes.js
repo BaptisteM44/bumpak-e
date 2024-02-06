@@ -41,13 +41,13 @@ productRoute.get("/", asyncHandler(
     })
 );
 
-productRoute.get('/products-json', async (req, res) => {
+app.get('/api/products-json', async (req, res) => {
     try {
         const products = await Product.find({});
         const productsForSnipcart = products.map(product => ({
             id: product._id.toString(),
             price: product.price,
-            url: `https://bumpak.fr/${product.category}/${product.slug}` // Modifiez cette ligne pour correspondre à l'URL réelle de votre produit
+            url: `https://bumpak.fr/${product.category}/${product.slug}` // Assurez-vous que cela mène à la page de produit correcte
         }));
     
         res.json(productsForSnipcart);
@@ -56,5 +56,6 @@ productRoute.get('/products-json', async (req, res) => {
         res.status(500).send("Erreur serveur");
     }
 });
+
 
 export default productRoute;

@@ -178,8 +178,7 @@ function ProductDetails() {
                 <p>{product.description}</p>
               </div>
               <div className="productDetails_config_price">
-                {/* <p>{parseInt(product.price) + (selectedOptionPrice ? parseInt(selectedOptionPrice) : 0)}€</p> */}
-                <p>{product.price}</p>
+                <p>{parseInt(product.price) + (selectedOptionPrice ? parseInt(selectedOptionPrice) : 0)}€</p>
               </div>
               {options.length > 0 && (
                 <div className="config_select">
@@ -211,7 +210,7 @@ function ProductDetails() {
                       onColorNamesChange={handleColorNamesChange}
                   />
               )}
-              {/* <div className="config_bag">
+              <div className="config_bag">
                 <button
                 onClick={() => {
                   // Afficher les valeurs des attributs data-item-* avant d'ajouter au panier
@@ -241,17 +240,7 @@ function ProductDetails() {
                   >
                   Add to Cart
                 </button>
-              </div> */}
-              <button className="snipcart-add-item"
-              data-config-add-product-behavior="none"
-  data-item-id="6521511a5030538a9dea352c"
-  data-item-name="mini"
-  data-item-price="75"
-  data-item-url="https://bumpak.fr/Bikepacking/framebagmini">
-  Ajouter au panier
-</button>
-
-
+              </div>
             </div>
             {/* <div className="productDetails_drawer_content"> */}
               <div className={`productDetails_drawer ${showDescription ? 'active' : ''}`} onClick={toggleDescription}>
