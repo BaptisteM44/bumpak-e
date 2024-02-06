@@ -103,7 +103,7 @@ app.use((req, res, next) => {
 app.use("/api/import", ImportData);
 app.use("/api/products", productRoute);
 
-app.get('/api/products-json', async (req, res) => {
+app.get('/api/products', async (req, res) => {
   try {
     const products = await Product.find({});
     const formattedProducts = products.map((product) => ({
