@@ -103,23 +103,15 @@ app.use((req, res, next) => {
 app.use("/api/import", ImportData);
 app.use("/api/products", productRoute);
 
-app.get('/api/products', async (req, res) => {
+app.get('/api/products-json', async (req, res) => {
   try {
-    const format = req.query.format; // Supposons un paramètre de requête `format=json-for-snipcart`
     const products = await Product.find({});
-
-    if (format === "json-for-snipcart") {
-      // Format spécifique pour Snipcart
-      const formattedProducts = products.map((product) => ({
-        id: product._id.toString(),
-        price: product.price,
-        url: `https://bumpak.fr/${product.category}/${product.slug}`
-      }));
-      return res.json(formattedProducts);
-    } else {
-      // Format général pour l'utilisation de l'API
-      return res.json(products);
-    }
+    const formattedProducts = products.map((product) => ({
+      id: product._id.toString(), // Assurez-vous d'utiliser `_id` pour MongoDB
+      price: product.price,
+      url: `https://bumpak.fr/${product.category}/${product.slug}` // Mettez à jour avec votre structure d'URL
+    }));
+    res.json(formattedProducts);
   } catch (error) {
     console.error("Erreur lors de la récupération des produits:", error);
     res.status(500).send({ message: 'Erreur serveur' });
