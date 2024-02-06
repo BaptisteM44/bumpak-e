@@ -73,22 +73,21 @@
 // app.listen(process.env.PORT, () => {
 //   console.log(`Server started on port ${process.env.PORT}`);
 // });
-
 import express from 'express';
-import axios from 'axios'; // Assurez-vous d'avoir axios installé
+import fetch from 'node-fetch'; // Assurez-vous d'avoir 'node-fetch' installé pour cela
+import http from 'http';
 import connectDatabase from './config/MongoDb.js';
 import dotenv from "dotenv";
 import ImportData from './DataImport.js';
 import productRoute from './ProductRoutes.js';
 import Product from "./models/ProductModel.js";
 import path from 'path';
-import { fileURLToPath } from 'url'; // Importez cela pour gérer correctement les chemins
+import { fileURLToPath } from 'url';
 
 dotenv.config();
 connectDatabase();
 const app = express();
 
-// Pour gérer correctement les chemins en ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -96,54 +95,46 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*"); // Autorise uniquement les requêtes de votre domaine frontal
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200); // Pour pré-vol CORS
-  }
   next();
 });
 
-
-// Vos routes API
 app.use("/api/import", ImportData);
 app.use("/api/products", productRoute);
 
 app.post('/api/snipcart/webhooks', async (req, res) => {
-  const token = req.headers['x-snipcart-requesttoken'];
+  const requestToken = req.headers['x-snipcart-requesttoken'];
+  const secretApiKey = 'ZjlmMmIzN2QtNmRlMS00Y2FjLTlkMWUtNDY2NmM1OWVkODk3NjM4NDE3MDEyNjEwNjYyNDg3' ; // Remplacez par votre clé API secrète de Snipcart
 
-  // Valider le token avec Snipcart
-  const validationUrl = `https://app.snipcart.com/api/requestvalidation/${token}`;
   try {
-    const validationResponse = await axios.get(validationUrl);
+    const validationResponse = await fetch('https://app.snipcart.com/api/requestvalidation', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${secretApiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ token: requestToken })
+    });
 
-    if (validationResponse.status === 200) {
-      // Le token est valide, continuez à traiter la requête webhook
-      const { items } = req.body;
-
-      for (const item of items) {
-        const dbProduct = await Product.findById(item.id);
-        if (!dbProduct) {
-          return res.status(400).send({ error: "Product not found." });
-        }
-
-        const snipcartPrice = parseFloat(item.price);
-        const dbPrice = parseFloat(dbProduct.price);
-
-        if (dbPrice !== snipcartPrice) {
-          return res.status(400).send({ error: "Price mismatch." });
-        }
-      }
-
-      res.send({ valid: true });
-    } else {
-      // Le token n'est pas valide, rejetez la requête
-      res.status(401).send({ error: "Invalid token" });
+    if (!validationResponse.ok) {
+      throw new Error('Failed to validate Snipcart webhook');
     }
+
+    // Webhook validation succeeded, proceed with processing
+    const { items } = req.body;
+    for (const item of items) {
+      const dbProduct = await Product.findById(item.id);
+      if (!dbProduct || parseFloat(dbProduct.price) !== parseFloat(item.price)) {
+        return res.status(400).send({ error: "Validation failed for one or more products." });
+      }
+    }
+
+    res.send({ valid: true });
   } catch (error) {
-    console.error('Error validating Snipcart token:', error);
-    res.status(500).send({ error: "Server error during token validation." });
+    console.error(error);
+    res.status(500).send({ error: "Server error during Snipcart webhook validation." });
   }
 });
 
