@@ -40,7 +40,7 @@ function ProductDetails() {
       .then(response => {
         setProduct(response.data);
         setSelectedOption(response.data.option1);
-        // setSelectedOptionPrice(0);
+        setSelectedOptionPrice(0);
 
         // Vérification de la présence de image1
         if (response.data.image1) {
