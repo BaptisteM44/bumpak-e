@@ -16,24 +16,41 @@ const app = express();
 // Pour gérer correctement les chemins en ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use(cors());
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors({
-  origin: 'https://bumpak.fr', // Spécifiez votre domaine frontend
-}));
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   next();
 });
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Vos routes API
+// Configurez CORS pour autoriser les requêtes de votre domaine frontend
+app.use(cors({
+  origin: 'https://bumpak.fr', // Spécifiez votre domaine frontend
+}));
+
 app.use("/api/import", ImportData);
-app.use("/api/products", productRoute);
+app.use("/api/products", productRoute); // Assurez-vous que ceci vient avant votre route personnalisée
 
+// Ajoutez la route /api/products-json ici
+app.get('/api/products-json', async (req, res) => {
+    try {
+        const products = await Product.find({});
+        const productsForSnipcart = products.map(product => ({
+            id: product._id.toString(),
+            price: product.price,
+            url: `https://bumpak.fr/${product.category}/${product.slug}` // Assurez-vous que cela mène à la page de produit correcte
+        }));
+    
+        res.json(productsForSnipcart);
+    } catch (error) {
+        console.error("Erreur lors de la récupération des produits: ", error);
+        res.status(500).send("Erreur serveur");
+    }
+});
 app.post('/api/snipcart/webhooks', async (req, res) => {
   const { items } = req.body;
 
