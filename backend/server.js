@@ -45,7 +45,7 @@ app.get('/api/products/:slug', async (req, res) => {
       res.json({
         id: product._id.toString(),
         price: product.price,
-        url: `https://bumpak.fr/api/products/${slug}`, // Utilisez l'URL exacte qui sera accédée par Snipcart
+        url: `https://bumpak.fr/${product.category}/${product.slug}`, // Utilisez l'URL exacte qui sera accédée par Snipcart
         customFields: [], // Ajoutez ici les champs personnalisés si nécessaire
       });
     } else {
