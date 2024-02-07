@@ -36,21 +36,27 @@ app.use("/api/import", ImportData);
 app.use("/api/products", productRoute); // Assurez-vous que ceci vient avant votre route personnalisée
 
 // Ajoutez la route /api/products-json ici
-app.get('/api/products-json', async (req, res) => {
-    try {
-        const products = await Product.find({});
-        const productsForSnipcart = products.map(product => ({
-            id: product._id.toString(),
-            price: product.price,
-            url: `https://bumpak.fr/${product.category}/${product.slug}` // Assurez-vous que cela mène à la page de produit correcte
-        }));
-    
-        res.json(productsForSnipcart);
-    } catch (error) {
-        console.error("Erreur lors de la récupération des produits: ", error);
-        res.status(500).send("Erreur serveur");
+app.get('/api/products/:slug', async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const product = await Product.findOne({ slug: slug });
+    if (product) {
+      // Assurez-vous de renvoyer un JSON au format attendu par Snipcart
+      res.json({
+        id: product._id.toString(),
+        price: product.price,
+        url: `https://bumpak.fr/api/products/${slug}`, // Utilisez l'URL exacte qui sera accédée par Snipcart
+        customFields: [], // Ajoutez ici les champs personnalisés si nécessaire
+      });
+    } else {
+      res.status(404).send({ message: 'Product not found' });
     }
+  } catch (error) {
+    console.error("Erreur lors de la récupération du produit: ", error);
+    res.status(500).send({ message: 'Server error' });
+  }
 });
+
 app.post('/api/snipcart/webhooks', async (req, res) => {
   const { items } = req.body;
 
