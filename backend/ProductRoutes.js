@@ -41,7 +41,7 @@ productRoute.get("/", asyncHandler(
     })
 );
 
-app.get('/api/products-json', async (req, res) => {
+router.get('/api/products-json', async (req, res) => {
     try {
         const products = await Product.find({});
         const productsForSnipcart = products.map(product => ({
