@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Configurez CORS pour autoriser les requêtes de votre domaine frontend
 app.use(cors({
-  origin: '*', // Spécifiez votre domaine frontend
+  origin: 'https://bumpak.fr', // Spécifiez votre domaine frontend
 }));
 
 app.use("/api/import", ImportData);
@@ -41,18 +41,17 @@ app.get('/api/products/:slug', async (req, res) => {
     const { slug } = req.params;
     const product = await Product.findOne({ slug: slug });
     if (product) {
-      // Assurez-vous de renvoyer un JSON au format attendu par Snipcart
       res.json({
         id: product._id.toString(),
         price: product.price,
-        url: `https://bumpak.fr/${product.category}/${product.slug}`, // Utilisez l'URL exacte qui sera accédée par Snipcart
-        customFields: [], // Ajoutez ici les champs personnalisés si nécessaire
+        url: `https://bumpak-e-production.up.railway.app/api/products/${slug}`, // L'URL pour accéder à ce produit spécifique en JSON
+        // Ajoutez ici d'autres champs si nécessaire
       });
     } else {
       res.status(404).send({ message: 'Product not found' });
     }
   } catch (error) {
-    console.error("Erreur lors de la récupération du produit: ", error);
+    console.error("Error fetching product:", error);
     res.status(500).send({ message: 'Server error' });
   }
 });
