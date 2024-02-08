@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Configurez CORS pour autoriser les requêtes de votre domaine frontend
 app.use(cors({
-  origin: 'https://bumpak.fr', // Spécifiez votre domaine frontend
+  origin: '*', // Spécifiez votre domaine frontend
 }));
 
 app.use("/api/import", ImportData);
