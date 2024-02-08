@@ -36,25 +36,25 @@ app.use("/api/import", ImportData);
 app.use("/api/products", productRoute); // Assurez-vous que ceci vient avant votre route personnalisée
 
 // Ajoutez la route /api/products-json ici
-app.get('/api/products/:slug', async (req, res) => {
-  try {
-    const { slug } = req.params;
-    const product = await Product.findOne({ slug: slug });
-    if (product) {
-      res.json({
-        id: product._id.toString(),
-        price: product.price,
-        url: `https://bumpak-e-production.up.railway.app/api/products/${slug}`, // L'URL pour accéder à ce produit spécifique en JSON
-        // Ajoutez ici d'autres champs si nécessaire
-      });
-    } else {
-      res.status(404).send({ message: 'Product not found' });
-    }
-  } catch (error) {
-    console.error("Error fetching product:", error);
-    res.status(500).send({ message: 'Server error' });
-  }
-});
+// app.get('/api/products/:slug', async (req, res) => {
+//   try {
+//     const { slug } = req.params;
+//     const product = await Product.findOne({ slug: slug });
+//     if (product) {
+//       res.json({
+//         id: product._id.toString(),
+//         price: product.price,
+//         url: `https://bumpak-e-production.up.railway.app/api/products/${slug}`, // L'URL pour accéder à ce produit spécifique en JSON
+//         // Ajoutez ici d'autres champs si nécessaire
+//       });
+//     } else {
+//       res.status(404).send({ message: 'Product not found' });
+//     }
+//   } catch (error) {
+//     console.error("Error fetching product:", error);
+//     res.status(500).send({ message: 'Server error' });
+//   }
+// });
 
 app.post('/api/snipcart/webhooks', async (req, res) => {
   const { items } = req.body;
