@@ -42,7 +42,7 @@ app.get('/api/products-json/:slug', async (req, res) => {
         const productsForSnipcart = products.map(product => ({
             id: product._id.toString(),
             price: product.price,
-            url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}` // URL vers les données JSON du produit
+            url: `https://bumpak-e-production.up.railway.app/api/products/${slug}` // URL vers les données JSON du produit
         }));
     
         res.json(productsForSnipcart);
