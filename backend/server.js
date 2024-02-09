@@ -36,7 +36,7 @@ app.use("/api/import", ImportData);
 app.use("/api/products", productRoute); // Assurez-vous que ceci vient avant votre route personnalisée
 
 // Ajoutez la route /api/products-json ici
-app.get('/api/products-json', async (req, res) => {
+app.get('/api/products-json/:slug', async (req, res) => {
     try {
         const products = await Product.find({});
         const productsForSnipcart = products.map(product => ({
