@@ -39,7 +39,7 @@ app.use("/api/products", productRoute); // Assurez-vous que ceci vient avant vot
 app.get('/api/products-json/:slug', async (req, res) => {
     try {
         const products = await Product.find({});
-        const productsForSnipcart = products.map(product => ({
+        const productsForSnipcart = products(product => ({
             id: product._id.toString(),
             price: product.price,
             url: `https://bumpak-e-production.up.railway.app/api/products/${slug}` // URL vers les données JSON du produit
