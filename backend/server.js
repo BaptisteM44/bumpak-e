@@ -41,11 +41,12 @@ app.get('/api/products/:slug', async (req, res) => {
   const { slug } = req.params;
   const product = await Product.findOne({ slug: slug });
   if (product) {
+    // Format attendu par Snipcart
     res.json({
       id: product._id.toString(),
       price: product.price,
-      url: `https://bumpak-e-production.up.railway.app/api/products/${slug}`, // URL pour les données JSON spécifiques de ce produit
-      // Ajoutez ici d'autres champs si nécessaire, comme customFields
+      url: `https://bumpak-e-production.up.railway.app/api/products/${slug}`,
+      // Ajoutez ici d'autres champs si nécessaire
     });
   } else {
     res.status(404).send({ message: 'Product not found' });
@@ -77,20 +78,20 @@ app.post('/api/snipcart/webhooks', async (req, res) => {
   }
 });
  
-app.get('/api/products/:slug', async (req, res) => {
-  try {
-    const productSlug = req.params.slug;
-    const product = await Product.findOne({ slug: productSlug });
-    if (product) {
-      res.send(product);
-    } else {
-      res.status(404).send({ message: 'Product not found' });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).send({ message: 'Server error' });
-  }
-});
+// app.get('/api/products/:slug', async (req, res) => {
+//   try {
+//     const productSlug = req.params.slug;
+//     const product = await Product.findOne({ slug: productSlug });
+//     if (product) {
+//       res.send(product);
+//     } else {
+//       res.status(404).send({ message: 'Product not found' });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send({ message: 'Server error' });
+//   }
+// });
 
 app.listen(process.env.PORT, () => {
   console.log(`Server started on port ${process.env.PORT}`);
