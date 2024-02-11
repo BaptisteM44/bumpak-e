@@ -46,6 +46,7 @@ app.get('/api/products/:slug', async (req, res) => {
       id: product._id.toString(),
       price: product.price,
       url: `https://bumpak-e-production.up.railway.app/api/products/${slug}`,
+      name: product.name,
       // Ajoutez ici d'autres champs si nécessaire
     });
   } else {
