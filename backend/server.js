@@ -17,13 +17,20 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
-app.use(cors());
+
+// router.get("/", (req, res) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*")
+//   res.setHeader("Access-Control-Allow-Credentials", "true");
+//   res.setHeader("Access-Control-Max-Age", "1800");
+//   res.setHeader("Access-Control-Allow-Headers", "content-type");
+//   res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
+//    });
+   app.use(cors({
+    origin: ['https://bumpak.fr'], // Permettre à toutes les origines d'accéder à l'API
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Autoriser ces méthodes HTTP
+    preflightContinue: false,
+    optionsSuccessStatus: 204
+  }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -36,13 +43,11 @@ app.get('/api/products/:slug', async (req, res) => {
   const { slug } = req.params;
   const product = await Product.findOne({ slug: slug });
   if (product) {
-    // Format attendu par Snipcart
     res.json({
       id: product._id.toString(),
       price: product.price,
-      url: `https://bumpak-e-production.up.railway.app/api/products/3dpouch`,
+      url: `https://bumpak-e-production.up.railway.app/api/products/${slug}`,
       name: product.name,
-      // Ajoutez ici d'autres champs si nécessaire
     });
   } else {
     res.status(404).send({ message: 'Product not found' });
@@ -73,21 +78,6 @@ app.post('/api/snipcart/webhooks', async (req, res) => {
     res.status(500).send({ error: "Server error during validation." });
   }
 });
- 
-// app.get('/api/products/:slug', async (req, res) => {
-//   try {
-//     const productSlug = req.params.slug;
-//     const product = await Product.findOne({ slug: productSlug });
-//     if (product) {
-//       res.send(product);
-//     } else {
-//       res.status(404).send({ message: 'Product not found' });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send({ message: 'Server error' });
-//   }
-// });
 
 app.listen(process.env.PORT, () => {
   console.log(`Server started on port ${process.env.PORT}`);
