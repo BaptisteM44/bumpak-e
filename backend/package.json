@@ -1,6 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
+  "proxy": "https://bumpak-e-production.up.railway.app",
   "type": "module",
   "description": "",
   "main": "server.js",
