@@ -26,7 +26,7 @@ const __dirname = path.dirname(__filename);
 //   res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
 //    });
    app.use(cors({
-    origin: ['https://bumpak.fr'], // Permettre à toutes les origines d'accéder à l'API
+    origin: ['https://bumpak.fr/', 'https://bumpak-e-production.up.railway.app/api/products/', 'https://app.snipcart.com/api/cart/' ], // Permettre à toutes les origines d'accéder à l'API
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Autoriser ces méthodes HTTP
     preflightContinue: false,
     optionsSuccessStatus: 204
