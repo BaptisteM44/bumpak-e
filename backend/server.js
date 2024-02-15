@@ -40,7 +40,7 @@ app.get('/api/products/:slug', async (req, res) => {
     res.json({
       id: product._id.toString(),
       price: product.price,
-      url: `https://bumpak-e-production.up.railway.app/api/products/3dpouch`,
+      url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`,
       name: product.name,
       // Ajoutez ici d'autres champs si nécessaire
     });
@@ -73,21 +73,6 @@ app.post('/api/snipcart/webhooks', async (req, res) => {
     res.status(500).send({ error: "Server error during validation." });
   }
 });
- 
-// app.get('/api/products/:slug', async (req, res) => {
-//   try {
-//     const productSlug = req.params.slug;
-//     const product = await Product.findOne({ slug: productSlug });
-//     if (product) {
-//       res.send(product);
-//     } else {
-//       res.status(404).send({ message: 'Product not found' });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send({ message: 'Server error' });
-//   }
-// });
 
 app.listen(process.env.PORT, () => {
   console.log(`Server started on port ${process.env.PORT}`);
