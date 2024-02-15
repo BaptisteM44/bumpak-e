@@ -35,18 +35,18 @@ app.use("/api/products", productRoute); // Assurez-vous que ceci vient avant vot
 app.get('/api/products/:slug', async (req, res) => {
   const { slug } = req.params;
   const product = await Product.findOne({ slug: slug });
-  if (product) {
-    // Format attendu par Snipcart
-    res.json({
-      id: product._id.toString(),
-      price: product.price,
-      url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`,
-      name: product.name,
-      // Ajoutez ici d'autres champs si nécessaire
-    });
-  } else {
-    res.status(404).send({ message: 'Product not found' });
-  }
+  // if (product) {
+  //   // Format attendu par Snipcart
+  //   res.json({
+  //     id: product._id.toString(),
+  //     price: product.price,
+  //     url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`,
+  //     name: product.name,
+  //     // Ajoutez ici d'autres champs si nécessaire
+  //   });
+  // } else {
+  //   res.status(404).send({ message: 'Product not found' });
+  // }
 });
 
 app.post('/api/snipcart/webhooks', async (req, res) => {
