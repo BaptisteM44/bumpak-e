@@ -30,20 +30,38 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/import", ImportData);
 app.use("/api/products", productRoute); // Assurez-vous que ceci vient avant votre route personnalisée
 
+// app.get('/api/products/:slug', async (req, res) => {
+//   try {
+//     const productSlug = req.params.slug;
+//     const product = await Product.findOne({ slug: productSlug });
+//     if (product) {
+//       // Structure de réponse adaptée à Snipcart
+//       res.json({
+//         id: product._id.toString(),
+//         name: product.name,
+//         price: product.price,
+//         url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`,
+//         description: product.description,
+//         image: product.imageUrl,
+//         customFields: [] // ajoutez ici des champs personnalisés si nécessaire
+//       });
+//     } else {
+//       res.status(404).send({ message: 'Product not found' });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send({ message: 'Server error' });
+//   }
+// });
 app.get('/api/products/:slug', async (req, res) => {
   try {
     const productSlug = req.params.slug;
     const product = await Product.findOne({ slug: productSlug });
     if (product) {
-      // Structure de réponse adaptée à Snipcart
       res.json({
-        id: product._id.toString(),
-        name: product.name,
-        price: product.price,
+        ...product.toObject(), // Convertit le document Mongoose en objet simple
         url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`,
-        description: product.description,
-        image: product.imageUrl,
-        customFields: [] // ajoutez ici des champs personnalisés si nécessaire
+        // Vous pouvez ajouter ou modifier d'autres champs ici si nécessaire
       });
     } else {
       res.status(404).send({ message: 'Product not found' });
