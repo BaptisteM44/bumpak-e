@@ -12,10 +12,7 @@ import cors from 'cors';
 dotenv.config();
 connectDatabase();
 const app = express();
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
-});
+
 // Pour gérer correctement les chemins en ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,13 +25,13 @@ const __dirname = path.dirname(__filename);
 //   res.setHeader("Access-Control-Allow-Headers", "content-type");
 //   res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
 //    });
-  //  app.use(cors({
-  //   origin: ['*' ], // Permettre à toutes les origines d'accéder à l'API
-  //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Autoriser ces méthodes HTTP
-  //   credentials: true, // Autorisez les cookies et l'authentification
-  //   preflightContinue: false,
-  //   optionsSuccessStatus: 204
-  // }));
+   app.use(cors({
+    origin: ['*' ], // Permettre à toutes les origines d'accéder à l'API
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Autoriser ces méthodes HTTP
+    credentials: true, // Autorisez les cookies et l'authentification
+    preflightContinue: false,
+    optionsSuccessStatus: 204
+  }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
