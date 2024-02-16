@@ -41,11 +41,10 @@ app.get('/api/products/:slug', async (req, res) => {
         name: product.name,
         price: product.price,
         url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`,
+        features: product.features,
         description: product.description,
         features: product.features,
-        image: product.imageUrl,
-        slug: product.slug,
-        svg: product.svg,
+        // svg: product.svg,
         customFields: [
           { name: "Size", value: product.size, type: "dropdown", options: "Small:0|Medium:5|Large:10", required: true },
         ]
