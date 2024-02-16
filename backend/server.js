@@ -63,7 +63,7 @@ app.get('/api/products/:slug', async (req, res) => {
       res.json({
         id: product._id.toString(), // Assurez-vous que l'ID est sous forme de string
         ...productObject, // Inclut tous les champs de l'objet produit
-        url: `https://bumpak-e-production.up.railway.app/api/products/${product.name}`, // URL personnalisée
+        url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`, // URL personnalisée
         // Ajoutez ou remplacez d'autres champs si nécessaire
       });
     } else {
