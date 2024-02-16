@@ -46,6 +46,7 @@ app.get('/api/products/:slug', async (req, res) => {
         category: product.category,
         subcategory: product.subcategory,
         features: product.features,
+        image: product.image,
         // Images supplémentaires
         additionalImages: [product.image1, product.image2, product.image3],
         // Options et prix des options
