@@ -43,12 +43,8 @@ app.get('/api/products/:slug', async (req, res) => {
         url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`,
         features: product.features,
         description: product.description,
-        features: product.features,
+        image1: product.image1,
         // svg: product.svg,
-        customFields: [
-          { name: "Size", value: product.size, type: "dropdown", options: "Small:0|Medium:5|Large:10", required: true },
-        ]
-
       });
     } else {
       res.status(404).send({ message: 'Product not found' });
