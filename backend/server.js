@@ -30,39 +30,74 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/import", ImportData);
 app.use("/api/products", productRoute); // Assurez-vous que ceci vient avant votre route personnalisée
 
+// app.get('/api/products/:slug', async (req, res) => {
+//   try {
+//     const productSlug = req.params.slug;
+//     const product = await Product.findOne({ slug: productSlug });
+//     if (product) {
+//       // Structure de réponse adaptée à Snipcart
+//       res.json({
+//         id: product._id.toString(),
+//         name: product.name,
+//         price: product.price,
+//         url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`,
+//         description: product.description,
+//         image: product.image,
+//         category: product.category,
+//         subcategory: product.subcategory,
+//         features: product.features,
+//         // Images supplémentaires
+//         additionalImages: [product.image1, product.image2, product.image3],
+//         // Options et prix des options
+//         options: [
+//           { name: "Option1", value: product.option1, price: product.option1price },
+//           { name: "Option2", value: product.option2, price: product.option2price },
+//           // Ajoutez plus d'options ici
+//         ],
+//         // Champs personnalisés pour les caractéristiques spécifiques du produit
+//         customFields: [
+//           { name: "Part1", value: product.part1 },
+//           { name: "Part2", value: product.part2 },
+//           // Continuez avec les autres parties spécifiques du produit
+//         ],
+//         // Ajoutez d'autres champs nécessaires ici
+//       });
+      
+//     } else {
+//       res.status(404).send({ message: 'Product not found' });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send({ message: 'Server error' });
+//   }
+// });
 app.get('/api/products/:slug', async (req, res) => {
   try {
     const productSlug = req.params.slug;
     const product = await Product.findOne({ slug: productSlug });
     if (product) {
-      // Structure de réponse adaptée à Snipcart
-      res.json({
+      // Données pour Snipcart
+      const responseForSnipcart = {
         id: product._id.toString(),
         name: product.name,
         price: product.price,
         url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`,
         description: product.description,
-        image: product.image,
+        image: product.imageUrl,
+        // Autres champs nécessaires pour Snipcart ici
+      };
+
+      // Données supplémentaires pour l'affichage sur le site web
+      const additionalDataForWeb = {
         category: product.category,
-        subcategory: product.subcategory,
         features: product.features,
-        // Images supplémentaires
-        additionalImages: [product.image1, product.image2, product.image3],
-        // Options et prix des options
-        options: [
-          { name: "Option1", value: product.option1, price: product.option1price },
-          { name: "Option2", value: product.option2, price: product.option2price },
-          // Ajoutez plus d'options ici
-        ],
-        // Champs personnalisés pour les caractéristiques spécifiques du produit
-        customFields: [
-          { name: "Part1", value: product.part1 },
-          { name: "Part2", value: product.part2 },
-          // Continuez avec les autres parties spécifiques du produit
-        ],
-        // Ajoutez d'autres champs nécessaires ici
+        // Ajoutez ici d'autres champs spécifiques au site web
+      };
+
+      res.json({
+        snipcart: responseForSnipcart,
+        web: additionalDataForWeb
       });
-      
     } else {
       res.status(404).send({ message: 'Product not found' });
     }
@@ -71,6 +106,7 @@ app.get('/api/products/:slug', async (req, res) => {
     res.status(500).send({ message: 'Server error' });
   }
 });
+
 // app.get('/api/products/:slug', async (req, res) => {
 //   try {
 //     const productSlug = req.params.slug;
