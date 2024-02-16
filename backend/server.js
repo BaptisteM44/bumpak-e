@@ -56,16 +56,26 @@ app.use("/api/products", productRoute); // Assurez-vous que ceci vient avant vot
 app.get('/api/products/:slug', async (req, res) => {
   try {
     const productSlug = req.params.slug;
+    const snipcart = req.query.snipcart === 'true'; // Vérifie si la requête provient de Snipcart
     const product = await Product.findOne({ slug: productSlug });
+
     if (product) {
-      // Convertit le document Mongoose en objet JavaScript simple
-      const productData = product.toObject();
+      let response = product.toObject(); // Convertit le document Mongoose en objet JavaScript simple
 
-      // Ajoute l'URL personnalisée avec les informations existantes
-      productData.url = `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`;
-
-      // Renvoie l'objet produit avec toutes les propriétés
-      res.json(productData);
+      // Si la requête est pour Snipcart, ajustez la réponse
+      if (snipcart) {
+        response = {
+          id: response._id.toString(),
+          name: response.name,
+          price: response.price,
+          url: `https://bumpak-e-production.up.railway.app/api/products/${response.slug}`,
+          description: response.description,
+          image: response.image,
+          // Ajoutez ou ajustez les champs selon les besoins de Snipcart ici
+        };
+      }
+      // Renvoie la réponse adaptée
+      res.json(response);
     } else {
       res.status(404).send({ message: 'Product not found' });
     }
@@ -74,6 +84,28 @@ app.get('/api/products/:slug', async (req, res) => {
     res.status(500).send({ message: 'Server error' });
   }
 });
+
+// app.get('/api/products/:slug', async (req, res) => {
+//   try {
+//     const productSlug = req.params.slug;
+//     const product = await Product.findOne({ slug: productSlug });
+//     if (product) {
+//       // Convertit le document Mongoose en objet JavaScript simple
+//       const productData = product.toObject();
+
+//       // Ajoute l'URL personnalisée avec les informations existantes
+//       productData.url = `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`;
+
+//       // Renvoie l'objet produit avec toutes les propriétés
+//       res.json(productData);
+//     } else {
+//       res.status(404).send({ message: 'Product not found' });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send({ message: 'Server error' });
+//   }
+// });
 
 // app.get('/api/products/:slug', async (req, res) => {
 //   try {
