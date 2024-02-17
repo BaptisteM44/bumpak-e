@@ -45,7 +45,23 @@ app.get('/api/products-json/:slug', async (req, res) => {
         image: product.image,
         category: product.category,
         subcategory: product.subcategory,
+        features: product.features,
         image: product.image,
+        features: product.features,
+        // Images supplémentaires
+        additionalImages: [product.image1, product.image2, product.image3],
+        // Options et prix des options
+        options: [
+          { name: "Option1", value: product.option1, price: product.option1price },
+          { name: "Option2", value: product.option2, price: product.option2price },
+          // Ajoutez plus d'options ici
+        ],
+        // Champs personnalisés pour les caractéristiques spécifiques du produit
+        customFields: [
+          { name: "Part1", value: product.part1 },
+          { name: "Part2", value: product.part2 },
+          // Continuez avec les autres parties spécifiques du produit
+        ],
         // Ajoutez d'autres champs nécessaires ici
       });
       
