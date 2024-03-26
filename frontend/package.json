@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@barba/core": "^2.9.7",
     "dotenv": "^16.0.3",
     "gsap": "^3.12.1",
     "node-sass": "^8.0.0",

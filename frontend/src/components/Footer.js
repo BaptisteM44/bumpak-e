@@ -1,4 +1,5 @@
 import '../styles/components/Header.scss'
+import { Link } from 'react-router-dom';
 import React from 'react';
 
 
@@ -12,7 +13,10 @@ function Footer() {
                </div>
                <div className="rightpart_footer">
                    <p>All rights reserved @ 2024</p>
+                   <Link className="link" to="/Mentions">Legal notice - CGV</Link>
+                   {/* <a className="link" target="_blank" href="https://baptiste-morvan.com">Made by BM</a> */}
                </div>
+               
            </footer>
         </>
     );

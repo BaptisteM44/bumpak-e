@@ -26,7 +26,7 @@ const colorMapping = {
 };
 const elasticColorMapping = {
   "#b0c171": "Light Green",
-  "#d5d5d5": "White",
+  "#ffffff": "White",
   "#6c3d75": "Purple",
   "#161c60": "Navy Blue",
   "#000000": "Black",
@@ -83,7 +83,7 @@ export const transformSelectedColors = (selectedColors, product) => {
 
 
 function Color(props) {
-  const productOption = props.productOption;
+  // const productOption = props.productOption;
   const [selectedClass, setSelectedClass] = useState("product-shape1");
   const [selectedColor, setSelectedColor] = useState("");
 
@@ -93,7 +93,7 @@ function Color(props) {
   
 
   const [selectedColors, setSelectedColors] = useState({});
-  const product = props.product;
+  // const product = props.product;
   const colorsArray = Object.keys(colorMapping);
   
   const [selectedElasticClass, setSelectedElasticClass] = useState("elastic1");
@@ -124,64 +124,14 @@ function Color(props) {
     }
   };
 
-  // const handleColorClick = (color) => {
-  //   const colorName = colorMapping[color];
-  //   setSelectedColor(colorName);
-  //   setSelectedColors(prevSelectedColors => ({
-  //     ...prevSelectedColors,
-  //     [selectedClass]: colorName,
-  //   }));
-  //   props.onColorsChange({
-  //     ...selectedColors,
-  //     [selectedClass]: colorName,
-  //   });
-  //   console.log('selectedClass:', selectedClass);
-
-  //   const svgElement = document.getElementById("product-svg");
-  //   if (svgElement) {
-  //     const elements = svgElement.querySelectorAll("." + selectedClass);
-  //     elements.forEach(element => {
-  //       element.style.fill = color;
-  //     });
-  //   }
-  // };
-  // const handleColorClick = (color) => {
-  //   // Utilisation directe de 'color' au lieu de 'colorName' car 'color' est la valeur hexadécimale
-  //   setSelectedColor(color);
-  
-  //   // Mise à jour de l'état selectedColors
-  //   setSelectedColors(prevSelectedColors => {
-  //     const updatedColors = {
-  //       ...prevSelectedColors,
-  //       [selectedClass]: color, // Utilisation directe de la valeur hexadécimale
-  //     };
-  
-  //     // Notifier le composant parent du changement
-  //     if (props.onColorsChange) {
-  //       props.onColorsChange(updatedColors);
-  //     }
-  
-  //     return updatedColors;
-  //   });
-  
-  //   // Mise à jour de la couleur dans l'élément SVG
-  //   const svgElement = document.getElementById("product-svg");
-  //   if (svgElement) {
-  //     const elements = svgElement.querySelectorAll("." + selectedClass);
-  //     elements.forEach(element => {
-  //       element.style.fill = color;
-  //     });
-  //   }
-  // };
   let displayColors;
   if (props.subcategory === "forkbag") {
     displayColors = forkbagColors;
-  } else if (props.availableElastics && props.availableElastics.length > 0) {
-    displayColors = elasticColorMapping;
   } else {
     displayColors = colorMapping;
   }
-  
+  const displayElasticColors = elasticColorMapping;
+
   const handleColorClick = (hexColor) => {
     // Trouver le nom de la couleur basé sur la valeur hexadécimale
     const colorName = displayColors[hexColor];
@@ -328,17 +278,21 @@ const handleElasticColorClick = (color) => {
       
 
       <div className="colors-content">
-        <div className="colors">
-          {Object.keys(colorMapping).map((hexColor) => (
-            <div
-              key={hexColor}
-              className="color"
-              style={{ backgroundColor: hexColor }}
-              onClick={() => handleColorClick(hexColor)}
-              alt={displayColors[hexColor]}
-            />
-          ))}
-        </div>
+      <div className="colors">
+  {Object.keys(displayColors).map((hexColor) => (
+    <div
+      key={hexColor}
+      className="color"
+      style={{ backgroundColor: hexColor }}
+      onClick={() => handleColorClick(hexColor)}
+      alt={displayColors[hexColor]}
+      aria-label={displayColors[hexColor]}
+    >
+    <span className="color-name">{displayColors[hexColor]}</span>
+    </div>
+  ))}
+</div>
+
       </div>
       {props.availableElastics.length > 0 && (
         <>
@@ -359,17 +313,33 @@ const handleElasticColorClick = (color) => {
       </div>
        
       <div className="colors-content">
-        <div className="colors">
-        {Object.keys(elasticColorMapping).map((color) => (
-          <div
-            key={color}
-            className="color"
-            style={{ backgroundColor: color }}
-            onClick={() => handleElasticColorClick(color)}
-            alt={elasticColorMapping[color]}
-          />
-        ))}
-        </div>
+      {props.availableElastics.length > 0 && (
+  // <div className="colors">
+  //   {Object.keys(displayElasticColors).map((color) => (
+  //     <div
+  //       key={color}
+  //       className="color"
+  //       style={{ backgroundColor: color }}
+  //       onClick={() => handleElasticColorClick(color)}
+  //       alt={displayElasticColors[color]}
+  //     />
+  //   ))}
+  // </div>
+  <div className="colors">
+    {Object.keys(displayElasticColors).map((color) => (
+      <div
+        key={color}
+        className="color"
+        style={{ backgroundColor: color }}
+        onClick={() => handleElasticColorClick(color)}
+        aria-label={displayElasticColors[color]}
+      >
+        <span className="color-name">{displayElasticColors[color]}</span>
+      </div>
+    ))}
+</div>
+
+)}
       </div>
       </>
       )}

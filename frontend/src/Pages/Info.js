@@ -15,7 +15,7 @@ function Info() {
               <p>We ship only in Europe, Switzerland and United Kingdom included.</p>
             </div>
             <div className="material_title_part">
-              <h2>DELEVERY TIME</h2>
+              <h2>DELIVERY TIME</h2>
               <p>All the bags are made to order in our workshop. The delivery time is from 1 to 5 weeks.</p>
             </div>
         </section>

@@ -26,20 +26,60 @@
   display: flex;
   position: relative;
   padding: 15px 0px;
+  // .colors {
+  //     bottom: 12em;
+  //     z-index: 3;
+  //     display: flex;
+  //     flex-wrap: wrap;
+  //     max-width: auto;
+  //     .color {
+  //         margin: 0.5em;
+  //         height: 22px;
+  //         width: 22px;
+  //         border-radius: 18px;
+  //         cursor: pointer;
+  //         border: 1px solid $primary-color;
+  //       }
   .colors {
-      bottom: 12em;
-      z-index: 3;
-      display: flex;
-      flex-wrap: wrap;
-      max-width: auto;
-      .color {
-          margin: 0.5em;
-          height: 22px;
-          width: 22px;
-          border-radius: 18px;
-          cursor: pointer;
-          border: 1px solid $primary-color;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+  
+    .color {
+      margin: 0.5em;
+      height: 22px;
+      width: 22px;
+      border-radius: 18px;
+      cursor: pointer;
+      border: 1px solid $primary-color;
+      position: relative; // Préparation pour positionner absolument le nom de la couleur
+  
+      &:hover {
+        .color-name {
+          visibility: visible; // Visible au survol
+          opacity: 1;
+          z-index: 1000;
+          font-size: 0.7em;
+          width: max-content;
         }
+      }
+  
+      .color-name {
+        position: absolute;
+        bottom: 100%; // Position au-dessus de la pastille
+        left: 50%; // Centre le tooltip
+        transform: translateX(-50%); // Centre le tooltip horizontalement
+        background-color: rgba(0, 0, 0, 0.7); // Fond semi-transparent
+        color: white; // Texte blanc
+        padding: 2px 8px;
+        border-radius: 4px;
+        visibility: hidden; // Caché par défaut
+        opacity: 0;
+        transition: visibility 0s, opacity 0.5s ease; // Transition douce
+      }
+    }
+  }
+  
         $colors: ("#d0f352", "#2a2b2d", "#fe251d", "#96498d",'#028790','#3f3d40','#0564c1','#921224','#fab642','#453e29', '#c0005d', '#ff0076', '#835e3d', '#c6c6c6', '#eaeaea', '#092642', '#162a27', '#5e2828', '#15174b');
 
         @keyframes changeColor {
@@ -50,7 +90,7 @@
           }
         }
         
-    }
+    
 }
 .random-button {
   font-size: $size3;

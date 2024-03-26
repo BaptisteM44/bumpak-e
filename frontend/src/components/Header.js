@@ -14,7 +14,7 @@ function Header() {
         <header>
             <nav className="nav">
                     <Link className="nav_img link" to="/">
-                        <img className="nav_img_content" src={Bumpak} height="40" width="40" alt="Logo Bumpak" />
+                        <img className="nav_img_content" src={Bumpak} height="35" width="35" alt="Logo Bumpak" />
                         <p className="nav_img_text ">Bumpak</p>
                     </Link>
                     <div className="nav_burger" onClick={toggleMenu}>
