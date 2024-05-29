@@ -43,9 +43,9 @@
 }
 @media (max-width: $breakpoint-tablet) {
 .nav {
-  height: 6vh;
+  height: 7vh;
   position: relative;
-  padding: 0 1em;
+  padding: 0 1.8em;
     .nav_img{
         display: flex;
         justify-content: space-between;
@@ -62,7 +62,7 @@
     }
     .nav_list{
       li{
-          padding: 0vh;        }
+          padding: 1vh;        }
   }
   }
   .nav_burger {

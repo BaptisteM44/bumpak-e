@@ -314,17 +314,6 @@ const handleElasticColorClick = (color) => {
        
       <div className="colors-content">
       {props.availableElastics.length > 0 && (
-  // <div className="colors">
-  //   {Object.keys(displayElasticColors).map((color) => (
-  //     <div
-  //       key={color}
-  //       className="color"
-  //       style={{ backgroundColor: color }}
-  //       onClick={() => handleElasticColorClick(color)}
-  //       alt={displayElasticColors[color]}
-  //     />
-  //   ))}
-  // </div>
   <div className="colors">
     {Object.keys(displayElasticColors).map((color) => (
       <div

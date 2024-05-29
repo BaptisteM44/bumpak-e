@@ -50,16 +50,16 @@ footer{
                 img{
                     height: 70vh;
                     width: 100%;
-                    padding: 6vh 3vh;
+                    padding: 6vh 0vh;
                 }
             }
             
         }    
     }
     footer{
-        p{
-            font-size: 10px;
-        }
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
     }
 
 }

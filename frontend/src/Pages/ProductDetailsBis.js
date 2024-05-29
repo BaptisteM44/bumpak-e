@@ -54,16 +54,6 @@ function ProductDetails() {
       });
   }, [slug]);
 
-
-  // useEffect(() => {
-  //   if (product) {
-  //     console.log("Selected Option:", selectedOption);
-  //     console.log("Selected Option Price:", selectedOptionPrice);
-  //     console.log("Selected Colors:", selectedColors);
-  //   }
-  // }, [product, selectedOption, selectedOptionPrice, selectedColors]);
-
-
   useEffect(() => {
     if (product) {
       const initialColors = availableParts.reduce((acc, part, index) => {
@@ -209,17 +199,6 @@ function ProductDetails() {
               )}
               <div className="config_bag">
                 <button
-                // onClick={() => {
-                //   // Afficher les valeurs des attributs data-item-* avant d'ajouter au panier
-                //   console.log("Snipcart Item Data:", {
-                //     id: product.id,
-                //     name: product.name,
-                //     price: product.price,
-                //     description: product.description,
-                //     option: selectedOption,
-                //     colors: JSON.stringify(transformSelectedColors(transformedColors, selectedColors)),
-                //   });
-                // }}
                   className="snipcart-add-item"
                   id="frameSize"
                   data-item-id={product.id}
