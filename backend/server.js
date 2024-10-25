@@ -37,7 +37,7 @@ app.get('/api/products/:slug', async (req, res) => {
     if (product) {
       // Structure de réponse adaptée à Snipcart
       res.json({
-        id: product.id.toString(),
+        id: product._id.toString(),
         name: product.name,
         price: product.price,
         url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`,
