@@ -96,30 +96,30 @@ app.get('/api/products/:slug', async (req, res) => {
   }
 });
 
-app.post('/api/snipcart/webhooks', async (req, res) => {
-  const { items } = req.body;
+// app.post('/api/snipcart/webhooks', async (req, res) => {
+//   const { items } = req.body;
 
-  try {
-    for (const item of items) {
-      const dbProduct = await Product.findById(item.id);
-      if (!dbProduct) {
-        return res.status(400).send({ error: "Product not found." });
-      }
+//   try {
+//     for (const item of items) {
+//       const dbProduct = await Product.findById(item.id);
+//       if (!dbProduct) {
+//         return res.status(400).send({ error: "Product not found." });
+//       }
       
-      const snipcartPrice = parseFloat(item.price);
-      const dbPrice = parseFloat(dbProduct.price);
+//       const snipcartPrice = parseFloat(item.price);
+//       const dbPrice = parseFloat(dbProduct.price);
 
-      if (dbPrice !== snipcartPrice) {
-        return res.status(400).send({ error: "Price mismatch." });
-      }
-    }
+//       if (dbPrice !== snipcartPrice) {
+//         return res.status(400).send({ error: "Price mismatch." });
+//       }
+//     }
 
-    res.send({ valid: true });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send({ error: "Server error during validation." });
-  }
-});
+//     res.send({ valid: true });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send({ error: "Server error during validation." });
+//   }
+// });
 
 app.listen(process.env.PORT, () => {
   console.log(`Server started on port ${process.env.PORT}`);
