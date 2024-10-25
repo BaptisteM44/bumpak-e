@@ -37,7 +37,7 @@ app.get('/api/products/:slug', async (req, res) => {
     if (product) {
       // Structure de réponse adaptée à Snipcart
       res.json({
-        id: product._id.toString(),
+        id: product.id.toString(),
         name: product.name,
         price: product.price,
         url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`,
@@ -101,7 +101,7 @@ app.post('/api/snipcart/webhooks', async (req, res) => {
 
   try {
     for (const item of items) {
-      const dbProduct = await Product.findById(item._id);
+      const dbProduct = await Product.findById(item.id);
       if (!dbProduct) {
         return res.status(400).send({ error: "Product not found." });
       }
