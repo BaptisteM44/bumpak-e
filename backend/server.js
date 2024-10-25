@@ -101,7 +101,7 @@ app.post('/api/snipcart/webhooks', async (req, res) => {
 
   try {
     for (const item of items) {
-      const dbProduct = await Product.findById(item.id);
+      const dbProduct = await Product.findById(item._id);
       if (!dbProduct) {
         return res.status(400).send({ error: "Product not found." });
       }
