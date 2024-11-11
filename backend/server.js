@@ -30,7 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/import", ImportData);
 app.use("/api/products", productRoute); // Assurez-vous que ceci vient avant votre route personnalisée
 
-app.get('/api/products-json/:slug', async (req, res) => {
+app.get('/api/products/:slug', async (req, res) => {
   try {
     const productSlug = req.params.slug;
     const product = await Product.findOne({ slug: productSlug });
