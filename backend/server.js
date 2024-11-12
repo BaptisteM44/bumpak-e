@@ -82,8 +82,29 @@ app.get('/api/products/:slug', async (req, res) => {
         id: product.id.toString(), // Assurez-vous que l'ID est sous forme de string
         price: product.price,
         ...productObject, // Inclut tous les champs de l'objet produit
-        url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`, // URL personnalisée
+        features: product.features,
+        url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`, // Inclure l'URL ici
         additionalImages: [product.image1, product.image2, product.image3],
+        options: [
+          { name: "Option1", value: product.option1, price: product.option1price },
+          { name: "Option2", value: product.option2, price: product.option2price },
+          { name: "Option3", value: product.option3, price: product.option3price },
+          { name: "Option4", value: product.option4, price: product.option4price },
+          { name: "Option5", value: product.option5, price: product.option5price },
+          { name: "Option6", value: product.option6, price: product.option6price },
+
+
+          // Ajoutez d'autres options si nécessaire
+        ],
+        customFields: [
+          { name: "Part1", value: product.part1 },
+          { name: "Part2", value: product.part2 },
+          { name: "Part3", value: product.part3 },
+          { name: "Part4", value: product.part4 },
+          { name: "Part5", value: product.part5 },
+          { name: "Part6", value: product.part6 },
+          // Continuez avec d'autres parties spécifiques du produit si nécessaire
+        ]
 
         // Ajoutez ou remplacez d'autres champs si nécessaire
       });
