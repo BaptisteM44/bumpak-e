@@ -83,6 +83,8 @@ app.get('/api/products/:slug', async (req, res) => {
         price: product.price,
         ...productObject, // Inclut tous les champs de l'objet produit
         url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`, // URL personnalisée
+        additionalImages: [product.image1, product.image2, product.image3],
+
         // Ajoutez ou remplacez d'autres champs si nécessaire
       });
     } else {

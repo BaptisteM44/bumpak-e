@@ -11,23 +11,33 @@ productRoute.get("/", asyncHandler(
     })
 );
 productRoute.get("/:slug", asyncHandler(
-    async (req, res) => {
-      const product = await Product.findOne({ slug: req.params.slug });
-      if (product) {
-        res.json({
-          id: product._id.toString(), // Assurez-vous que l'ID est formaté en `id` pour Snipcart
-          name: product.name,
-          price: product.price,
-          description: product.description,
-          image: product.image,
-          category: product.category,
-          subcategory: product.subcategory,
-          slug: product.slug,
-          url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`, // URL pour Snipcart
-        });
-      } else {
-        res.status(404).send({ message: "Product not found" });
-      }
-    })
-  );
+  async (req, res) => {
+    const productSlug = req.params.slug;
+    const product = await Product.findOne({ slug: productSlug });
+    
+    // Vérifier les données récupérées depuis MongoDB
+    console.log("Produit récupéré depuis MongoDB:", product);
+    
+    if (product) {
+      const responseData = {
+        id: product._id.toString(),
+        name: product.name,
+        price: product.price,
+        description: product.description,
+        image: product.image,
+        category: product.category,
+        subcategory: product.subcategory,
+        slug: product.slug,
+        url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`,
+      };
+
+      // Vérifier les données envoyées au frontend
+      console.log("Données envoyées au frontend:", responseData);
+
+      res.json(responseData);
+    } else {
+      res.status(404).send({ message: "Product not found" });
+    }
+  }
+));
 export default productRoute;
