@@ -79,7 +79,7 @@ app.get('/api/products/:slug', async (req, res) => {
       const productObject = product.toObject(); // Convertit le document Mongoose en objet simple
       // Personnalisez la réponse en ajoutant ou modifiant les champs nécessaires
       res.json({
-        id: product._id.toString(), // Assurez-vous que l'ID est sous forme de string
+        id: product.id.toString(), // Assurez-vous que l'ID est sous forme de string
         price: product.price,
         ...productObject, // Inclut tous les champs de l'objet produit
         url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`, // URL personnalisée
