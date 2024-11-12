@@ -4,7 +4,7 @@ import Product from "./models/ProductModel.js";
 
 const productRoute = express.Router();
 
-productRoute.get("/:slug", asyncHandler(
+productRoute.get("/", asyncHandler(
     async (req, res) => {
         const products = await Product.find({});
         res.json(products);
