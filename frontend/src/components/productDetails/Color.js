@@ -254,7 +254,25 @@ const handleElasticColorClick = (color) => {
       });
     }
   }, []);
-  // const displayColors = props.subcategory === "forkbag" ? forkbagColors : elasticColorMapping;
+  useEffect(() => {
+    const defaultElasticColor = "#FFFFFF"; // Remplacez ici par une couleur par défaut correcte
+    const initialElasticColors = elasticClasses.reduce((acc, elasticClass) => {
+      acc[elasticClass] = defaultElasticColor;
+      return acc;
+    }, {});
+  
+    setSelectedElasticColors(initialElasticColors);
+  
+    const svgElement = document.getElementById("product-svg");
+    if (svgElement) {
+      elasticClasses.forEach(elasticClass => {
+        const elements = svgElement.querySelectorAll("." + elasticClass);
+        elements.forEach(element => {
+          element.style.fill = defaultElasticColor; // Appliquez la couleur par défaut
+        });
+      });
+    }
+  }, []);
 
   return (
     <>

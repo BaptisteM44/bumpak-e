@@ -32,25 +32,50 @@ function ProductDetails() {
 
   const availableParts = product ? [product.part1, product.part2, product.part3, product.part4, product.part5, product.part6].filter(Boolean) : [];
   
+  // useEffect(() => {
+
+  //   axios.defaults.baseURL = "https://bumpak-e-production.up.railway.app/";
+
+  //   axios.get(`/api/products/${slug}`)
+  //     .then(response => {
+  //       setProduct(response.data);
+  //       setSelectedOption(response.data.option1);
+  //       setSelectedOptionPrice(0);
+
+  //       // Vérification de la présence de image1
+  //       if (response.data.image1) {
+  //           setActiveImage(response.data.image1);
+  //           setActiveImageIndex(0);
+  //       } else if (response.data.image2) {
+  //           setActiveImage(response.data.image2);
+  //           setActiveImageIndex(1);  // Mettre à jour l'index de l'image active pour la correspondance avec image2
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching product data:', error);
+  //     });
+  // }, [slug]);
   useEffect(() => {
     axios.defaults.baseURL = "https://bumpak-e-production.up.railway.app/";
+  
     axios.get(`/api/products/${slug}`)
       .then(response => {
+        // Affichez les données reçues pour vérification  
         setProduct(response.data);
         setSelectedOption(response.data.option1);
         setSelectedOptionPrice(0);
-
-        // Vérification de la présence de image1
+  
+        // Vérifiez la première image et définissez l'image active
         if (response.data.image1) {
-            setActiveImage(response.data.image1);
-            setActiveImageIndex(0);
+          setActiveImage(response.data.image1);
+          setActiveImageIndex(0);
         } else if (response.data.image2) {
-            setActiveImage(response.data.image2);
-            setActiveImageIndex(1);  // Mettre à jour l'index de l'image active pour la correspondance avec image2
+          setActiveImage(response.data.image2);
+          setActiveImageIndex(1);
         }
       })
       .catch(error => {
-        console.error('Error fetching product data:', error);
+        console.error("Erreur lors de la récupération des données du produit :", error);
       });
   }, [slug]);
 
@@ -68,7 +93,7 @@ function ProductDetails() {
   
   
   useEffect(() => {
-    handleColorsChange({ ...selectedColors, 'part1': '#FFFFFF' }); // replace with your default color for part1
+    handleColorsChange({ ...selectedColors }); // replace with your default color for part1
   }, []);
    const handleColorNamesChange = (newColorNames) => {
     setColorNames(newColorNames);
@@ -205,7 +230,7 @@ function ProductDetails() {
                   data-item-name={product.name}
                   // data-item-price={parseInt(product.price) + (selectedOptionPrice ? parseInt(selectedOptionPrice) : 0)}
                   data-item-price={product.price}
-                  data-item-url={`https://bumpak-e-production.up.railway.app/api/products-json/${product.name}`}
+                  data-item-url={`https://bumpak-e-production.up.railway.app/api/products/${product.slug}`}
 
                   data-item-description={product.description}
                   data-item-custom1-name="Option"
