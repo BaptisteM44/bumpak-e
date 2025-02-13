@@ -25,6 +25,10 @@ const productSchema = new mongoose.Schema({
     type: String,
     require: true
   },
+  features:{
+    type: String,
+    require: true
+  },
   slug:{
     type: String,
     require: true
