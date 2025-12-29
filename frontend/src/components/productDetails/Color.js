@@ -86,13 +86,12 @@ function Color(props) {
   // const productOption = props.productOption;
   const [selectedClass, setSelectedClass] = useState("product-shape1");
   const [selectedColor, setSelectedColor] = useState("");
+  const [selectedColors, setSelectedColors] = useState({});
 
   const productClasses = props.availableParts ? props.availableParts.map((part, index) => `product-shape${index + 1}`) : [];
   const elasticClasses = props.availableElastics ? props.availableElastics.map((elastic, index) => `elastic${index + 1}`) : [];
   const classes = productClasses.concat(elasticClasses);
   
-
-  const [selectedColors, setSelectedColors] = useState({});
   // const product = props.product;
   const colorsArray = Object.keys(colorMapping);
   
@@ -133,6 +132,7 @@ function Color(props) {
   const displayElasticColors = elasticColorMapping;
 
   const handleColorClick = (hexColor) => {
+    
     // Trouver le nom de la couleur basé sur la valeur hexadécimale
     const colorName = displayColors[hexColor];
   
@@ -149,7 +149,7 @@ function Color(props) {
       if (props.onColorsChange) {
         props.onColorsChange(updatedColors);
       }
-  
+      applyColorsToSVG(updatedColors); // Appliquer les couleurs à l'élément SVG
       return updatedColors;
     });
   
@@ -161,10 +161,11 @@ function Color(props) {
         element.style.fill = hexColor;
       });
     }
+    if (props.resetToFirstImage) {
+      props.resetToFirstImage(); // Remettre l'image principale à la première image
+    }
   };
   
-  
-
 //ELASTIC PART
 const handleElasticSelect = (e) => {
   const selectedElasticClass = e.target.value;
@@ -236,6 +237,70 @@ const handleElasticColorClick = (color) => {
     }
     props.onColorsChange(classToColorMap);
 };
+// const handleRandomColors = () => {
+//   const classToColorMap = {};
+//   for (const className of productClasses) {
+//     const randomColor = Object.keys(colorMapping)[Math.floor(Math.random() * Object.keys(colorMapping).length)];
+//     classToColorMap[className] = randomColor;
+//   }
+//   for (const className of elasticClasses) {
+//     const randomColor = Object.keys(elasticColorMapping)[Math.floor(Math.random() * Object.keys(elasticColorMapping).length)];
+//     classToColorMap[className] = randomColor;
+//   }
+//   setSelectedColors(classToColorMap);
+//   setSelectedColor("");
+
+//   const svgElement = document.getElementById("product-svg");
+//   if (svgElement) {
+//     classes.forEach(className => {
+//       const elements = svgElement.querySelectorAll("." + className);
+//       const color = classToColorMap[className];
+//       elements.forEach(element => {
+//         element.style.fill = color;
+//       });
+//     });
+//   }
+//   props.onColorsChange(classToColorMap);
+
+//   if (props.resetToFirstImage) {
+//     props.resetToFirstImage(); // Remettre l'image principale à la première image
+//   }
+// };
+// const handleRandomColors = () => {
+//   const classToColorMap = {};
+//   for (const className of productClasses) {
+//     const randomColor = Object.keys(colorMapping)[Math.floor(Math.random() * Object.keys(colorMapping).length)];
+//     classToColorMap[className] = randomColor;
+//   }
+//   for (const className of elasticClasses) {
+//     const randomColor = Object.keys(elasticColorMapping)[Math.floor(Math.random() * Object.keys(elasticColorMapping).length)];
+//     classToColorMap[className] = randomColor;
+//   }
+//   setSelectedColors(classToColorMap);
+//   setSelectedColor("");
+
+//   if (props.onColorsChange) {
+//     props.onColorsChange(classToColorMap);
+//   }
+
+//   applyColorsToSVG(classToColorMap); // Appliquer les couleurs à l'élément SVG
+
+//   if (props.resetToFirstImage) {
+//     props.resetToFirstImage(); // Remettre l'image principale à la première image
+//   }
+// };
+const applyColorsToSVG = (colors) => {
+  const svgElement = document.getElementById("product-svg");
+  if (svgElement) {
+    classes.forEach(className => {
+      const elements = svgElement.querySelectorAll("." + className);
+      const color = colors[className];
+      elements.forEach(element => {
+        element.style.fill = color;
+      });
+    });
+  }
+}
   useEffect(() => {
     const defaultColor = "#FFFFFF";
     const initialColors = classes.reduce((acc, className) => {
@@ -254,6 +319,7 @@ const handleElasticColorClick = (color) => {
       });
     }
   }, []);
+  
   useEffect(() => {
     const defaultElasticColor = "#FFFFFF"; // Remplacez ici par une couleur par défaut correcte
     const initialElasticColors = elasticClasses.reduce((acc, elasticClass) => {
@@ -276,7 +342,9 @@ const handleElasticColorClick = (color) => {
 
   return (
     <>
+    
       <div className="config_select">
+        
         <label htmlFor="">Color part</label>
         <select id="color-select" value={selectedClass} onChange={handleColorSelect}>
           {props.availableParts.map((part, index) => (
@@ -349,12 +417,11 @@ const handleElasticColorClick = (color) => {
 )}
       </div>
       </>
-      )}
-      {props.subcategory !== "forkbag" && (
-      <button className="random-button" onClick={handleRandomColors}>Random</button>
-      )}
-      
-    </>
+        )}
+        {props.subcategory !== "forkbag" && (
+        <button className="random-button" onClick={handleRandomColors}>Random</button>
+        )}
+      </>
   );
 }
 

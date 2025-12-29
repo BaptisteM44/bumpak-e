@@ -23,7 +23,7 @@
         border-right: 1px solid $primary-color;
         display: flex;
         flex-direction: column;
-        padding-left: 181px;
+        padding-left: 10px;
         .productList_subcategory{
             h2{
                 font-size: $size6;
@@ -43,6 +43,7 @@
             height: 8%;
             width: fit-content;
             justify-content: center;
+            width: 100%;
             :hover{
                 transform: 1s ease;
                 .product{

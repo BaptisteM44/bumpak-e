@@ -35,11 +35,21 @@
         li{
             display: flex;
             justify-content: space-between;
-            padding: 0 9vh;        }
+            padding: 0 9vh;}
+            
     }
 }
 .nav_burger{
     display: none;
+}
+@media (max-width: 920px) {
+    .nav {
+        .nav_list{
+          li{
+              padding: 0 4vh;
+          }
+      }
+    }
 }
 @media (max-width: $breakpoint-tablet) {
 .nav {
@@ -62,7 +72,8 @@
     }
     .nav_list{
       li{
-          padding: 1vh;        }
+          padding: 1vh;
+      }
   }
   }
   .nav_burger {
@@ -93,6 +104,8 @@
   .nav_list.show {
     height: 120vh; /* Hauteur maximale du menu déroulant */
     width: 100%;
+    z-index: 10000;
+
   }
   
   .nav_list li {

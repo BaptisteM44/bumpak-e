@@ -10,6 +10,8 @@ import '../styles/pages/ProductDetails.scss';
 import { gsap } from 'gsap';
 function ProductDetails() {
   const { slug } = useParams();
+  const imageRef = useRef();
+  const navigate = useNavigate();
 
   const [product, setProduct] = useState(null);
   const [selectedOption, setSelectedOption] = useState("");
@@ -21,9 +23,9 @@ function ProductDetails() {
   const [selectedColorNames, setSelectedColorNames] = useState({});
   const [colorNames, setColorNames] = useState({});
   const transformedColors = transformSelectedColors(selectedColors, product);
-  const imageRef = useRef();
+
   const [activeImage, setActiveImage] = useState();
-  const navigate = useNavigate();
+  const [animatedImages, setAnimatedImages] = useState(new Set());
 
   const handleBack = () => {
     navigate(-1);
@@ -32,29 +34,8 @@ function ProductDetails() {
 
   const availableParts = product ? [product.part1, product.part2, product.part3, product.part4, product.part5, product.part6].filter(Boolean) : [];
   
-  // useEffect(() => {
+  const [language, setLanguage] = useState(localStorage.getItem('language') || 'en');
 
-  //   axios.defaults.baseURL = "https://bumpak-e-production.up.railway.app/";
-
-  //   axios.get(`/api/products/${slug}`)
-  //     .then(response => {
-  //       setProduct(response.data);
-  //       setSelectedOption(response.data.option1);
-  //       setSelectedOptionPrice(0);
-
-  //       // Vérification de la présence de image1
-  //       if (response.data.image1) {
-  //           setActiveImage(response.data.image1);
-  //           setActiveImageIndex(0);
-  //       } else if (response.data.image2) {
-  //           setActiveImage(response.data.image2);
-  //           setActiveImageIndex(1);  // Mettre à jour l'index de l'image active pour la correspondance avec image2
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching product data:', error);
-  //     });
-  // }, [slug]);
   useEffect(() => {
     axios.defaults.baseURL = "https://bumpak-e-production.up.railway.app/";
   
@@ -79,16 +60,23 @@ function ProductDetails() {
       });
   }, [slug]);
 
-  useEffect(() => {
-    if (product) {
-      const initialColors = availableParts.reduce((acc, part, index) => {
-        acc[`product-shape${index + 1}`] = acc[`product-shape${index + 1}`] || "#FFFFFF";
-        return acc;
-      }, selectedColors);
+  const handleLanguageToggle = () => {
+    const newLang = language === 'en' ? 'fr' : 'en';
+    setLanguage(newLang);
+    localStorage.setItem('language', newLang);
+  };
+  // useEffect(() => {
+  //   if (product) {
+  //     const initialColors = availableParts.reduce((acc, part, index) => {
+  //       acc[`product-shape${index + 1}`] = acc[`product-shape${index + 1}`];
+  //       return acc;
+  //     }, selectedColors);
   
-      setSelectedColors(initialColors);
-    }
-  }, [product]);
+  //     setSelectedColors(initialColors);
+  //     applyColorsToSVG(initialColors); // Appliquer les couleurs initiales
+  //   }
+  // }, [product]);
+  
   
   
   
@@ -104,7 +92,13 @@ function ProductDetails() {
     setSelectedColors(newColors);
   };
   
+  // const resetToFirstImage = () => {
+  //   setActiveImageIndex(0);
+  //   setActiveImage(product.image1);
+  //   applyColorsToSVG(selectedColors); // Appliquer les couleurs lors de la réinitialisation de l'image
 
+  // };
+  
   
   const toggleDescription = () => {
     setShowDescription(!showDescription);
@@ -139,10 +133,23 @@ function ProductDetails() {
       options.push({ name: option, price: price });
     }
   }
-
+  // const applyColorsToSVG = (colors) => {
+  //   const svgElement = document.getElementById("product-svg");
+  //   if (svgElement) {
+  //     Object.keys(colors).forEach(className => {
+  //       const elements = svgElement.querySelectorAll("." + className);
+  //       const color = colors[className];
+  //       elements.forEach(element => {
+  //         element.style.fill = color;
+  //       });
+  //     });
+  //   }
+  // };
+  
  const images = [product.image1, product.image2, product.image3, product.image4,product.image5, product.image6,product.image7, product.image8, product.image9,]; // Add more images if necessary
 
   const optionString = options.map(option => `${option.name}[+${option.price}.00]`).join("|");
+  
   return (
     <>
       <Header />
@@ -153,19 +160,28 @@ function ProductDetails() {
         </div>
         <div className="productDetails_container">
           <div className="productDetails_img">
-          <div className="thumbnails">
-          {images.map((image, i) => (
-            <img
-              key={i}
-              src={image}
-              alt=""
-              onClick={() => handleThumbnailClick(image, i)}
-              className={activeImageIndex === i ? "active" : ""}
-              style={{ opacity: activeImageIndex === i ? 1 : 0.5, cursor: activeImageIndex === i ? 'default' : 'pointer' }}
-            />
-          ))}
+            <div className="thumbnails">
+            {images.filter(Boolean).map((image, i) => (
+              <img
+                key={i}
+                src={image}
+                alt=""
+                onClick={() => handleThumbnailClick(image, i)}
+                className={`
+                  ${activeImageIndex === i ? "active" : ""} 
+                  loaded 
+                  ${animatedImages.has(i) ? "animation-played" : ""}
+                `}
+                onLoad={(e) => {
+                  e.target.classList.add('loaded');
+                }}
+                onAnimationEnd={(e) => {
+                  setAnimatedImages(prev => new Set([...prev, i]));
+                }}
+              />
+            ))}
 
-          </div>
+            </div>
           <div className="main-image">
             {activeImage === product.image1 ?(
                 <div id="container">
@@ -187,7 +203,17 @@ function ProductDetails() {
                 <div className="name_product_title">
                   <h2>{product.name}</h2>
                 </div>
-                <p>{product.description}</p>
+                <div onClick={handleLanguageToggle} className="lang-toggle">
+                  {language === 'en' ? '🇫🇷 FR' : '🇬🇧 EN'}
+                </div>
+                <p>
+                {(language === 'en' ? product.description : product.descriptionfr)?.split('\n').map((line, index) => (
+                  <React.Fragment key={index}>
+                    {line}
+                    <br />
+                  </React.Fragment>
+                ))}
+              </p>
               </div>
               <div className="productDetails_config_price">
                 <p>{(parseFloat(product.price) + (selectedOptionPrice ? parseFloat(selectedOptionPrice) : 0)).toFixed(2)}€</p>
@@ -203,10 +229,10 @@ function ProductDetails() {
                     ))}
                   </select>
                   <div className="svg_select">
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M4.8001 8L0.643175 2L8.95702 2L4.8001 8Z" fill="currentColor"></path>
-                    </svg>
-                  </div>
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.8001 8L0.643175 2L8.95702 2L4.8001 8Z" fill="currentColor"></path>
+          </svg>
+        </div>
                 </div>
               )}
               {(availableParts.length > 0 || availableElastics.length > 0) && (
@@ -220,6 +246,8 @@ function ProductDetails() {
                       onColorsChange={handleColorsChange}
                       selectedColorNames={selectedColorNames}
                       onColorNamesChange={handleColorNamesChange}
+                      // applyColorsToSVG={applyColorsToSVG} // Passer la fonction ici
+                      // resetToFirstImage={resetToFirstImage} 
                   />
               )}
               <div className="config_bag">
