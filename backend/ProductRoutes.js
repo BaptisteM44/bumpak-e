@@ -4,40 +4,54 @@ import Product from "./models/ProductModel.js";
 
 const productRoute = express.Router();
 
-productRoute.get("/", asyncHandler(
-    async (req, res) => {
-        const products = await Product.find({});
-        res.json(products);
-    })
-);
-// productRoute.get("/:slug", asyncHandler(
-//   async (req, res) => {
-//     const productSlug = req.params.slug;
-//     const product = await Product.findOne({ slug: productSlug });
-    
-//     // Vérifier les données récupérées depuis MongoDB
-//     console.log("Produit récupéré depuis MongoDB:", product);
-    
-//     if (product) {
-//       const responseData = {
-//         id: product._id.toString(),
-//         name: product.name,
-//         price: product.price,
-//         description: product.description,
-//         image: product.image,
-//         category: product.category,
-//         subcategory: product.subcategory,
-//         slug: product.slug,
-//         url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`,
-//       };
+// GET /api/products?category=xxx  — liste des produits (filtrée par catégorie si besoin)
+productRoute.get("/", asyncHandler(async (req, res) => {
+  const filter = {};
+  if (req.query.category) {
+    filter.category = req.query.category;
+  }
+  const products = await Product.find(filter);
+  res.json(products);
+}));
 
-//       // Vérifier les données envoyées au frontend
-//       console.log("Données envoyées au frontend:", responseData);
+// GET /api/products/:slug  — détail d'un produit
+productRoute.get("/:slug", asyncHandler(async (req, res) => {
+  const product = await Product.findOne({ slug: req.params.slug });
 
-//       res.json(responseData);
-//     } else {
-//       res.status(404).send({ message: "Product not found" });
-//     }
-//   }
-// ));
+  if (!product) {
+    res.status(404).json({ message: "Produit non trouvé" });
+    return;
+  }
+
+  const BASE_URL = process.env.BASE_URL || 'https://api.bumpak.fr';
+  const doc = product.toObject();
+
+  // Reconstruit les options depuis les anciens champs option1..option26 si le tableau est vide (legacy)
+  let options = doc.options || [];
+  if (options.length === 0) {
+    for (let i = 1; i <= 30; i++) {
+      const name = doc[`option${i}`];
+      const price = doc[`option${i}price`] ?? 0;
+      if (name) options.push({ name, price });
+    }
+  }
+
+  // Reconstruit les customFields depuis les anciens champs part1..part6 si le tableau est vide (legacy)
+  let customFields = doc.customFields || [];
+  if (customFields.length === 0) {
+    for (let i = 1; i <= 6; i++) {
+      const name = doc[`part${i}`];
+      if (name) customFields.push({ name });
+    }
+  }
+
+  res.json({
+    ...doc,
+    id: product._id.toString(),
+    url: `${BASE_URL}/api/products/${product.slug}`,
+    options,
+    customFields,
+  });
+}));
+
 export default productRoute;

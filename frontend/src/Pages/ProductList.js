@@ -19,7 +19,7 @@ function ProductList() {
   
   const { handleMouseEnter, handleMouseLeave, isHovering } = Click();
   
-  axios.defaults.baseURL = process.env.REACT_APP_API_URL || "https://bumpak-e-production.up.railway.app/";
+  axios.defaults.baseURL = process.env.REACT_APP_API_URL || "https://api.bumpak.fr/";
   useEffect(() => {
     axios.get(`/api/products?category=${category}`)
       .then(response => {
