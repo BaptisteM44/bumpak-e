@@ -2,28 +2,29 @@ import React, { useState, useEffect } from "react";
 import '../../styles/components/Color.scss';
 
 const colorMapping = {
-  "#56148e":"Deep Purple",
-  "#ad246c":"Fuschia",
+  "#56148e": "Deep Purple",
+  "#ad246c": "Fuschia",
   "#d47bc2": "Lilac",
-  "#f907c8" : "Pink Flamingo",
+  "#f907c8": "Pink Flamingo",
   '#082033': "US Navy",
-  '#2b348c' : "Ocean Blue",
+  '#2b348c': "Ocean Blue",
   '#3271d0': "Bright Blue",
-  '#36c9cd' : "Tropical Teal",
+  '#36c9cd': "Tropical Teal",
   '#12501e': "Green Mountain",
   '#ac842b': "Coyote Brown",
   '#515027': "Army Olive",
   '#fffd03': "Lemon Lime",
-  '#FFC300' : "Golden Dazy",
+  '#FFC300': "Golden Dazy",
   '#ff4600': "Bright Orange",
-  '#f20a0a' : "Revel Red",
+  '#f20a0a': "Revel Red",
   '#92351f': "Brick Red",
   '#803636': "Red Barn",
   '#ffffff': "Snow White",
-  '#f2f4e8' : "Silver Bullet",
-  '#8E8D93' : "Wolf Grey",
-  '#252729' : "Black",
+  '#f2f4e8': "Silver Bullet",
+  '#8E8D93': "Wolf Grey",
+  '#252729': "Black",
 };
+
 const elasticColorMapping = {
   "#b0c171": "Light Green",
   "#ffffff": "White",
@@ -49,10 +50,11 @@ const elasticColorMapping = {
   "#b70633": "Red",
   "#cd8a3f": "Golden",
 };
+
 const forkbagColors = {
   '#fffd03': "Lemon Lime",
-  '#000000' : "Black",
-  '#f2f4e8' : "Silver Bullet",
+  '#000000': "Black",
+  '#f2f4e8': "Silver Bullet",
   '#ffffff': "Snow White",
   '#ac842b': "Coyote Brown",
 };
@@ -61,290 +63,141 @@ export const transformSelectedColors = (selectedColors, product) => {
   let transformedObject = {};
 
   for (const key in selectedColors) {
-      let newValue;
-      if (key.startsWith("elastic")) {
-          newValue = elasticColorMapping[selectedColors[key]] || selectedColors[key];
-      } else {
-          newValue = colorMapping[selectedColors[key]] || selectedColors[key];
-      }
+    let newValue;
+    if (key.startsWith("elastic")) {
+      newValue = elasticColorMapping[selectedColors[key]] || selectedColors[key];
+    } else {
+      newValue = colorMapping[selectedColors[key]] || selectedColors[key];
+    }
 
-      // Si la clé commence par 'product-shape', récupérer la valeur correspondante depuis 'product'
-      if (key.startsWith('product-shape')) {
-          const partNumber = key.replace('product-shape', '');
-          const correspondingPartValue = product[`part${partNumber}`];
-          transformedObject[correspondingPartValue] = newValue;
-      } else {
-          transformedObject[key] = newValue;
-      }
+    if (key.startsWith('product-shape')) {
+      const partNumber = key.replace('product-shape', '');
+      const correspondingPartValue = product[`part${partNumber}`];
+      transformedObject[correspondingPartValue] = newValue;
+    } else {
+      transformedObject[key] = newValue;
+    }
   }
 
   return transformedObject;
 };
 
+const applyColorsToSVG = (colors, classes) => {
+  const svgElement = document.getElementById("product-svg");
+  if (!svgElement) return;
+  classes.forEach(className => {
+    const elements = svgElement.querySelectorAll("." + className);
+    const color = colors[className];
+    elements.forEach(el => { el.style.fill = color; });
+  });
+};
 
 function Color(props) {
-  // const productOption = props.productOption;
   const [selectedClass, setSelectedClass] = useState("product-shape1");
-  const [selectedColor, setSelectedColor] = useState("");
   const [selectedColors, setSelectedColors] = useState({});
-
-  const productClasses = props.availableParts ? props.availableParts.map((part, index) => `product-shape${index + 1}`) : [];
-  const elasticClasses = props.availableElastics ? props.availableElastics.map((elastic, index) => `elastic${index + 1}`) : [];
-  const classes = productClasses.concat(elasticClasses);
-  
-  // const product = props.product;
-  const colorsArray = Object.keys(colorMapping);
-  
   const [selectedElasticClass, setSelectedElasticClass] = useState("elastic1");
-  const [selectedElasticColor, setSelectedElasticColor] = useState("");
   const [selectedElasticColors, setSelectedElasticColors] = useState({});
 
-  
-  const handleColorSelect = (e) => {
-    const selectedClass = e.target.value;
-    setSelectedClass(selectedClass);
-    const isElastic = selectedClass.startsWith("elastic");
+  const productClasses = props.availableParts
+    ? props.availableParts.map((_, index) => `product-shape${index + 1}`)
+    : [];
+  const elasticClasses = props.availableElastics
+    ? props.availableElastics.map((_, index) => `elastic${index + 1}`)
+    : [];
+  const classes = [...productClasses, ...elasticClasses];
 
-    if (!selectedColors[selectedClass]) {
-      const randomColor = isElastic 
-            ? Object.keys(elasticColorMapping)[Math.floor(Math.random() * Object.keys(elasticColorMapping).length)]
-            : Object.keys(colorMapping)[Math.floor(Math.random() * Object.keys(colorMapping).length)];
-      setSelectedColor(randomColor);
-      setSelectedColors(prevSelectedColors => ({
-        ...prevSelectedColors,
-        [selectedClass]: randomColor,
-      }));
-      props.onColorsChange({
-        ...selectedColors,
-        [selectedClass]: randomColor,
-      });
-    } else {
-      setSelectedColor(selectedColors[selectedClass]);
+  const displayColors = props.subcategory === "forkbag" ? forkbagColors : colorMapping;
+
+  // Init couleurs produit à blanc
+  useEffect(() => {
+    const defaultColor = "#FFFFFF";
+    const initialColors = classes.reduce((acc, cls) => ({ ...acc, [cls]: defaultColor }), {});
+    setSelectedColors(initialColors);
+    applyColorsToSVG(initialColors, classes);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Init couleurs élastiques à blanc
+  useEffect(() => {
+    const defaultColor = "#FFFFFF";
+    const initialElasticColors = elasticClasses.reduce((acc, cls) => ({ ...acc, [cls]: defaultColor }), {});
+    setSelectedElasticColors(initialElasticColors);
+    applyColorsToSVG(initialElasticColors, elasticClasses);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleColorSelect = (e) => {
+    const cls = e.target.value;
+    setSelectedClass(cls);
+    const isElastic = cls.startsWith("elastic");
+
+    if (!selectedColors[cls]) {
+      const map = isElastic ? elasticColorMapping : colorMapping;
+      const randomColor = Object.keys(map)[Math.floor(Math.random() * Object.keys(map).length)];
+      const updated = { ...selectedColors, [cls]: randomColor };
+      setSelectedColors(updated);
+      props.onColorsChange(updated);
     }
   };
-
-  let displayColors;
-  if (props.subcategory === "forkbag") {
-    displayColors = forkbagColors;
-  } else {
-    displayColors = colorMapping;
-  }
-  const displayElasticColors = elasticColorMapping;
 
   const handleColorClick = (hexColor) => {
-    
-    // Trouver le nom de la couleur basé sur la valeur hexadécimale
     const colorName = displayColors[hexColor];
-  
-    setSelectedColor(colorName); // Utilisation du nom de la couleur
-  
-    // Mise à jour de l'état selectedColors avec le nom de la couleur
-    setSelectedColors(prevSelectedColors => {
-      const updatedColors = {
-        ...prevSelectedColors,
-        [selectedClass]: colorName, // Utilisation du nom de la couleur
-      };
-  
-      // Notifier le composant parent du changement
-      if (props.onColorsChange) {
-        props.onColorsChange(updatedColors);
-      }
-      applyColorsToSVG(updatedColors); // Appliquer les couleurs à l'élément SVG
-      return updatedColors;
-    });
-  
-    // Mise à jour de la couleur dans l'élément SVG avec la valeur hexadécimale
+    const updated = { ...selectedColors, [selectedClass]: colorName };
+    setSelectedColors(updated);
+    props.onColorsChange(updated);
+
     const svgElement = document.getElementById("product-svg");
     if (svgElement) {
-      const elements = svgElement.querySelectorAll("." + selectedClass);
-      elements.forEach(element => {
-        element.style.fill = hexColor;
+      svgElement.querySelectorAll("." + selectedClass).forEach(el => {
+        el.style.fill = hexColor;
       });
     }
-    if (props.resetToFirstImage) {
-      props.resetToFirstImage(); // Remettre l'image principale à la première image
+  };
+
+  const handleElasticSelect = (e) => {
+    const cls = e.target.value;
+    setSelectedElasticClass(cls);
+
+    if (!selectedElasticColors[cls]) {
+      const randomColor = Object.keys(elasticColorMapping)[Math.floor(Math.random() * Object.keys(elasticColorMapping).length)];
+      const updated = { ...selectedElasticColors, [cls]: randomColor };
+      setSelectedElasticColors(updated);
+      props.onElasticColorsChange(updated);
     }
   };
-  
-//ELASTIC PART
-const handleElasticSelect = (e) => {
-  const selectedElasticClass = e.target.value;
-  setSelectedElasticClass(selectedElasticClass);
-  
-  if (!selectedElasticColors[selectedElasticClass]) {
-    const randomColor = Object.keys(elasticColorMapping)[Math.floor(Math.random() * Object.keys(elasticColorMapping).length)];
-    setSelectedElasticColor(randomColor);
-    setSelectedElasticColors(prevSelectedElasticColors => ({
-      ...prevSelectedElasticColors,
-      [selectedElasticClass]: randomColor,
-    }));
-    props.onElasticColorsChange({
-      ...selectedElasticColors,
-      [selectedElasticClass]: randomColor,
-    });
-  } else {
-    setSelectedElasticColor(selectedElasticColors[selectedElasticClass]);
-  }
-};
-const handleElasticColorClick = (color) => {
-  const colorName = elasticColorMapping[color];
-  setSelectedElasticColor(colorName);
-  setSelectedElasticColors(prevSelectedElasticColors => ({
-    ...prevSelectedElasticColors,
-    [selectedElasticClass]: colorName,
-  }));
-  props.onElasticColorsChange({
-    ...selectedElasticColors,
-    [selectedElasticClass]: colorName,
-  });
-  
-  const svgElement = document.getElementById("product-svg");
-  if (svgElement) {
-    const elements = svgElement.querySelectorAll("." + selectedElasticClass);
-    elements.forEach(element => {
-      element.style.fill = color;
-    });
-  }
-};
+
+  const handleElasticColorClick = (color) => {
+    const colorName = elasticColorMapping[color];
+    const updated = { ...selectedElasticColors, [selectedElasticClass]: colorName };
+    setSelectedElasticColors(updated);
+    props.onElasticColorsChange(updated);
+
+    const svgElement = document.getElementById("product-svg");
+    if (svgElement) {
+      svgElement.querySelectorAll("." + selectedElasticClass).forEach(el => {
+        el.style.fill = color;
+      });
+    }
+  };
 
   const handleRandomColors = () => {
     const classToColorMap = {};
 
-    // Traitement des classes de produits
-    for (const className of productClasses) {
-        const randomColor = Object.keys(colorMapping)[Math.floor(Math.random() * Object.keys(colorMapping).length)];
-        classToColorMap[className] = randomColor;
-    }
-
-    // Traitement des classes d'élastiques
-    for (const className of elasticClasses) {
-        const randomColor = Object.keys(elasticColorMapping)[Math.floor(Math.random() * Object.keys(elasticColorMapping).length)];
-        classToColorMap[className] = randomColor;
-    }
+    productClasses.forEach(cls => {
+      classToColorMap[cls] = Object.keys(colorMapping)[Math.floor(Math.random() * Object.keys(colorMapping).length)];
+    });
+    elasticClasses.forEach(cls => {
+      classToColorMap[cls] = Object.keys(elasticColorMapping)[Math.floor(Math.random() * Object.keys(elasticColorMapping).length)];
+    });
 
     setSelectedColors(classToColorMap);
-    setSelectedColor("");
-
-    const svgElement = document.getElementById("product-svg");
-    if (svgElement) {
-        classes.forEach(className => {
-            const elements = svgElement.querySelectorAll("." + className);
-            const color = classToColorMap[className];
-            elements.forEach(element => {
-                element.style.fill = color;
-            });
-        });
-    }
+    applyColorsToSVG(classToColorMap, classes);
     props.onColorsChange(classToColorMap);
-};
-// const handleRandomColors = () => {
-//   const classToColorMap = {};
-//   for (const className of productClasses) {
-//     const randomColor = Object.keys(colorMapping)[Math.floor(Math.random() * Object.keys(colorMapping).length)];
-//     classToColorMap[className] = randomColor;
-//   }
-//   for (const className of elasticClasses) {
-//     const randomColor = Object.keys(elasticColorMapping)[Math.floor(Math.random() * Object.keys(elasticColorMapping).length)];
-//     classToColorMap[className] = randomColor;
-//   }
-//   setSelectedColors(classToColorMap);
-//   setSelectedColor("");
-
-//   const svgElement = document.getElementById("product-svg");
-//   if (svgElement) {
-//     classes.forEach(className => {
-//       const elements = svgElement.querySelectorAll("." + className);
-//       const color = classToColorMap[className];
-//       elements.forEach(element => {
-//         element.style.fill = color;
-//       });
-//     });
-//   }
-//   props.onColorsChange(classToColorMap);
-
-//   if (props.resetToFirstImage) {
-//     props.resetToFirstImage(); // Remettre l'image principale à la première image
-//   }
-// };
-// const handleRandomColors = () => {
-//   const classToColorMap = {};
-//   for (const className of productClasses) {
-//     const randomColor = Object.keys(colorMapping)[Math.floor(Math.random() * Object.keys(colorMapping).length)];
-//     classToColorMap[className] = randomColor;
-//   }
-//   for (const className of elasticClasses) {
-//     const randomColor = Object.keys(elasticColorMapping)[Math.floor(Math.random() * Object.keys(elasticColorMapping).length)];
-//     classToColorMap[className] = randomColor;
-//   }
-//   setSelectedColors(classToColorMap);
-//   setSelectedColor("");
-
-//   if (props.onColorsChange) {
-//     props.onColorsChange(classToColorMap);
-//   }
-
-//   applyColorsToSVG(classToColorMap); // Appliquer les couleurs à l'élément SVG
-
-//   if (props.resetToFirstImage) {
-//     props.resetToFirstImage(); // Remettre l'image principale à la première image
-//   }
-// };
-const applyColorsToSVG = (colors) => {
-  const svgElement = document.getElementById("product-svg");
-  if (svgElement) {
-    classes.forEach(className => {
-      const elements = svgElement.querySelectorAll("." + className);
-      const color = colors[className];
-      elements.forEach(element => {
-        element.style.fill = color;
-      });
-    });
-  }
-}
-  useEffect(() => {
-    const defaultColor = "#FFFFFF";
-    const initialColors = classes.reduce((acc, className) => {
-      acc[className] = defaultColor;
-      return acc;
-    }, {});
-    setSelectedColors(initialColors);
-
-    const svgElement = document.getElementById("product-svg");
-    if (svgElement) {
-      classes.forEach(className => {
-        const elements = svgElement.querySelectorAll("." + className);
-        elements.forEach(element => {
-          element.style.fill = defaultColor;
-        });
-      });
-    }
-  }, []);
-  
-  useEffect(() => {
-    const defaultElasticColor = "#FFFFFF"; // Remplacez ici par une couleur par défaut correcte
-    const initialElasticColors = elasticClasses.reduce((acc, elasticClass) => {
-      acc[elasticClass] = defaultElasticColor;
-      return acc;
-    }, {});
-  
-    setSelectedElasticColors(initialElasticColors);
-  
-    const svgElement = document.getElementById("product-svg");
-    if (svgElement) {
-      elasticClasses.forEach(elasticClass => {
-        const elements = svgElement.querySelectorAll("." + elasticClass);
-        elements.forEach(element => {
-          element.style.fill = defaultElasticColor; // Appliquez la couleur par défaut
-        });
-      });
-    }
-  }, []);
+  };
 
   return (
     <>
-    
       <div className="config_select">
-        
         <label htmlFor="color-select">Color part</label>
         <select id="color-select" value={selectedClass} onChange={handleColorSelect}>
           {props.availableParts.map((part, index) => (
@@ -353,81 +206,75 @@ const applyColorsToSVG = (colors) => {
             </option>
           ))}
         </select>
-
         <div className="svg_select">
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4.8001 8L0.643175 2L8.95702 2L4.8001 8Z" fill="currentColor"></path>
+            <path d="M4.8001 8L0.643175 2L8.95702 2L4.8001 8Z" fill="currentColor" />
           </svg>
         </div>
       </div>
-      
-      
 
       <div className="colors-content">
-      <div className="colors">
-  {Object.keys(displayColors).map((hexColor) => {
-    const colorName = displayColors[hexColor];
-    const isSelected = selectedColors[selectedClass] === hexColor || selectedColors[selectedClass] === colorName;
-    return (
-      <button
-        key={hexColor}
-        type="button"
-        className={`color ${isSelected ? 'selected' : ''}`}
-        style={{ backgroundColor: hexColor }}
-        onClick={() => handleColorClick(hexColor)}
-        aria-label={colorName}
-        aria-pressed={isSelected}
-      >
-        <span className="visually-hidden">{colorName}</span>
-        <span className="color-name">{colorName}</span>
-      </button>
-    );
-  })}
-</div>
-
+        <div className="colors">
+          {Object.keys(displayColors).map((hexColor) => {
+            const colorName = displayColors[hexColor];
+            const isSelected = selectedColors[selectedClass] === hexColor || selectedColors[selectedClass] === colorName;
+            return (
+              <button
+                key={hexColor}
+                type="button"
+                className={`color ${isSelected ? 'selected' : ''}`}
+                style={{ backgroundColor: hexColor }}
+                onClick={() => handleColorClick(hexColor)}
+                aria-label={colorName}
+                aria-pressed={isSelected}
+              >
+                <span className="visually-hidden">{colorName}</span>
+                <span className="color-name">{colorName}</span>
+              </button>
+            );
+          })}
+        </div>
       </div>
+
       {props.availableElastics.length > 0 && (
         <>
-      <div className="config_select">
-        <label htmlFor="elastic-select">Elastic part</label>
-        <select id="elastic-select" value={selectedElasticClass} onChange={handleElasticSelect}>
-          {props.availableElastics && props.availableElastics.map((elastic, index) => (
-              <option key={index} value={`elastic${index + 1}`}>
+          <div className="config_select">
+            <label htmlFor="elastic-select">Elastic part</label>
+            <select id="elastic-select" value={selectedElasticClass} onChange={handleElasticSelect}>
+              {props.availableElastics.map((elastic, index) => (
+                <option key={index} value={`elastic${index + 1}`}>
                   {elastic}
-              </option>
-          ))}
-        </select>
-        <div className="svg_select">
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4.8001 8L0.643175 2L8.95702 2L4.8001 8Z" fill="currentColor"></path>
-          </svg>
-        </div>
-      </div>
-       
-      <div className="colors-content">
-      {props.availableElastics.length > 0 && (
-  <div className="colors">
-    {Object.keys(displayElasticColors).map((color) => (
-      <div
-        key={color}
-        className="color"
-        style={{ backgroundColor: color }}
-        onClick={() => handleElasticColorClick(color)}
-        aria-label={displayElasticColors[color]}
-      >
-        <span className="color-name">{displayElasticColors[color]}</span>
-      </div>
-    ))}
-</div>
+                </option>
+              ))}
+            </select>
+            <div className="svg_select">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4.8001 8L0.643175 2L8.95702 2L4.8001 8Z" fill="currentColor" />
+              </svg>
+            </div>
+          </div>
+          <div className="colors-content">
+            <div className="colors">
+              {Object.keys(elasticColorMapping).map((color) => (
+                <div
+                  key={color}
+                  className="color"
+                  style={{ backgroundColor: color }}
+                  onClick={() => handleElasticColorClick(color)}
+                  aria-label={elasticColorMapping[color]}
+                >
+                  <span className="color-name">{elasticColorMapping[color]}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
 
-)}
-      </div>
-      </>
-        )}
-        {props.subcategory !== "forkbag" && (
+      {props.subcategory !== "forkbag" && (
         <button className="random-button" onClick={handleRandomColors}>Random</button>
-        )}
-      </>
+      )}
+    </>
   );
 }
 
