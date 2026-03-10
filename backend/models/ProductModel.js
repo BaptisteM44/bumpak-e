@@ -51,7 +51,7 @@ const productSchema = new mongoose.Schema({
   elastic3: { type: String },
 
   // Options produit (taille, volume, variantes...) avec prix additionnels
-  options: { type: [optionSchema], default: [] },
+  options: { type: [optionSchema] },
 
   // Parties personnalisables affichées dans le configurateur
   customFields: { type: [customPartSchema], default: [] },

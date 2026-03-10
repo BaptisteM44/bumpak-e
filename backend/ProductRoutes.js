@@ -27,7 +27,7 @@ productRoute.get("/:slug", asyncHandler(async (req, res) => {
   const doc = product.toObject();
 
   // Reconstruit les options depuis les anciens champs option1..option26 si le tableau est vide (legacy)
-  let options = doc.options || [];
+  let options = (doc.options || []).filter(o => o.name);
   if (options.length === 0) {
     for (let i = 1; i <= 30; i++) {
       const name = doc[`option${i}`];
