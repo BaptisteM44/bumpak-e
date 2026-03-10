@@ -31,7 +31,7 @@ productRoute.get("/:slug", asyncHandler(async (req, res) => {
   if (options.length === 0) {
     for (let i = 1; i <= 30; i++) {
       const name = doc[`option${i}`];
-      const price = doc[`option${i}price`] ?? 0;
+      const price = parseFloat(doc[`option${i}price`]) || 0;
       if (name) options.push({ name, price });
     }
   }

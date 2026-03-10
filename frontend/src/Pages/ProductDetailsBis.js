@@ -114,7 +114,7 @@ function ProductDetails() {
         const legacy = [];
         for (let i = 1; i <= 30; i++) {
           const name = product[`option${i}`];
-          const price = i === 1 ? 0 : (product[`option${i}price`] ?? 0);
+          const price = parseFloat(product[`option${i}price`]) || 0;
           if (name) legacy.push({ name, price });
         }
         return legacy;
