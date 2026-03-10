@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header';
 import Click from '../utils/Click';
 
@@ -13,11 +14,12 @@ function ProductList() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentProductImage, setCurrentProductImage] = useState(null);
+  const [currentProductName, setCurrentProductName] = useState('');
 
   
   const { handleMouseEnter, handleMouseLeave, isHovering } = Click();
   
-  axios.defaults.baseURL = "https://bumpak-e-production.up.railway.app/";
+  axios.defaults.baseURL = process.env.REACT_APP_API_URL || "https://bumpak-e-production.up.railway.app/";
   useEffect(() => {
     axios.get(`/api/products?category=${category}`)
       .then(response => {
@@ -43,8 +45,32 @@ function ProductList() {
     setFilteredProducts(productsBySubcategory);
   }, [category, products]);
 
+  const categoryDescriptions = {
+    'Bikepacking': 'Handmade custom bikepacking bags: frame bags, saddle bags, top tube bags, fork bags',
+    'Goodies': 'Accessories and gear for your bikepacking setup'
+  };
+
   return (
     <>
+      <Helmet>
+        <title>{category} - Custom Bikepacking Bags | Bumpak</title>
+        <meta name="description" content={categoryDescriptions[category] || `${category} custom bikepacking bags`} />
+        <link rel="canonical" href={`${process.env.REACT_APP_WEBSITE_URL || (typeof window !== 'undefined' ? window.location.origin : 'https://bumpak.fr')}/${category}`} />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`https://bumpak.fr/${category}`} />
+        <meta property="og:title" content={`${category} - Bikepacking Bags | Bumpak`} />
+        <meta property="og:description" content={categoryDescriptions[category]} />
+        <meta property="og:image" content={currentProductImage || "https://res.cloudinary.com/dev1phpzk/image/upload/v1684593272/homepage_jwio8y.jpg"} />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${category} - Bikepacking Bags | Bumpak`} />
+        <meta name="twitter:description" content={categoryDescriptions[category]} />
+        <meta name="twitter:image" content={currentProductImage || "https://res.cloudinary.com/dev1phpzk/image/upload/v1684593272/homepage_jwio8y.jpg"} />
+      </Helmet>
+
       <Header />
       <section className="productList_page">
         <div className="productList_title">
@@ -63,6 +89,7 @@ function ProductList() {
                         key={productIndex}
                         onMouseEnter={() => {
                           setCurrentProductImage(product.image8);
+                          setCurrentProductName(product.name);
                           handleMouseEnter();
                         }}
                         onMouseLeave={() => {
@@ -85,7 +112,8 @@ function ProductList() {
                   {currentProductImage && (
                     <img
                       src={currentProductImage}
-                      alt=""
+                      alt={`${currentProductName} - ${category} - Sac de bikepacking`}
+                      loading="lazy"
                       style={{
                         transition: 'transform 1s ease-out',
                       }}

@@ -3,15 +3,11 @@
 @keyframes fadeInCascade {
   0% {
     opacity: 0;
-    transform: translateY(20px) scale(0.7) rotate(-2deg);
-  }
-  60% {
-    opacity: 0.5;
-    transform: translateY(-3px) scale(1.02) rotate(0deg);
+    transform: translateY(15px) scale(0.95);
   }
   100% {
     opacity: 0.5;
-    transform: translateY(0) scale(1) rotate(0deg);
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -293,18 +289,17 @@
       // Animation d'apparition une seule fois
       &.loaded:not(.animation-played) {
         opacity: 0;
-        animation: fadeInCascade 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-        
-        // Délais organiques en cascade (comme des gouttes de pluie)
+        animation: fadeInCascade 0.6s ease-out forwards;
+
         &:nth-child(1) { animation-delay: 0s; }
-        &:nth-child(2) { animation-delay: 0.08s; }
-        &:nth-child(3) { animation-delay: 0.12s; }
-        &:nth-child(4) { animation-delay: 0.18s; }
-        &:nth-child(5) { animation-delay: 0.22s; }
-        &:nth-child(6) { animation-delay: 0.28s; }
-        &:nth-child(7) { animation-delay: 0.32s; }
-        &:nth-child(8) { animation-delay: 0.38s; }
-        &:nth-child(9) { animation-delay: 0.42s; }
+        &:nth-child(2) { animation-delay: 0.07s; }
+        &:nth-child(3) { animation-delay: 0.14s; }
+        &:nth-child(4) { animation-delay: 0.21s; }
+        &:nth-child(5) { animation-delay: 0.28s; }
+        &:nth-child(6) { animation-delay: 0.35s; }
+        &:nth-child(7) { animation-delay: 0.42s; }
+        &:nth-child(8) { animation-delay: 0.49s; }
+        &:nth-child(9) { animation-delay: 0.56s; }
       }
       
       &:hover {
@@ -403,18 +398,17 @@
                     // Animation d'apparition une seule fois
                     &.loaded:not(.animation-played) {
                       opacity: 0;
-                      animation: fadeInCascade 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-                      
-                      // Délais organiques en cascade mobile
+                      animation: fadeInCascade 0.6s ease-out forwards;
+
                       &:nth-child(1) { animation-delay: 0s; }
-                      &:nth-child(2) { animation-delay: 0.08s; }
-                      &:nth-child(3) { animation-delay: 0.12s; }
-                      &:nth-child(4) { animation-delay: 0.18s; }
-                      &:nth-child(5) { animation-delay: 0.22s; }
-                      &:nth-child(6) { animation-delay: 0.28s; }
-                      &:nth-child(7) { animation-delay: 0.32s; }
-                      &:nth-child(8) { animation-delay: 0.38s; }
-                      &:nth-child(9) { animation-delay: 0.42s; }
+                      &:nth-child(2) { animation-delay: 0.07s; }
+                      &:nth-child(3) { animation-delay: 0.14s; }
+                      &:nth-child(4) { animation-delay: 0.21s; }
+                      &:nth-child(5) { animation-delay: 0.28s; }
+                      &:nth-child(6) { animation-delay: 0.35s; }
+                      &:nth-child(7) { animation-delay: 0.42s; }
+                      &:nth-child(8) { animation-delay: 0.49s; }
+                      &:nth-child(9) { animation-delay: 0.56s; }
                     }
                     
                     &:hover {

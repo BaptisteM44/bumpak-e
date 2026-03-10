@@ -345,7 +345,7 @@ const applyColorsToSVG = (colors) => {
     
       <div className="config_select">
         
-        <label htmlFor="">Color part</label>
+        <label htmlFor="color-select">Color part</label>
         <select id="color-select" value={selectedClass} onChange={handleColorSelect}>
           {props.availableParts.map((part, index) => (
             <option key={index} value={`product-shape${index + 1}`}>
@@ -365,25 +365,31 @@ const applyColorsToSVG = (colors) => {
 
       <div className="colors-content">
       <div className="colors">
-  {Object.keys(displayColors).map((hexColor) => (
-    <div
-      key={hexColor}
-      className="color"
-      style={{ backgroundColor: hexColor }}
-      onClick={() => handleColorClick(hexColor)}
-      alt={displayColors[hexColor]}
-      aria-label={displayColors[hexColor]}
-    >
-    <span className="color-name">{displayColors[hexColor]}</span>
-    </div>
-  ))}
+  {Object.keys(displayColors).map((hexColor) => {
+    const colorName = displayColors[hexColor];
+    const isSelected = selectedColors[selectedClass] === hexColor || selectedColors[selectedClass] === colorName;
+    return (
+      <button
+        key={hexColor}
+        type="button"
+        className={`color ${isSelected ? 'selected' : ''}`}
+        style={{ backgroundColor: hexColor }}
+        onClick={() => handleColorClick(hexColor)}
+        aria-label={colorName}
+        aria-pressed={isSelected}
+      >
+        <span className="visually-hidden">{colorName}</span>
+        <span className="color-name">{colorName}</span>
+      </button>
+    );
+  })}
 </div>
 
       </div>
       {props.availableElastics.length > 0 && (
         <>
       <div className="config_select">
-        <label htmlFor="">Elastic part</label>
+        <label htmlFor="elastic-select">Elastic part</label>
         <select id="elastic-select" value={selectedElasticClass} onChange={handleElasticSelect}>
           {props.availableElastics && props.availableElastics.map((elastic, index) => (
               <option key={index} value={`elastic${index + 1}`}>

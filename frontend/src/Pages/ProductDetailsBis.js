@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Helmet } from 'react-helmet-async';
 import BackArrow from '../components/backArrow';
 
 import Header from '../components/Header';
@@ -37,7 +38,7 @@ function ProductDetails() {
   const [language, setLanguage] = useState(localStorage.getItem('language') || 'en');
 
   useEffect(() => {
-    axios.defaults.baseURL = "https://bumpak-e-production.up.railway.app/";
+    axios.defaults.baseURL = process.env.REACT_APP_API_URL || "https://api.bumpak.fr/";
   
     axios.get(`/api/products/${slug}`)
       .then(response => {
@@ -152,6 +153,27 @@ function ProductDetails() {
   
   return (
     <>
+      <Helmet>
+        <title>{product.name} - {product.category} | Bumpak</title>
+        <meta name="description" content={(language === 'en' ? product.description : product.descriptionfr) || product.description} />
+        <link rel="canonical" href={`${process.env.REACT_APP_WEBSITE_URL || (typeof window !== 'undefined' ? window.location.origin : 'https://bumpak.fr')}/${product.category}/${product.slug}`} />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="product" />
+        <meta property="og:url" content={`https://bumpak.fr/${product.category}/${product.slug}`} />
+        <meta property="og:title" content={`${product.name} - Custom Bikepacking Bag | Bumpak`} />
+        <meta property="og:description" content={product.description} />
+        <meta property="og:image" content={product.image1 || product.image2} />
+        <meta property="og:price:amount" content={product.price} />
+        <meta property="og:price:currency" content="EUR" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${product.name} - ${product.category}`} />
+        <meta name="twitter:description" content={product.description} />
+        <meta name="twitter:image" content={product.image1 || product.image2} />
+      </Helmet>
+
       <Header />
       <section className="productDetails">
         <div className="productDetails_title">
@@ -165,11 +187,12 @@ function ProductDetails() {
               <img
                 key={i}
                 src={image}
-                alt=""
+                alt={`${product.name} - ${product.category} - Vue ${i + 1}`}
+                loading="lazy"
                 onClick={() => handleThumbnailClick(image, i)}
                 className={`
-                  ${activeImageIndex === i ? "active" : ""} 
-                  loaded 
+                  ${activeImageIndex === i ? "active" : ""}
+                  loaded
                   ${animatedImages.has(i) ? "animation-played" : ""}
                 `}
                 onLoad={(e) => {
@@ -189,10 +212,10 @@ function ProductDetails() {
                         id="product-svg"
                         dangerouslySetInnerHTML={{ __html: product.svg }}
                     ></div>
-                    <img id="background-image" src={activeImage} alt="" />
+                    <img id="background-image" src={activeImage} alt={`${product.name} - Personnalisable - ${product.category}`} loading="eager" />
                 </div>
             ) : (
-                <img ref={imageRef} src={activeImage} alt="" />
+                <img ref={imageRef} src={activeImage} alt={`${product.name} - ${product.category}`} loading="eager" />
             )}
         </div>
           </div>
@@ -258,7 +281,7 @@ function ProductDetails() {
                   data-item-name={product.name}
                   // data-item-price={parseInt(product.price) + (selectedOptionPrice ? parseInt(selectedOptionPrice) : 0)}
                   data-item-price={product.price}
-                  data-item-url={`https://bumpak-e-production.up.railway.app/api/products/${product.slug}`}
+                  data-item-url={`${process.env.REACT_APP_API_URL || 'https://api.bumpak.fr'}/api/products/${product.slug}`}
 
                   data-item-description={product.description}
                   data-item-custom1-name="Option"

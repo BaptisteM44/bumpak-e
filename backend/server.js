@@ -11,6 +11,9 @@ import cors from 'cors';
 
 dotenv.config();
 connectDatabase();
+// Configurable URLs for deployment
+const BASE_URL = process.env.BASE_URL || 'https://bumpak-e-production.up.railway.app';
+const FRONTEND_URL = process.env.FRONTEND_URL || 'https://bumpak.fr';
 const app = express();
 
 // Pour gérer correctement les chemins en ES modules
@@ -18,13 +21,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use((req, res, next) => {
-  const allowedOrigins = ['https://bumpak.fr', 'http://localhost:5001'];
+  const allowedOrigins = [FRONTEND_URL, 'http://localhost:5001'];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader('Access-Control-Allow-Origin', origin);
   }
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
 });
 app.use(cors());
@@ -83,7 +86,7 @@ app.get('/api/products/:slug', async (req, res) => {
         price: product.price,
         ...productObject, // Inclut tous les champs de l'objet produit
         features: product.features,
-        url: `https://bumpak-e-production.up.railway.app/api/products/${product.slug}`, // Inclure l'URL ici
+        url: `${BASE_URL}/api/products/${product.slug}`, // Inclure l'URL ici
         additionalImages: [product.image1, product.image2, product.image3],
         options: [
           { name: "Option1", value: product.option1, price: product.option1price },
@@ -137,6 +140,7 @@ app.get('/api/products/:slug', async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server started on port ${process.env.PORT}`);
+app.listen(process.env.PORT || 5000, () => {
+  const port = process.env.PORT || 5000;
+  console.log(`Server started on port ${port}`);
 });

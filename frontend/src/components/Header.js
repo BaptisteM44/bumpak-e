@@ -21,17 +21,24 @@ function Header() {
                         <h2>Menu</h2>
                     </div>
                 <ul className={`nav_list ${showMenu ? "show" : ""}`}>
-                    <li >
+                    <li>
                         <Link className="link" to="/Bikepacking">Bikepacking</Link>
+                    </li>
+                    <li>
                         <Link className="link" to="/Goodies">Goodies</Link>
+                    </li>
+                    <li>
                         <Link className="link" to="/Material">Material</Link>
+                    </li>
+                    <li>
                         <Link className="link" to="/Info">Info</Link>
+                    </li>
+                    <li>
                         <Link className="link" to="/contact">Contact</Link>
+                    </li>
+                    <li>
                         <Link className="link snipcart-checkout" >Cart</Link>
                     </li>
-                    <div>
-                        
-                    </div>
                 </ul>
             </nav>
         </header>

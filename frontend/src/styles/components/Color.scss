@@ -53,6 +53,37 @@
       cursor: pointer;
       border: 0.1px solid $primary-color;
       position: relative; // Préparation pour positionner absolument le nom de la couleur
+
+        // When color is a button, remove default button styles
+        &.color {
+          background-clip: padding-box;
+          padding: 0;
+          border: none;
+        }
+
+        &.selected {
+          outline: 2px solid #000000;
+        }
+
+        button {
+          display: inline-block;
+          height: 22px;
+          width: 22px;
+          padding: 0;
+          border-radius: 18px;
+          border: none;
+          cursor: pointer;
+          background: transparent;
+        }
+
+        .visually-hidden {
+          position: absolute !important;
+          height: 1px; width: 1px;
+          overflow: hidden;
+          clip: rect(1px, 1px, 1px, 1px);
+          white-space: nowrap;
+          border: 0; padding: 0; margin: -1px;
+        }
   
       &:hover {
         .color-name {
